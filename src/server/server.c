@@ -7,6 +7,7 @@ t_client *alloc_new_client(int socket, struct sockaddr_in in)
     client = my_malloc(sizeof(t_client));
 	client->fd = socket;
 	client->in = in;
+	client->team_id = -1;
 	return (client);
 }
 
@@ -29,7 +30,7 @@ void accept_client(t_server *server)
 		child_pid = fork();
 		if (child_pid == 0) {
             server->pid = getpid();
-			handle_client(client);
+			handle_client(server, client);
         }
 	}
 }

@@ -26,19 +26,35 @@ void close_client(t_client *client)
 	exit(0);
 }
 
-void handle_client(t_client *client)
+void handle_client(t_server *server, t_client *client)
 {
 	char *buffer;
 
 	printf("New client connected from <%s:%d>\n",
         get_client_addr(client->in), get_client_port(client->in));
-    send_message(client, "220 Hello my friend\r\n");
+    send_message(client, "WELCOME\r");
     while (42)
 	{
         buffer = get_next_line(client->fd);
 		if (buffer)
 		{
             printf("> %s\n", buffer);
+            if (client->team_id == -1)
+            {
+                if (strcmp(buffer, server->configuration->team1_name) == 0)
+                {
+                    client->team_id = 1;
+                }
+                else if (strcmp(buffer, server->configuration->team2_name) == 0)
+                {
+                    client->team_id = 2;
+                } 
+                else 
+                {
+                    send_message(client, "ko");
+                    close_client(client);
+                }
+            }
             /*if (!handle_command(buffer, client))
             {
                 send_message(client, "500 Unknown command.\r\n");
