@@ -2,16 +2,14 @@ NAME_SERVER			=		zappy_server
 
 NAME_AI				=		zappy_ai
 
-SRC_COMMON			= 		src/my_malloc.c		
-							#src/my_error.c			\ 
-							#src/my_select.c			\ 
-							#src/buffer_init.c			\ 
-							#src/buffer_utils.c			\ 
-							#src/get_next_line.c
+SRC_COMMON			= 		src/my_malloc.c			\
+							src/my_error.c			\
+							src/get_next_line.c
 
 SRC_SERVER			=		src/server/server.c		\
 							src/server/main.c		\
-							src/server/server_handler.c \
+							src/server/client.c 	\
+							src/server/client_utils.c 	\
 							$(SRC_COMMON)
 
 SRC_AI				=		src/ai/main.c		\
