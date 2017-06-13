@@ -55,17 +55,21 @@ t_server *get_socket(int port)
 	return (server);
 }
 
-void init_server(int port)
+t_server *create_server(t_configuration *config)
 {
 	t_server *server;
 
-	if (port > 0 && port <= 65535)
+	if (config->port > 0 && config->port <= 65535)
 	{
-		server = get_socket(port);
-		printf("start on port %d, waiting for connections...\n", port);
+		server = get_socket(config->port);
+        server->configuration = config;
+		printf("start on port %d, waiting for connections...\n", config->port);
 		while (TRUE)
 			accept_client(server);
 	}
 	else
-		printf("Give me a real port..\n");
+    {
+        my_error("Give me a real port..\n", -1);
+    }
+    return (server);
 }

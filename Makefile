@@ -10,6 +10,7 @@ SRC_SERVER			=		src/server/server.c		\
 							src/server/main.c		\
 							src/server/client.c 	\
 							src/server/client_utils.c 	\
+							src/server/configuration.c \
 							$(SRC_COMMON)
 
 SRC_AI				=		src/ai/main.c		\
