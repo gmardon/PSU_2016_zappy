@@ -2,7 +2,7 @@
 
 void validate_configuration(t_configuration *config)
 {
-  if (config->initial_client_per_team < 1)
+  if (config->client_per_team < 1)
     my_error("Initial available slots per team must be at least 1.", -1);
   if (config->world_height < 4 || config->world_width < 4)
     my_error("Invalid requested map size. A map should be a least 5x5.", -1);
@@ -32,7 +32,7 @@ t_configuration *parse_args(int argc, char *argv[])
             else if (opt == 'y')
                 config->world_height = atoi(optarg);
             else if (opt == 'c')
-                config->initial_client_per_team = atoi(optarg);
+                config->client_per_team = atoi(optarg);
             else if (opt == 't')
                 config->temporal_delay = atof(optarg);
             else if (opt == 's')

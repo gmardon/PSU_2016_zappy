@@ -7,6 +7,6 @@ int main(int argc, char *argv[])
 
     config = parse_args(argc, argv);
 	server = create_server(config);
-    
+    start_server(server);
 	return (0);
 }

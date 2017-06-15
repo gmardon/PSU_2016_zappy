@@ -8,6 +8,8 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <stdarg.h>
+#include <errno.h>
+#include <sys/ioctl.h>
 #include <string.h>
 #include <grp.h>
 #include <pwd.h>
