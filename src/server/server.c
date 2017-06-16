@@ -8,8 +8,10 @@ t_client *alloc_new_client(int socket, struct sockaddr_in in, t_server *server)
 	ulMode = 1;
 	client = my_malloc(sizeof(t_client));
 	client->fd = socket;
-	int opt = 1;
-	ioctl(socket, FIONBIO, &opt);
+	//int opt = 1;
+	//ioctl(socket, FIONBIO, &opt);
+	fcntl(socket, F_SETFL, O_NONBLOCK);
+
 	client->in = in;
 	client->team_id = -1;
 	//client->server = server;
@@ -22,7 +24,6 @@ t_client *accept_client(t_server *server)
 	socklen_t length;
 	int socket;
 	struct sockaddr_in in;
-	pid_t child_pid;
 
 	length = sizeof(in);
 	if ((socket = accept(server->fd, (struct sockaddr *)&in, &length)) == -1)
@@ -49,13 +50,14 @@ t_server *get_socket(int port)
 	server->in.sin_family = AF_INET;
 	server->in.sin_addr.s_addr = INADDR_ANY;
 	server->in.sin_port = htons(port);
+	bzero(&(server->in.sin_zero), 8);
 	if ((setsockopt(server->fd, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt))) < 0)
 		my_error("Can't allow multiple connection on socket", -1);
 	if ((bind(server->fd, (struct sockaddr *)&server->in, sizeof(server->in))) < 0)
 		my_error("Can't bind socket", -1);
-	if ((listen(server->fd, 3)) == -1)
+	if ((listen(server->fd, 10)) == -1)
 		my_error("Can't listen the socket", -1);
-	ioctl(server->fd, FIONBIO, &opt);
+	fcntl(server->fd, F_SETFL, O_NONBLOCK);
 	return (server);
 }
 
@@ -67,6 +69,7 @@ t_server *create_server(t_configuration *config)
 	server->configuration = config;
 	server->max_clients = config->client_per_team * 2;
 	server->clients = calloc(server->max_clients + 1, sizeof(t_client));
+	server->clients[server->max_clients + 1].fd = -1;
 	FD_ZERO(&server->master);
 	FD_SET(server->fd, &server->master);
 	return (server);
@@ -77,10 +80,44 @@ void handle_io_connection(t_client *client, t_server *server)
 	printf("new io connection\n");
 	char *buffer;
 	int rc;
+	int bytes_available;
+	int len;
+
+	buffer = my_malloc(BUFFER_SIZE);
+	memset(buffer, 0, BUFFER_SIZE);
+	rc = recv(client->fd, buffer, sizeof(buffer), 0);
+	if (rc < 0)
+	{
+		if (errno != EWOULDBLOCK)
+		{
+			FD_CLR(client->fd, &server->master);
+			close_client(client);
+		}
+		return;
+	}
+
+	/**********************************************/
+	/* Check to see if the connection has been    */
+	/* closed by the client                       */
+	/**********************************************/
+	if (rc == 0)
+	{
+		FD_CLR(client->fd, &server->master);
+		close_client(client);
+		return;
+	}
+
+	/**********************************************/
+	/* Data was received                          */
+	/**********************************************/
+	len = rc;
+	printf("  %d bytes received\n", len);
+
 
 	//buffer = my_malloc(BUFFER_SIZE);
 	//memset(buffer, 0, BUFFER_SIZE);
 	
+	/*
 	buffer = get_next_line(client->fd);
 	if (buffer)
     {
@@ -92,35 +129,24 @@ void handle_io_connection(t_client *client, t_server *server)
 		FD_CLR(client->fd, &server->master);
 		client->fd = 0;
 		//remove_connection(user, serv);
-	}
-}
-
-void watch_sockets(int *max, t_client *client, t_server *server)
-{
-	if (FD_ISSET(client->fd, &server->master))
-	{
-		handle_io_connection(client, server);
-	}
-	else
-	{
-		printf("fd isset for %i\n", client->fd);
-	}
+	}*/
 }
 
 void start_server(t_server *server)
 {
 	int max;
 	int index;
+	fd_set read_fds;
 	t_client *client;
 
 	max = server->fd;
 	while (TRUE)
 	{
+		read_fds = server->master;
 		if (select(max + 1, &server->master, NULL, NULL, 0) == -1)
 			my_error("select", -1);
 		if (FD_ISSET(server->fd, &server->master))
 		{
-			printf("on new client..\n");
 			client = accept_client(server);
 			FD_SET(client->fd, &server->master);
 			if (client->fd > max)
@@ -138,16 +164,18 @@ void start_server(t_server *server)
 			}
 			else
 			{
+				printf("set new user at index: %i\n", index);
 				server->clients[index] = *client;
 			}
 		}
-		if (select(max + 1, &server->master, NULL, NULL, 0) == -1)
-			my_error("select", -1);
 		index = 0;
 		while (server->clients[index].fd && index < server->max_clients)
 		{
-			printf("while (index: %i)\n", index);
-			watch_sockets(&max, &server->clients[index], server);
+			printf("fd: %i\n", server->clients[index].fd);
+			if (FD_ISSET(server->clients[index].fd, &server->master))
+			{
+				handle_io_connection(&server->clients[index], server);
+			}
 			index++;
 		}
 	}

@@ -26,10 +26,7 @@ typedef struct s_server
 {
 	int fd;
 	struct sockaddr_in in;
-    int pid;
     int sock;
-    fd_set fd_read;
-    fd_set fd_write;
     fd_set master;
     int max_clients;
     t_client *clients;

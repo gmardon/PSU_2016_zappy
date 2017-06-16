@@ -9,7 +9,7 @@ void send_message(t_client *client, char *msg, ...)
     if (client->fd)
     {
         va_start(args, msg);
-        len = vasprintf(&content, msg, args);
+        len = vasprintf(&content, strdup(msg), args);
         printf("< %s", content);
         write(client->fd, content, len);
         va_end(args);
@@ -21,8 +21,8 @@ void close_client(t_client *client)
     if (client->fd != -1)
         close(client->fd);
 
+    client->fd = 0;
     printf("Client disconnected <%s:%d>\n", get_client_addr(client->in), get_client_port(client->in));
-    exit(0);
 }
 
 void send_select_team(char *team_name, t_client *client, t_server *server)

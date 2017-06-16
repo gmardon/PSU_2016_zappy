@@ -14,6 +14,7 @@
 #include <grp.h>
 #include <pwd.h>
 #include <time.h>
+#include <fcntl.h> /* Added for the nonblocking socket */
 #include <dirent.h>
 #define _GNU_SOURCE /* See feature_test_macros(7) */
 #include <stdio.h>
