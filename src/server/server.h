@@ -2,7 +2,6 @@
 #define _SERVER_H_ 
 #include "zappy.h"
 
-
 typedef struct s_configuration
 {
     int				port;

@@ -15,6 +15,7 @@ SRC_SERVER			=		src/server/server.c		\
 							$(SRC_COMMON)
 
 SRC_AI				=		src/ai/main.c		\
+							src/ai/configuration.c \
 							$(SRC_COMMON)
 
 OBJ_SERVER			=		$(SRC_SERVER:.c=.o)

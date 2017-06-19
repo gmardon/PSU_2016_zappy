@@ -1,6 +1,8 @@
 #include "ai.h"
 
-int main(__attribute__((unused)) int argc, __attribute__((unused)) char *argv[])
+int main(int argc, char *argv[])
 {
+    t_configuration *config;
 
+    config = parse_args(argc, argv);
 }
