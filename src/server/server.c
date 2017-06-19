@@ -32,7 +32,7 @@ t_client *accept_client(t_server *server)
 	{
 		if (!(client = alloc_new_client(socket, in, server)))
 			return;
-
+			
 		handle_client(client);
 		return (client);
 	}
