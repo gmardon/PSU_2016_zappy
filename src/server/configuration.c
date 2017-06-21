@@ -23,6 +23,7 @@ t_configuration *parse_args(int argc, char *argv[])
     int	opt;
 
     config = my_malloc(sizeof(t_configuration));
+    config->temporal_delay = 0;
     while ((opt = getopt (argc, argv, "p:x:y:c:t:n:s:")) != -1)
         {
             if (opt == 'p')

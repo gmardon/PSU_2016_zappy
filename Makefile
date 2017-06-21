@@ -22,7 +22,7 @@ OBJ_SERVER			=		$(SRC_SERVER:.c=.o)
 
 OBJ_AI			=		$(SRC_AI:.c=.o)
 
-CFLAGS			=		-W -Wall -Wextra -g -I./include/ 
+CFLAGS			=		-W -Wall -Wextra -g -I./include/ -g
 
 all:			zappy_ai zappy_server
 
