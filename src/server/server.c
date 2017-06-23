@@ -124,7 +124,7 @@ void handle_new_client(t_server *server, int *max)
 	client = accept_client(server);
 	printf("new client with fd: %i\n", client->fd);
 	FD_SET(client->fd, &server->master);
-	if (client->fd > max)
+	if (client->fd > *max)
 		*max = client->fd;
 	index = 0;
 	while (server->clients[index].fd < 0 && index != server->max_clients)
