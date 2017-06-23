@@ -34,15 +34,48 @@ int main()
 
 char *do_game(t_game *game, char *cmd)
 {
-    //static time; ?
-    struct timeval tv;
+    struct timeval elapsed;
     char *resp;
 
     resp = NULL;
     if (cmd != NULL) // also need to know the player who sended the cmd
         resp = do_cmd(cmd);
-    gettimeofday(&tv, NULL); // if the ret is not 0 -> err
-    /* if sec passed
-        do_one_cycle(game); */
+    if (calc_elapsed((1000000 / game->freq)))
+        do_one_cycle(game);
     return (resp);
+}
+
+int do_one_cycle(t_game *game)
+{
+    // boucler sur les joueurs
+    //      decr tt les timer des joueurs
+    // ???
+    return (0);
+}
+
+int calc_elapsed(double unit)
+{
+    static char bool_old_set = 0;
+    static struct timeval old_tv = {0, 0};
+    struct timeval tv;
+    struct timeval elapsed;
+
+    if (bool_old_set == 0)
+    {
+        gettimeofday(&old_tv, NULL);
+        bool_old_set = 1;
+    }
+    gettimeofday(&tv, NULL); // if the ret is not 0 -> err
+    if ((elapsed.tv_sec = tv.tv_sec - old_tv.tv_sec) > 0
+        && elapsed.tv_sec--)
+        elapsed.tv_usec = tv.tv_usec + (1000000 - old_tv.tv_usec);
+    else if (tv.tv_sec - old_tv.tv_sec == 0)
+        elapsed.tv_usec = tv.tv_usec - old_tv.tv_usec;
+    if (elapsed.tv_usec > unit
+        || elapsed.tv_sec > 0)
+    {
+        gettimeofday(&old_tv, NULL);
+        return (1);
+    }
+    return (0);
 }

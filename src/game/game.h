@@ -66,7 +66,8 @@ typedef struct s_game
 int new_player(t_game *game, char *team_name, int id);
 int del_player(t_game *game, int player_id);
 
-// do_one_cycle(t_game *game);
+int do_one_cycle(t_game *game);
+int calc_elapsed(double unit);
 
 // ALL CMD
 // NEED fct_table of all cmd

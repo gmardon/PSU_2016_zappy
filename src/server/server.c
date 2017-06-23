@@ -151,7 +151,7 @@ void start_server(t_server *server)
 	printf("start on port %d, waiting for connections...\n", server->configuration->port);
 	while (TRUE)
 	{
-		read_fds = server->master; 
+		read_fds = server->master;
 		if (select(max + 1, &read_fds, NULL, NULL, 0) == -1)
 			my_error("select", -1);
 		if (FD_ISSET(server->fd, &read_fds))

@@ -35,6 +35,7 @@ t_game *init_game(int width, int height, int clientsNb)
         i++;
     }
     game->perso_list = NULL;
+    game->freq = 100;
     return (game);
 }
 
