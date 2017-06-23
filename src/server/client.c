@@ -11,7 +11,7 @@ void send_message(t_client *client, char *msg, ...)
     {
         va_start(args, msg);
         len = vsprintf(content, strdup(msg), args);
-        printf("< %s", content);
+        printf("> %s", content);
         write(client->fd, content, len);
         va_end(args);
     }
@@ -19,7 +19,6 @@ void send_message(t_client *client, char *msg, ...)
 
 void close_client(t_client *client)
 {
-    printf("close client\n");
     if (client->fd != -1)
         close(client->fd);
 

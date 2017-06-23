@@ -122,7 +122,6 @@ void handle_new_client(t_server *server, int *max)
 	t_client *client;
 
 	client = accept_client(server);
-	printf("new client with fd: %i\n", client->fd);
 	FD_SET(client->fd, &server->master);
 	if (client->fd > *max)
 		*max = client->fd;
@@ -152,34 +151,16 @@ void start_server(t_server *server)
 	printf("start on port %d, waiting for connections...\n", server->configuration->port);
 	while (TRUE)
 	{
-		read_fds = server->master;
-		printf("before select\n");
-		for( int i = 0; i < max * 10; ++i ) 
-    		if (FD_ISSET(i, &read_fds))
-		   		printf( "- %i\n", i); 
+		read_fds = server->master; 
 		if (select(max + 1, &read_fds, NULL, NULL, 0) == -1)
 			my_error("select", -1);
-		printf("select\n");
-		for( int i = 0; i < max * 10; ++i ) 
-			if (FD_ISSET(i, &read_fds))
-				printf( "- %i\n", i); 
-		printf("after select\n");
 		if (FD_ISSET(server->fd, &read_fds))
 			handle_new_client(server, &max);
 		index = 0;
 		while (server->clients[index].fd > 0 && index != server->max_clients)
 		{
-			printf("[fd: %i] in while()...", server->clients[index].fd);
 			if (FD_ISSET(server->clients[index].fd, &read_fds))
-			{
-				printf("and in ISSET\n");
 				handle_io(&server->clients[index], server);
-				printf("after\n");
-			}
-			else
-			{
-				printf("\n");
-			}
 			index++;
 		}
 	}
