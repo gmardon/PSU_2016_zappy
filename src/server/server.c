@@ -1,18 +1,27 @@
 #include "server.h"
 
+void set_non_blocking(int socket)
+{
+	int opts;
+
+	opts = fcntl(socket, F_GETFL);
+	if (opts < 0)
+		my_error("fcntl(F_GETFL)", EXIT_FAILURE);
+	opts = (opts | O_NONBLOCK);
+	if (fcntl(socket, F_SETFL, opts) < 0)
+		my_error("fcntl(F_SETFL)", EXIT_FAILURE);
+	return;
+}
+
 t_client *alloc_new_client(int socket, struct sockaddr_in in, t_server *server)
 {
 	int opt;
 	t_client *client;
-	unsigned long ulMode; 
 
 	opt = 1;
-	ulMode = 1;
 	client = my_malloc(sizeof(t_client));
 	client->fd = socket;
-	//int opt = 1;
-	ioctl(socket, FIONBIO, &opt);
-	fcntl(socket, F_SETFL, O_NONBLOCK);
+	set_non_blocking(client->fd);
 
 	client->in = in;
 	client->team_id = -1;
@@ -40,7 +49,7 @@ t_client *accept_client(t_server *server)
 	}
 }
 
-t_server *get_socket(int port)
+t_server *get_server_socket(int port)
 {
 	t_server *server;
 	int opt;
@@ -59,7 +68,7 @@ t_server *get_socket(int port)
 		my_error("Can't bind socket", -1);
 	if ((listen(server->fd, 10)) == -1)
 		my_error("Can't listen the socket", -1);
-	fcntl(server->fd, F_SETFL, O_NONBLOCK);
+	set_non_blocking(server->fd);
 	return (server);
 }
 
@@ -67,7 +76,7 @@ t_server *create_server(t_configuration *config)
 {
 	t_server *server;
 
-	server = get_socket(config->port);
+	server = get_server_socket(config->port);
 	server->configuration = config;
 	server->max_clients = config->client_per_team * 2;
 	server->clients = calloc(server->max_clients + 1, sizeof(t_client) + 1);
@@ -150,12 +159,11 @@ void start_server(t_server *server)
 		   		printf( "- %i\n", i); 
 		if (select(max + 1, &read_fds, NULL, NULL, 0) == -1)
 			my_error("select", -1);
-			printf("select\n");
-			for( int i = 0; i < max * 10; ++i ) 
-    		if (FD_ISSET(i, &read_fds))
-		   		printf( "- %i\n", i); 
+		printf("select\n");
+		for( int i = 0; i < max * 10; ++i ) 
+			if (FD_ISSET(i, &read_fds))
+				printf( "- %i\n", i); 
 		printf("after select\n");
-		
 		if (FD_ISSET(server->fd, &read_fds))
 			handle_new_client(server, &max);
 		index = 0;
