@@ -17,21 +17,29 @@ int main()
     t_game *game;
     char *cmd;
 
-    if ((game = init_game(/*width, height, clientsNb*/)) == NULL)
+    int width = 100;
+    int height = 100;
+    int clientsNb = 5;
+    if ((game = init_game(width, height, clientsNb)) == NULL)
         return (84);
     while (1)
     {
-        do_game(game, cmd);
+        resp = do_game(game, cmd);
+        // resp is to be sendedd to the client
+        // and all graph_evnt need to be sended to graph monitor
     }
     return (0);
 }
 
-int do_game(t_game *game, char *cmd)
+char *do_game(t_game *game, char *cmd)
 {
     //static time; ?
+    char *resp;
 
+    resp = NULL;
     if (cmd != NULL) // also need to know the player who sended the cmd
-        do_cmd(cmd);
+        resp = do_cmd(cmd);
     /* if sec passed
         do_one_cycle(game); */
+    return (resp);
 }

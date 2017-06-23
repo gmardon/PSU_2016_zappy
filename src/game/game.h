@@ -31,27 +31,49 @@ typedef struct s_perso
 {
     // info
     // name or id ??
-    int team;
+    int id;
+    char *team;
     int lvl;
     int x;
     int y;
     t_ressources ress;
     int time_left;
+    int act_time_left; // temp restant de l'action
 } t_perso;
+
+/*
+** list chainée pour les perso
+*/
+typedef struct s_plist
+{
+    t_perso perso;
+    struct s_plist *next;
+} t_plist;
 
 typedef struct s_game
 {
     t_tile **map; // map[x][y] to get the tile
-    t_perso **perso;
+    t_plist *perso_list;
     int width; // x
     int height; // y
+    char **graph_evnt; // to be checked after do_game
     // time gest ?
 } t_game;
+// add_event(t_game *game, char *evnt); // add at the back
+// pop_event(t_game *game); // retrun & del the first evnt (the oldest)
+
+int new_player(t_game *game, char *team_name, int id);
+int del_player(t_game *game, int player_id);
+
+// do_one_cycle(t_game *game);
+
+// ALL CMD
+// NEED fct_table of all cmd
 
 /*
 ** do the cmd and/or executge 1 cycle of time only if 1 time unit has elapsed
 */
-int do_game(t_game *game, char *cmd);
+char *do_game(t_game *game, char *cmd);
 
 /*
 ** malloc & init the t_game struct

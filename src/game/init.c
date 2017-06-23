@@ -8,6 +8,8 @@
 ** Last update Thu Jun 22 20:02:41 2017 Aurelien
 */
 #include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
 #include "game.h"
 
 /*
@@ -32,7 +34,7 @@ t_game *init_game(int width, int height, int clientsNb)
         init_tile_tab(game, i);
         i++;
     }
-    game->perso = malloc(sizeof(t_perso *) * (clientsNb * 4));
+    game->perso_list = NULL;
     return (game);
 }
 
