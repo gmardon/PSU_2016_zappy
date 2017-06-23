@@ -57,6 +57,7 @@ typedef struct s_game
     int width; // x
     int height; // y
     char **graph_evnt; // to be checked after do_game
+    int freq;
     // time gest ?
 } t_game;
 // add_event(t_game *game, char *evnt); // add at the back

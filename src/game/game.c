@@ -9,6 +9,7 @@
 */
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/time.h>
 #include "game.h"
 
 //main is for exemple of use only
@@ -34,11 +35,13 @@ int main()
 char *do_game(t_game *game, char *cmd)
 {
     //static time; ?
+    struct timeval tv;
     char *resp;
 
     resp = NULL;
     if (cmd != NULL) // also need to know the player who sended the cmd
         resp = do_cmd(cmd);
+    gettimeofday(&tv, NULL); // if the ret is not 0 -> err
     /* if sec passed
         do_one_cycle(game); */
     return (resp);
