@@ -25,31 +25,55 @@ int main()
         return (84);
     while (1)
     {
-        resp = do_game(game, cmd);
+        // need to check if the client can accept the cmd
+        do_game(game, cmd, player_id);
         // resp is to be sendedd to the client
         // and all graph_evnt need to be sended to graph monitor
     }
     return (0);
 }
 
-char *do_game(t_game *game, char *cmd)
+int do_game(t_game *game, char *cmd, int id)
 {
     struct timeval elapsed;
-    char *resp;
 
-    resp = NULL;
+    // need de geerer la circularaité de la map
     if (cmd != NULL) // also need to know the player who sended the cmd
-        resp = do_cmd(cmd);
+        do_cmd(game, cmd, id);
     if (calc_elapsed((1000000 / game->freq)))
-        do_one_cycle(game);
-    return (resp);
+        do_one_cycle(game); // response now generated only at the end of the action ?
+    return (0);
 }
 
 int do_one_cycle(t_game *game)
 {
-    // boucler sur les joueurs
-    //      decr tt les timer des joueurs
+    t_plist *tmp;
+
+    tmp = game->perso_list;
+    while (tmp != NULL)
+    {
+        tmp->perso.time_left -= 1;
+        if (tmp->perso.act_time_left > 0)
+            tmp->perso.act_time_left -= 1;
+        if (tmp->perso.act_time_left <= 0)
+        {
+            do_cmd(game, &(tmp->perso));
+            // fin action -> add_evnt
+            // resp 
+        }
+        if (tmp->perso.time_left <= 0)
+        {
+            if (tmp->perso.ress.food > 0)
+            {
+                tmp->perso.ress.food -= 1;
+                tmp->perso.time_left = 126;
+            }
+            // else    player is dead // TO DO
+        }
+        tmp = tmp->next;
+    }
     // ???
+    // other evnt ?
     return (0);
 }
 
