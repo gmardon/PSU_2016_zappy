@@ -5,9 +5,11 @@ NAME_AI				=		zappy_ai
 SRC_COMMON			= 		src/my_malloc.c			\
 							src/my_error.c			\
 							src/my_select.c			\
-							src/get_next_line.c
+							src/get_next_line.c		\
+							src/socket_utils.c
 
 SRC_SERVER			=		src/server/server.c		\
+							src/server/server_socket.c \
 							src/server/main.c		\
 							src/server/client.c 	\
 							src/server/client_utils.c 	\
