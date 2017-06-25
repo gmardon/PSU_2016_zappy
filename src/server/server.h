@@ -4,6 +4,12 @@
 #define CLIENT_STATE_CONNECTED 1
 #define CLIENT_STATE_TEAM_SELECTED 2
 
+typedef struct		s_position
+{
+  int			x;
+  int			y;
+}			t_position;
+
 typedef struct s_configuration
 {
     int				port;
@@ -22,6 +28,8 @@ typedef struct s_client
 	struct sockaddr_in in;
     int team_id;
     int state;
+    int id;
+    t_position position;
 }						t_client;
 
 typedef struct s_server
