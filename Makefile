@@ -14,6 +14,12 @@ SRC_SERVER			=		src/server/server.c		\
 							src/server/client.c 	\
 							src/server/client_utils.c 	\
 							src/server/configuration.c \
+							src/server/cmd_tab.c    \
+							src/server/init.c       \
+							src/server/response.c   \
+							src/server/player.c     \
+							src/server/client_handler.c \
+							src/server/protocol/select_team.c \
 							$(SRC_COMMON)
 
 SRC_AI				=		src/ai/main.c		\

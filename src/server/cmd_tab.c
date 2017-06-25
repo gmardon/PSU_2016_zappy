@@ -7,13 +7,11 @@
 ** Started on  Sun Jun 25 02:51:28 2017 Aurelien
 ** Last update Sun Jun 25 02:51:36 2017 Aurelien
 */
-#include <string.h>
-#include <stdlib.h>
-#include "game.h"
+#include "server.h"
 
 static t_cmd g_cmd_tab[] =
 {
-    {"Forward", &forward_cmd, 7},
+    /*{"Forward", &forward_cmd, 7},
     {"Right", &right_cmd, 7},
     {"Left", &left_cmd, 7},
     {"Look", &look_cmd, 7},
@@ -26,25 +24,26 @@ static t_cmd g_cmd_tab[] =
     {"Take", &take_cmd, 7}, // take 1 arg
     {"Set", &set_cmd, 7}, // take 1 arg
     {"Incantation", &incant_cmd, 300}, // not regular...
+    */
     {"", 0, 0}
 };
 
 int cast_cmd(t_game *game, char *cmd, int id)
 {
     int i;
-    t_perso *perso;
+    t_player *player;
 
     i = 0;
     while (g_cmd_tab[i].fct != 0)
     {
         if (strstr(cmd, g_cmd_tab[i].str) != NULL)
         {
-            if ((perso = get_perso(game, id)) == NULL)
+            if ((player = get_player(game, id)) == NULL)
                 return (2);
-            if (perso->act_time_left > 0)
+            if (player->act_time_left > 0)
                 return (3);
-            perso->act_time_left = g_cmd_tab[i].cycle;
-            perso->action = strdup(g_cmd_tab[i].str);
+            player->act_time_left = g_cmd_tab[i].cycle;
+            player->action = strdup(g_cmd_tab[i].str);
             return (0);
         }
         i++;
@@ -53,7 +52,7 @@ int cast_cmd(t_game *game, char *cmd, int id)
     return (1);
 }
 
-int do_cmd(t_game *game, t_perso *perso)
+int do_cmd(t_game *game, t_player *player)
 {
     int i;
     int ret;
@@ -61,11 +60,11 @@ int do_cmd(t_game *game, t_perso *perso)
     i = ret = 0;
     while (g_cmd_tab[i].fct != 0)
     {
-        if (strstr(perso->action, g_cmd_tab[i].str) != NULL)
+        if (strstr(player->action, g_cmd_tab[i].str) != NULL)
         {
-            ret = g_cmd_tab[i].fct(game, perso);
-            free(perso->action);
-            perso->action = NULL;
+            ret = g_cmd_tab[i].fct(game, player);
+            free(player->action);
+            player->action = NULL;
             return (ret);
         }
         i++;
@@ -73,28 +72,28 @@ int do_cmd(t_game *game, t_perso *perso)
     return (404); // cmd not found
 }
 
-t_perso *get_perso(t_game *game, int id)
+t_player *get_player(t_game *game, int id)
 {
     t_plist *tmp;
 
-    tmp = game->perso_list;
+    tmp = game->player_list;
     while (tmp != NULL)
     {
-        if (tmp->perso.id == id)
+        if (tmp->player.id == id)
             break;
         tmp = tmp->next;
     }
-    return (&(tmp->perso));
+    return (&(tmp->player));
 }
 
-t_plist *get_perso_node(t_game *game, int id)
+t_plist *get_player_node(t_game *game, int id)
 {
     t_plist *tmp;
 
-    tmp = game->perso_list;
+    tmp = game->player_list;
     while (tmp != NULL)
     {
-        if (tmp->perso.id == id)
+        if (tmp->player.id == id)
             break;
         tmp = tmp->next;
     }

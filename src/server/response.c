@@ -7,9 +7,7 @@
 ** Started on  Sun Jun 25 02:31:57 2017 Aurelien
 ** Last update Sun Jun 25 02:32:02 2017 Aurelien
 */
-#include <stdlib.h>
-#include <string.h>
-#include "game.h"
+#include "server.h"
 
 int add_resp(t_game *game, char *resp, int player_id)
 {

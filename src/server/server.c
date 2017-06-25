@@ -75,9 +75,13 @@ void handle_new_client(t_server *server, int *max)
 	{
 		send_message(client, "MAX USER REACHED\n");
 		close_client(client);
+		return;
 	}
 	else
 		server->clients[index] = *client;
+
+	printf("New client connected from <%s:%d>\n", get_client_addr(client->in), get_client_port(client->in));
+    send_message(client, "WELCOME\n");
 }
 
 void start_server(t_server *server)

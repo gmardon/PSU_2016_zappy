@@ -27,10 +27,3 @@ void close_client(t_client *client, t_server *server)
     client->fd = 0;
     printf("Client disconnected <%s:%d>\n", get_client_addr(client->in), get_client_port(client->in));
 }
-
-void handle_client(t_client *client)
-{
-    printf("New client connected from <%s:%d>\n", get_client_addr(client->in), get_client_port(client->in));
-    send_message(client, "WELCOME\n");
-}
-

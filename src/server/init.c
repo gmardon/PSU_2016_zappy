@@ -7,10 +7,7 @@
 ** Started on  Thu Jun 22 20:02:35 2017 Aurelien
 ** Last update Thu Jun 22 20:02:41 2017 Aurelien
 */
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include "game.h"
+#include "server.h"
 
 /*
 ** clientNb is the number of client auhtorized per team
@@ -34,7 +31,7 @@ t_game *init_game(int width, int height, int clientsNb)
         init_tile_tab(game, i);
         i++;
     }
-    game->perso_list = NULL;
+    game->player_list = NULL;
     game->resp = NULL;
     game->freq = 100;
     return (game);
