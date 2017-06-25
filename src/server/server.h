@@ -1,6 +1,8 @@
 #ifndef _SERVER_H_
 #define _SERVER_H_ 
 #include "zappy.h"
+#define CLIENT_STATE_CONNECTED 1
+#define CLIENT_STATE_TEAM_SELECTED 2
 
 typedef struct s_configuration
 {
@@ -19,6 +21,7 @@ typedef struct s_client
 	int fd;
 	struct sockaddr_in in;
     int team_id;
+    int state;
 }						t_client;
 
 typedef struct s_server
@@ -38,4 +41,7 @@ int get_client_port(struct sockaddr_in client);
 t_server *create_server(t_configuration *config);
 void handle_client(t_client *client);
 void start_server(t_server *server);
+t_server *get_server_socket(int port);
+t_client *accept_client(t_server *server);
+t_client *alloc_new_client(int socket, struct sockaddr_in in, t_server *server);
 #endif

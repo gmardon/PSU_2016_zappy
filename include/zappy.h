@@ -26,4 +26,5 @@
 void my_error(char *msg, int exit_code);
 char *get_next_line(const int fd);
 void *my_malloc(int size);
+void set_non_blocking(int socket);
 #endif
