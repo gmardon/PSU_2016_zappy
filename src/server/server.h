@@ -170,4 +170,17 @@ t_server *get_server_socket(int port);
 t_client *accept_client(t_server *server);
 t_client *alloc_new_client(int socket, struct sockaddr_in in, t_server *server);
 t_configuration *parse_args(int argc, char *argv[]);
+
+int forward_cmd(t_game *game, t_perso *perso);
+int right_cmd(t_game *game, t_perso *perso);
+int left_cmd(t_game *game, t_perso *perso);
+int look_cmd(t_game *game, t_perso *perso);
+int inventory_cmd(t_game *game, t_perso *perso);
+int connect_nbr_cmd(t_game *game, t_perso *perso); // ??
+int fork_cmd(t_game *game, t_perso *perso);
+int eject_cmd(t_game *game, t_perso *perso);
+int take_cmd(t_game *game, t_perso *perso);
+int set_cmd(t_game *game, t_perso *perso);
+int incant_cmd(t_game *game, t_perso *perso);
+
 #endif
