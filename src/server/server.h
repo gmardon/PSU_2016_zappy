@@ -87,17 +87,6 @@ typedef struct s_client
     t_player *player;
 }						t_client;
 
-typedef struct s_server
-{
-	int fd;
-	struct sockaddr_in in;
-    int sock;
-    fd_set master;
-    int max_clients;
-    t_client *clients;
-    t_configuration *configuration;
-}						t_server;
-
 typedef struct s_game
 {
     t_tile **map; // map[x][y] to get the tile
@@ -107,6 +96,18 @@ typedef struct s_game
     int freq;
     t_rlist *resp; // response : to be checked after do_game
 } t_game;
+
+typedef struct s_server
+{
+	int fd;
+	struct sockaddr_in in;
+    int sock;
+    fd_set master;
+    int max_clients;
+    t_client *clients;
+    t_configuration *configuration;
+    t_game *game;
+}						t_server;
 
 // void add_event(t_game *game, char *evnt); // add at the back
 // char *pop_event(t_game *game); // retrun & del the first evnt (the oldest)
@@ -153,7 +154,7 @@ int do_cmd(t_game *game, t_player *player);
 ** malloc & init the t_game struct
 ** return NULL on error
 */
-t_game *init_game(int width, int height, int clientsNb);
+t_game *init_game(t_configuration *configuration);
 void init_tile_tab(t_game *game, int i);
 t_ressources init_ress(); // maybe generate ressources here ?
 void handle_select_team(char *team_name, t_client *client, t_server *server);

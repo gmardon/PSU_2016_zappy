@@ -13,6 +13,7 @@
 #include "game.h"
 
 //main is for exemple of use only
+/*
 int main()
 {
     t_game *game;
@@ -21,8 +22,7 @@ int main()
     int width = 100;
     int height = 100;
     int clientsNb = 5;
-    if ((game = init_game(width, height, clientsNb)) == NULL)
-        return (84);
+   
     while (1)
     {
         // need to check if the client can accept the cmd
@@ -31,7 +31,7 @@ int main()
         // and all graph_evnt need to be sended to graph monitor
     }
     return (0);
-}
+}*/
 
 int do_game(t_game *game, char *cmd, int id)
 {

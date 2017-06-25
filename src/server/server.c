@@ -27,6 +27,7 @@ t_server *create_server(t_configuration *config)
 	server->clients[server->max_clients + 1].fd = -1;
 	FD_ZERO(&server->master);
 	FD_SET(server->fd, &server->master);
+	server->game = init_game(config);
 	return (server);
 }
 

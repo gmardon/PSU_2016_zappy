@@ -12,21 +12,21 @@
 /*
 ** clientNb is the number of client auhtorized per team
 */
-t_game *init_game(int width, int height, int clientsNb)
+t_game *init_game(t_configuration *configuration)
 {
     t_game *game;
     size_t i;
 
     if ((game = malloc(sizeof(t_game))) == NULL)
         return (NULL);
-    game->width = width;
-    game->height = height;
-    if ((game->map = malloc(sizeof(t_tile *) * width)) == NULL)
+    game->width = configuration->world_width;
+    game->height = configuration->world_height;
+    if ((game->map = malloc(sizeof(t_tile *) * game->width)) == NULL)
         return (NULL);
     i = 0;
-    while (i < width)
+    while (i < game->width)
     {
-        if ((game->map[i] = malloc(sizeof(t_tile) * height)) == NULL)
+        if ((game->map[i] = malloc(sizeof(t_tile) * game->height)) == NULL)
             return (NULL);
         init_tile_tab(game, i);
         i++;
