@@ -54,7 +54,7 @@ int handle_cmd(t_server *server, t_client *client, char *cmd)
     return (1);
 }
 
-int do_cmd(t_game *game, t_player *player)
+int do_cmd(t_server *serv, t_client *cl)
 {
     int i;
     int ret;
@@ -62,11 +62,11 @@ int do_cmd(t_game *game, t_player *player)
     i = ret = 0;
     while (g_cmd_tab[i].fct != 0)
     {
-        if (strstr(player->action, g_cmd_tab[i].str) != NULL)
+        if (strstr(cl->player->action, g_cmd_tab[i].str) != NULL)
         {
-            ret = g_cmd_tab[i].fct(game, player);
-            free(player->action);
-            player->action = NULL;
+            ret = g_cmd_tab[i].fct(game, cl);
+            free(cl->player->action);
+            cl->player->action = NULL;
             return (ret);
         }
         i++;
@@ -74,7 +74,7 @@ int do_cmd(t_game *game, t_player *player)
     return (404); // cmd not found
 }
 
-t_player *get_player(t_game *game, int id)
+/*t_player *get_player(t_game *game, int id)
 {
     t_plist *tmp;
 
@@ -86,18 +86,4 @@ t_player *get_player(t_game *game, int id)
         tmp = tmp->next;
     }
     return (&(tmp->player));
-}
-
-t_plist *get_player_node(t_game *game, int id)
-{
-    t_plist *tmp;
-
-    tmp = game->player_list;
-    while (tmp != NULL)
-    {
-        if (tmp->player.id == id)
-            break;
-        tmp = tmp->next;
-    }
-    return (tmp);
-}
+}*/

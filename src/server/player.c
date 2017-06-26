@@ -9,53 +9,28 @@
 */
 #include "server.h"
 
-int new_player(t_game *game, char *team_name, int id)
+t_player *new_player(char *team_id)
 {
-    //t_plist *tmp;
-    t_perso *new;
+    t_player *new;
 
-    /*tmp = game->player_list;
-    while (tmp != NULL && tmp->next != NULL)
-        tmp = tmp->next;*/
-    if ((new = malloc(sizeof(t_perso))) == NULL)
+    if ((new = malloc(sizeof(t_player))) == NULL)
         return (1);
-    new->player.id = id;
-    //new->player.team = team_name;
-    new->player.lvl = 1;
-    new->player.x = 0;
-    new->player.y = 0;
-    new->player.ress = init_ress();
-    new->player.ress.food = 9;
-    new->player.time_left = 126;
-    new->player.act_time_left = 0;
-    if (tmp == NULL)
-        game->player_list = new;
-    else
-        tmp->next = new;
-    return (0);
+    new->id = id;
+    new->lvl = 1;
+    new->team_id = team_id;
+    new->x = 0;
+    new->y = 0;
+    new->ress = init_ress();
+    new->ress.food = 9;
+    new->time_left = 126;
+    new->act_time_left = 0;
+    return (player);
 }
 
-int del_player(t_game *game, int player_id)
+void del_player(t_player *player)
 {
-    t_plist *tmp;
-    t_plist *old;
-
-    tmp = game->player_list;
-    old = NULL;
-    while (tmp != NULL)
-    {
-        if (tmp->player.id == player_id)
-            break;
-        old = tmp;
-        tmp = tmp->next;
-    }
-    if (tmp == NULL)
-        return (1);
-    if (old == NULL)
-        game->player_list = tmp->next;
-    else
-        old->next = tmp->next;
-    // free(tmp->player.team) ?
-    free(tmp);
+    if (player->action != NULL)
+        free(player->action);
+    free(player);
     return (0);
 }

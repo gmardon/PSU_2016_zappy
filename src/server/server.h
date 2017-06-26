@@ -46,7 +46,7 @@ typedef struct s_player
 {
     // info
     // name or id ??
-    int id;
+    int id; // ?
     int team_id;
     int lvl;
     int x;
@@ -70,7 +70,7 @@ typedef struct s_rlist
 } t_rlist;
 
 /*
-** chained list for player
+** chained list for client
 */
 typedef struct s_clist
 {
@@ -87,6 +87,9 @@ typedef struct s_client
     t_player *player;
 }						t_client;
 
+int new_client(t_server *server, int socket, struct sockaddr_in in)
+int del_client(t_server *server/*, int fd*/);
+
 typedef struct s_game
 {
     t_tile **map; // map[x][y] to get the tile
@@ -94,7 +97,7 @@ typedef struct s_game
     int width; // x
     int height; // y
     int freq;
-    t_rlist *resp; // response : to be checked after do_game
+    t_rlist *resp; // response : to be checked after do_cmd/handle_cmd/do_one_cycle
 } t_game;
 
 typedef struct s_server
@@ -106,28 +109,26 @@ typedef struct s_server
     int max_clients;
     //t_client *clients;
     t_clist *client_list;
+    t_client *client_graph;
     t_configuration *configuration;
     t_game *game;
 }						t_server;
 
-// void add_event(t_game *game, char *evnt); // add at the back
-// char *pop_event(t_game *game); // retrun & del the first evnt (the oldest)
-
-int new_player(t_game *game, char *team_name, int id);
-int del_player(t_game *game, int player_id);
+t_player *new_player(int team_id);
+void del_player(t_player *player);
 
 int add_resp(t_game *game, char *resp, int player_id); // add at the back
 int del_resp(t_game *game, t_rlist *node);
 
-int do_one_cycle(t_game *game);
+int do_one_cycle(t_server *serv);
 int calc_elapsed(double unit);
 
-t_player *get_player(t_game *game, int id); // ret player by id srch
+//t_player *get_player(t_game *game, int id); // ret player by id srch
 //t_plist *get_player_node(t_game *game, int id);
 
 // ALL CMD
 // NEED fct_table of all cmd
-typedef int (*cmd_fct)(t_game *game, t_player *player);
+typedef int (*cmd_fct)(t_server *serv, t_client *client);
 
 typedef struct s_cmd
 {
@@ -139,7 +140,7 @@ typedef struct s_cmd
 /*
 ** do the cmd and/or executge 1 cycle of time only if 1 time unit has elapsed
 */
-int do_game(t_game *game, char *cmd, int id);
+//int do_game(t_game *game, char *cmd, int id);
 
 /*
 ** set cycle for the next action, ret > 0 if not found/error
@@ -149,7 +150,7 @@ int handle_cmd(t_server *server, t_client *client, char *cmd);
 /*
 ** execute the action casted & generate a resp & graph evnt
 */
-int do_cmd(t_game *game, t_player *player);
+int do_cmd(t_server *serv, t_client *cl);
 
 /*
 ** malloc & init the t_game struct

@@ -33,7 +33,7 @@ int main()
     return (0);
 }*/
 
-int do_game(t_game *game, char *cmd, int id)
+/*int do_game(t_game *game, char *cmd, int id)
 {
     struct timeval elapsed;
 
@@ -43,30 +43,36 @@ int do_game(t_game *game, char *cmd, int id)
     if (calc_elapsed((1000000 / game->freq)))
         do_one_cycle(game); // response now generated only at the end of the action ?
     return (0);
-}
+}*/
 
-int do_one_cycle(t_game *game)
+int do_one_cycle(t_server *serv)
 {
-    t_plist *tmp;
+    t_clist *tmp;
+    t_player *player;
 
-    tmp = game->player_list;
+    tmp = serv->client_list;
     while (tmp != NULL)
     {
-        tmp->player.time_left -= 1;
-        if (tmp->player.act_time_left > 0)
-            tmp->player.act_time_left -= 1;
-        if (tmp->player.act_time_left <= 0)
+        if ((player = tmp->client->player) == NULL)
         {
-            do_cmd(game, &(tmp->player));
+            tmp = tmp->next;
+            continue;
+        }
+        player->time_left -= 1;
+        if (player->act_time_left > 0)
+            player->act_time_left -= 1;
+        if (player->act_time_left <= 0)
+        {
+            do_cmd(serv, player);
             // fin action -> add_evnt
             // resp
         }
-        if (tmp->player.time_left <= 0)
+        if (tmp->player->time_left <= 0)
         {
-            if (tmp->player.ress.food > 0)
+            if (tmp->player->ress.food > 0)
             {
-                tmp->player.ress.food -= 1;
-                tmp->player.time_left = 126;
+                tmp->player->ress.food -= 1;
+                tmp->player->time_left = 126;
             }
             // else    player is dead // TO DO
         }
