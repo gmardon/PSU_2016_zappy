@@ -1,11 +1,10 @@
 #include "server.h"
 
-t_client *alloc_new_client(int socket, struct sockaddr_in in, t_server *server)
+t_client *create_client(int socket, struct sockaddr_in in)
 {
 	int opt;
 	t_client *client;
 
-	opt = 1;
 	client = my_malloc(sizeof(t_client));
 	client->fd = socket;
 	set_non_blocking(client->fd);
@@ -13,6 +12,7 @@ t_client *alloc_new_client(int socket, struct sockaddr_in in, t_server *server)
 	client->in = in;
 	client->team_id = -1;
 	client->state = CLIENT_STATE_CONNECTED;
+	client->player = NULL;
 	return (client);
 }
 

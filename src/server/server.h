@@ -168,7 +168,7 @@ void handle_client(t_client *client);
 void start_server(t_server *server);
 t_server *get_server_socket(int port);
 t_client *accept_client(t_server *server);
-t_client *alloc_new_client(int socket, struct sockaddr_in in, t_server *server);
+t_client *create_client(int socket, struct sockaddr_in in);
 t_configuration *parse_args(int argc, char *argv[]);
 
 int forward_cmd(t_game *game, t_player *perso);
