@@ -4,47 +4,39 @@
 ** Made by Aurelien
 ** Login   <aurelien.olibe@epitech.eu@epitech.net>
 ** 
-** Started on  Mon Jun 26 16:52:09 2017 Aurelien
-** Last update Mon Jun 26 16:52:15 2017 Aurelien
+** Started on  Mon Jun 26 16:58:18 2017 Aurelien
+** Last update Mon Jun 26 16:58:30 2017 Aurelien
 */
 #include "server.h"
 
-int new_player(t_game *game, char *team_name, int id)
+int new_client(t_server *server)
 {
-    //t_plist *tmp;
+    t_clist *tmp;
     t_perso *new;
 
-    /*tmp = game->player_list;
+    tmp = server->client_list;
     while (tmp != NULL && tmp->next != NULL)
-        tmp = tmp->next;*/
-    if ((new = malloc(sizeof(t_perso))) == NULL)
+        tmp = tmp->next;
+    if ((new = malloc(sizeof(t_clist))) == NULL)
         return (1);
-    new->player.id = id;
-    //new->player.team = team_name;
-    new->player.lvl = 1;
-    new->player.x = 0;
-    new->player.y = 0;
-    new->player.ress = init_ress();
-    new->player.ress.food = 9;
-    new->player.time_left = 126;
-    new->player.act_time_left = 0;
+    // alloc_client
     if (tmp == NULL)
-        game->player_list = new;
+        game->client_list = new;
     else
         tmp->next = new;
     return (0);
 }
 
-int del_player(t_game *game, int player_id)
+int del_player(t_server *server, int fd)
 {
-    t_plist *tmp;
-    t_plist *old;
+    t_clist *tmp;
+    t_clist *old;
 
     tmp = game->player_list;
     old = NULL;
     while (tmp != NULL)
     {
-        if (tmp->player.id == player_id)
+        if (tmp->client->fd == fd)
             break;
         old = tmp;
         tmp = tmp->next;
@@ -55,7 +47,6 @@ int del_player(t_game *game, int player_id)
         game->player_list = tmp->next;
     else
         old->next = tmp->next;
-    // free(tmp->player.team) ?
     free(tmp);
     return (0);
 }

@@ -17,7 +17,7 @@ int add_resp(t_game *game, char *resp, int player_id)
     tmp = game->resp;
     while (tmp != NULL && tmp->next != NULL)
         tmp = tmp->next;
-    if ((new = malloc(sizeof(t_plist))) == NULL)
+    if ((new = malloc(sizeof(t_rlist))) == NULL)
         return (1);
     new->id = player_id;
     new->msg = strdup(resp);

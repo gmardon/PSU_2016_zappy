@@ -104,7 +104,8 @@ typedef struct s_server
     int sock;
     fd_set master;
     int max_clients;
-    t_client *clients;
+    //t_client *clients;
+    t_clist *client_list;
     t_configuration *configuration;
     t_game *game;
 }						t_server;
