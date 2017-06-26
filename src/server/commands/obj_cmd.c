@@ -9,12 +9,15 @@
 */
 #include "server.h"
 
-int inventory_cmd(t_game *game, t_player *player)
+int inventory_cmd(t_server *serv, t_client *cl)
 {
     char *resp;
+    t_playetr *player;
 
     if ((resp = malloc(sizeof(char) * 444)) == NULL)
         return (1);
+    if ((player = cl->player) == NULL)
+        return (2);
     sprintf(resp, "[linemate %d", player->ress.linemate);
     sprintf(resp, "%s, deraumere %d", resp, player->ress.deraumere);
     sprintf(resp, "%s, sibur %d", resp, player->ress.sibur);

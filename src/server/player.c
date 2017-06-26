@@ -15,15 +15,16 @@ t_player *new_player(char *team_id)
 
     if ((new = malloc(sizeof(t_player))) == NULL)
         return (1);
-    new->id = id;
+    //new->id = id;
     new->lvl = 1;
     new->team_id = team_id;
-    new->x = 0;
-    new->y = 0;
+    new->pos = {0, 0}; // generate pos & dir here ?
+    new->dir = {0, -1};
     new->ress = init_ress();
     new->ress.food = 9;
     new->time_left = 126;
     new->act_time_left = 0;
+    new->action = NULL;
     return (player);
 }
 

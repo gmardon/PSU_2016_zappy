@@ -46,13 +46,11 @@ typedef struct s_player
 {
     // info
     // name or id ??
-    int id; // ?
+    //int id; // ?
     int team_id;
     int lvl;
-    int x;
-    int y;
-    //t_position position;
-    // direction
+    t_position pos;
+    t_position dir;
     t_ressources ress;
     int time_left;
     int act_time_left; // temp restant de l'action
@@ -126,9 +124,7 @@ int calc_elapsed(double unit);
 //t_player *get_player(t_game *game, int id); // ret player by id srch
 //t_plist *get_player_node(t_game *game, int id);
 
-// ALL CMD
-// NEED fct_table of all cmd
-typedef int (*cmd_fct)(t_server *serv, t_client *client);
+typedef int (*cmd_fct)(t_server *serv, t_client *cl);
 
 typedef struct s_cmd
 {
@@ -137,10 +133,6 @@ typedef struct s_cmd
     int cycle;
 } t_cmd;
 
-/*
-** do the cmd and/or executge 1 cycle of time only if 1 time unit has elapsed
-*/
-//int do_game(t_game *game, char *cmd, int id);
 
 /*
 ** set cycle for the next action, ret > 0 if not found/error
@@ -173,16 +165,18 @@ t_client *accept_client(t_server *server);
 t_client *create_client(int socket, struct sockaddr_in in);
 t_configuration *parse_args(int argc, char *argv[]);
 
-int forward_cmd(t_game *game, t_player *perso);
-int right_cmd(t_game *game, t_player *perso);
-int left_cmd(t_game *game, t_player *perso);
-int look_cmd(t_game *game, t_player *perso);
-int inventory_cmd(t_game *game, t_player *perso);
-int connect_nbr_cmd(t_game *game, t_player *perso); // ??
-int fork_cmd(t_game *game, t_player *perso);
-int eject_cmd(t_game *game, t_player *perso);
-int take_cmd(t_game *game, t_player *perso);
-int set_cmd(t_game *game, t_player *perso);
-int incant_cmd(t_game *game, t_player *perso);
+int forward_cmd(t_server *serv, t_client *cl);
+int right_cmd(t_server *serv, t_client *cl);
+int left_cmd(t_server *serv, t_client *cl);
+int look_cmd(t_server *serv, t_client *cl);
+int inventory_cmd(t_server *serv, t_client *cl);
+int connect_nbr_cmd(t_server *serv, t_client *cl); // ??
+int fork_cmd(t_server *serv, t_client *cl);
+int eject_cmd(t_server *serv, t_client *cl);
+int take_cmd(t_server *serv, t_client *cl);
+int set_cmd(t_server *serv, t_client *cl);
+int incant_cmd(t_server *serv, t_client *cl);
+
+void check_pos(t_game *game, t_player *plr);
 
 #endif

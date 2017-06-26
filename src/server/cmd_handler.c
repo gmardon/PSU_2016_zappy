@@ -11,14 +11,13 @@
 
 static t_cmd g_cmd_tab[] =
 {
-    /*
     {"Forward", &forward_cmd, 7},
     {"Right", &right_cmd, 7},
     {"Left", &left_cmd, 7},
-    {"Look", &look_cmd, 7},
+    /*{"Look", &look_cmd, 7},*/
     {"Inventory", &inventory_cmd, 1},
      // {"Broadcast", &broadcast_cmd, 1}, exception, take 1 arg (text)
-    {"Connect_nbr", &connect_nbr_cmd, 0},
+    /*{"Connect_nbr", &connect_nbr_cmd, 0},
     {"Fork", &fork_cmd, 42},
     {"Eject", &eject_cmd, 7},
     // {"Death", &death_cmd, 7}, execption, not a cmd ...
