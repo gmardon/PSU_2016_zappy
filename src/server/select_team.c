@@ -16,7 +16,7 @@ void handle_select_team(char *team_name, t_client *client, t_server *server)
         close_client(client, server);
         return;
     }
-    send_message(client, "%i\n", client->id);
+    //send_message(client, "%i\n", client->id);
     send_message(client, "%i %i\n", server->configuration->world_width, server->configuration->world_height);
     client->state = CLIENT_STATE_TEAM_SELECTED;
 }

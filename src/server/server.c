@@ -65,7 +65,7 @@ void handle_new_client(t_server *server, int *max)
 	t_client *client;
 
 	client = accept_client(server);
-	handle_client(client);
+
 	FD_SET(client->fd, &server->master);
 	if (client->fd > *max)
 		*max = client->fd;
