@@ -59,7 +59,7 @@ int do_one_cycle(t_game *game)
         {
             do_cmd(game, &(tmp->perso));
             // fin action -> add_evnt
-            // resp 
+            // resp
         }
         if (tmp->perso.time_left <= 0)
         {

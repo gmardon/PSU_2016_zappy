@@ -1,11 +1,11 @@
 /*
-** player.c for zappy in /home/aurelien/home/aurelien.olibe/delivery/PSU_2016_zappy/src/game
+** client_list.c for zappy in /home/aurelien/home/aurelien.olibe/delivery/PSU_2016_zappy/src/server
 ** 
 ** Made by Aurelien
 ** Login   <aurelien.olibe@epitech.eu@epitech.net>
 ** 
-** Started on  Thu Jun 22 23:46:39 2017 Aurelien
-** Last update Thu Jun 22 23:46:46 2017 Aurelien
+** Started on  Mon Jun 26 16:52:09 2017 Aurelien
+** Last update Mon Jun 26 16:52:15 2017 Aurelien
 */
 #include "server.h"
 

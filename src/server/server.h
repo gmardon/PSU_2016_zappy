@@ -62,11 +62,11 @@ typedef struct s_player
 /*
 ** chained list for player
 */
-typedef struct s_plist
+typedef struct s_clist
 {
-    t_player player;
+    t_client *client;
     struct s_plist *next;
-} t_plist;
+} t_clist;
 
 /*
 ** liste chainée pr les reponse client
@@ -90,7 +90,7 @@ typedef struct s_client
 typedef struct s_game
 {
     t_tile **map; // map[x][y] to get the tile
-    t_plist *player_list;
+    //t_clist *c_list;
     int width; // x
     int height; // y
     int freq;
@@ -122,7 +122,7 @@ int do_one_cycle(t_game *game);
 int calc_elapsed(double unit);
 
 t_player *get_player(t_game *game, int id); // ret player by id srch
-t_plist *get_player_node(t_game *game, int id);
+//t_plist *get_player_node(t_game *game, int id);
 
 // ALL CMD
 // NEED fct_table of all cmd
