@@ -11,7 +11,8 @@
 
 static t_cmd g_cmd_tab[] =
 {
-    /*{"Forward", &forward_cmd, 7},
+    /*
+    {"Forward", &forward_cmd, 7},
     {"Right", &right_cmd, 7},
     {"Left", &left_cmd, 7},
     {"Look", &look_cmd, 7},
@@ -28,17 +29,18 @@ static t_cmd g_cmd_tab[] =
     {"", 0, 0}
 };
 
-int cast_cmd(t_game *game, char *cmd, int id)
+int handle_cmd(t_server *server, t_client *client, char *cmd)
 {
     int i;
     t_player *player;
 
+    player = client->player;
     i = 0;
     while (g_cmd_tab[i].fct != 0)
     {
         if (strstr(cmd, g_cmd_tab[i].str) != NULL)
         {
-            if ((player = get_player(game, id)) == NULL)
+            if ((player) == NULL)
                 return (2);
             if (player->act_time_left > 0)
                 return (3);

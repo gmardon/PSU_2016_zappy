@@ -108,5 +108,7 @@ void start_server(t_server *server)
 				handle_io(&server->clients[index], server);
 			index++;
 		}
+		if (calc_elapsed((1000000 / server->game->freq)))
+        	do_one_cycle(server->game); // response now generated only at the end of the action ?
 	}
 }
