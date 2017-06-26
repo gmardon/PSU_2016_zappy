@@ -143,7 +143,7 @@ int do_game(t_game *game, char *cmd, int id);
 /*
 ** set cycle for the next action, ret > 0 if not found/error
 */
-int cast_cmd(t_game *game, char *cmd, int id);
+int handle_cmd(t_server *server, t_client *client, char *cmd);
 
 /*
 ** execute the action casted & generate a resp & graph evnt
