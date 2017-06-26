@@ -46,7 +46,7 @@ typedef struct s_player
 {
     // info
     // name or id ??
-    //int id; // ?
+    int id;
     int team_id;
     int lvl;
     t_position pos;
@@ -107,7 +107,6 @@ typedef struct s_server
     int max_clients;
     //t_client *clients;
     t_clist *client_list;
-    t_client *client_graph;
     t_configuration *configuration;
     t_game *game;
 }						t_server;
