@@ -9,7 +9,7 @@
 */
 #include "server.h"
 
-int new_client(t_server *server)
+int new_client(t_server *server, int socket, struct sockaddr_in in)
 {
     t_clist *tmp;
     t_perso *new;
@@ -19,20 +19,20 @@ int new_client(t_server *server)
         tmp = tmp->next;
     if ((new = malloc(sizeof(t_clist))) == NULL)
         return (1);
-    // alloc_client
+    new->client = create_client(socket, in);
     if (tmp == NULL)
-        game->client_list = new;
+        server->client_list = new;
     else
         tmp->next = new;
     return (0);
 }
 
-int del_player(t_server *server, int fd)
+int del_client(t_server *server, int fd)
 {
     t_clist *tmp;
     t_clist *old;
 
-    tmp = game->player_list;
+    tmp = server->client_list;
     old = NULL;
     while (tmp != NULL)
     {
@@ -44,9 +44,10 @@ int del_player(t_server *server, int fd)
     if (tmp == NULL)
         return (1);
     if (old == NULL)
-        game->player_list = tmp->next;
+        server->client_list = tmp->next;
     else
         old->next = tmp->next;
+    free(tmp->client):
     free(tmp);
     return (0);
 }

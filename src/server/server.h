@@ -60,15 +60,6 @@ typedef struct s_player
 } t_player;
 
 /*
-** chained list for player
-*/
-typedef struct s_clist
-{
-    t_client *client;
-    struct s_plist *next;
-} t_clist;
-
-/*
 ** liste chainée pr les reponse client
 */
 typedef struct s_rlist
@@ -77,6 +68,15 @@ typedef struct s_rlist
     char *msg;
     struct s_rlist *next;
 } t_rlist;
+
+/*
+** chained list for player
+*/
+typedef struct s_clist
+{
+    t_client *client;
+    struct s_plist *next;
+} t_clist;
 
 typedef struct s_client
 {
@@ -169,7 +169,7 @@ void handle_client(t_client *client);
 void start_server(t_server *server);
 t_server *get_server_socket(int port);
 t_client *accept_client(t_server *server);
-t_client *alloc_new_client(int socket, struct sockaddr_in in, t_server *server);
+t_client *create_client(int socket, struct sockaddr_in in);
 t_configuration *parse_args(int argc, char *argv[]);
 
 int forward_cmd(t_game *game, t_player *perso);

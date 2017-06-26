@@ -12,7 +12,7 @@ t_client *accept_client(t_server *server)
 	if ((socket = accept(server->fd, (struct sockaddr *)&in, &length)) == -1)
 		my_error("Can't accept one client connection", -1);
 	else
-	    client = alloc_new_client(socket, in, server);
+	    client = create_client(socket, in);
     return (client);
 }
 
