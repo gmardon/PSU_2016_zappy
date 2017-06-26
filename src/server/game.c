@@ -10,7 +10,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/time.h>
-#include "game.h"
+#include "server.h"
 
 //main is for exemple of use only
 /*
@@ -38,8 +38,8 @@ int do_game(t_game *game, char *cmd, int id)
     struct timeval elapsed;
 
     // need de geerer la circularaité de la map
-    if (cmd != NULL) // also need to know the player who sended the cmd
-        do_cmd(game, cmd, id);
+    //if (cmd != NULL) // also need to know the player who sended the cmd
+    //    do_cmd(game, cmd, id);
     if (calc_elapsed((1000000 / game->freq)))
         do_one_cycle(game); // response now generated only at the end of the action ?
     return (0);
@@ -49,24 +49,24 @@ int do_one_cycle(t_game *game)
 {
     t_plist *tmp;
 
-    tmp = game->perso_list;
+    tmp = game->player_list;
     while (tmp != NULL)
     {
-        tmp->perso.time_left -= 1;
-        if (tmp->perso.act_time_left > 0)
-            tmp->perso.act_time_left -= 1;
-        if (tmp->perso.act_time_left <= 0)
+        tmp->player.time_left -= 1;
+        if (tmp->player.act_time_left > 0)
+            tmp->player.act_time_left -= 1;
+        if (tmp->player.act_time_left <= 0)
         {
-            do_cmd(game, &(tmp->perso));
+            do_cmd(game, &(tmp->player));
             // fin action -> add_evnt
             // resp 
         }
-        if (tmp->perso.time_left <= 0)
+        if (tmp->player.time_left <= 0)
         {
-            if (tmp->perso.ress.food > 0)
+            if (tmp->player.ress.food > 0)
             {
-                tmp->perso.ress.food -= 1;
-                tmp->perso.time_left = 126;
+                tmp->player.ress.food -= 1;
+                tmp->player.time_left = 126;
             }
             // else    player is dead // TO DO
         }
