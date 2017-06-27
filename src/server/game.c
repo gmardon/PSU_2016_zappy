@@ -67,12 +67,12 @@ int do_one_cycle(t_server *serv)
             // fin action -> add_evnt
             // resp
         }
-        if (tmp->player->time_left <= 0)
+        if (tmp->client->player->time_left <= 0)
         {
-            if (tmp->player->ress.food > 0)
+            if (tmp->client->player->ress.food > 0)
             {
-                tmp->player->ress.food -= 1;
-                tmp->player->time_left = 126;
+                tmp->client->player->ress.food -= 1;
+                tmp->client->player->time_left = 126;
             }
             // else    player is dead // TO DO
         }

@@ -18,8 +18,8 @@ t_player *new_player(int id, int team_id)
     new->id = id;
     new->lvl = 1;
     new->team_id = team_id;
-    new->pos = {0, 0}; // generate pos & dir here ?
-    new->dir = {0, -1};
+    //new->pos = {0, 0}; // generate pos & dir here ?
+    //new->dir = {0, -1};
     new->ress = init_ress();
     new->ress.food = 9;
     new->time_left = 126;
