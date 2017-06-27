@@ -164,6 +164,8 @@ t_client *accept_client(t_server *server);
 t_client *create_client(int socket, struct sockaddr_in in);
 t_configuration *parse_args(int argc, char *argv[]);
 
+void check_pos(t_game *game, t_player *plr);
+
 int forward_cmd(t_server *serv, t_client *cl);
 int right_cmd(t_server *serv, t_client *cl);
 int left_cmd(t_server *serv, t_client *cl);
@@ -176,6 +178,19 @@ int take_cmd(t_server *serv, t_client *cl);
 int set_cmd(t_server *serv, t_client *cl);
 int incant_cmd(t_server *serv, t_client *cl);
 
-void check_pos(t_game *game, t_player *plr);
+/*
+** Graphic protocol
+*/
+int ppo_evnt(t_server *serv, t_player *plr);
+int pin_evnt(t_server *serv, t_player *plr);
+int plv_evnt(t_server *serv, t_player *plr);
+int pex_evnt(t_server *serv, t_player *plr);
+int bct_evnt(t_server *serv, int x, int y);
+int mct_evnt(t_server *serv);
+int msz_evnt(t_server *serv);
+int sgt_evnt(t_server *serv);
+int sst_evnt(t_server *serv, int freq);
+
+char *get_all_ress(t_ressources *ress);
 
 #endif
