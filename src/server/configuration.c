@@ -13,9 +13,27 @@ void validate_configuration(t_configuration *config)
   //if (config->teamNames == NULL ||
    //   config->teamNames->countLinkedList(config->teamNames) > 1)
    // Log(ERROR, "You must provide as least 1 team name.");
-  if (config->temporal_delay < 0)
-    my_error("Temporal factor must be > 0.", -1);
+  if (config->frequency < 0)
+    my_error("Frequency must be > 0.", -1);
 }
+/*
+char **parse_teams(char *teams)
+{
+
+  string			pch;
+
+  if (team == NULL || strlen(team) == 0)
+    return (NULL);
+  teams = CreateLinkedList();
+  pch = strtok(team, " \t");
+  while (pch != NULL)
+    {
+      teams->addElemFront(teams, strdup(pch));
+      pch = strtok (team, " ");
+    }
+  return (teams);
+}
+*/
 
 t_configuration *parse_args(int argc, char *argv[])
 {
@@ -23,8 +41,8 @@ t_configuration *parse_args(int argc, char *argv[])
     int	opt;
 
     config = my_malloc(sizeof(t_configuration));
-    config->temporal_delay = 0;
-    while ((opt = getopt (argc, argv, "p:x:y:c:t:n:s:")) != -1)
+    config->frequency = 100;
+    while ((opt = getopt (argc, argv, "p:x:y:c:f:n:s:")) != -1)
         {
             if (opt == 'p')
                 config->port = atoi(optarg);
@@ -34,14 +52,15 @@ t_configuration *parse_args(int argc, char *argv[])
                 config->world_height = atoi(optarg);
             else if (opt == 'c')
                 config->client_per_team = atoi(optarg);
-            else if (opt == 't')
-                config->temporal_delay = atof(optarg);
+            else if (opt == 'f')
+                config->frequency = atof(optarg);
             else if (opt == 's')
                 config->seed = atoi(optarg);
             else if (opt == 'n') 
             {
-                config->team1_name = strdup(optarg);
-                config->team2_name = strdup(argv[optind]);
+                printf("teams: %s\n", optarg);
+               // config->team1_name = strdup(optarg);
+               // config->team2_name = strdup(argv[optind]);
             }
         }
     validate_configuration(config);

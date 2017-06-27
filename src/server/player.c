@@ -9,13 +9,13 @@
 */
 #include "server.h"
 
-t_player *new_player(char *team_id)
+t_player *new_player(int id, int team_id)
 {
     t_player *new;
 
     if ((new = malloc(sizeof(t_player))) == NULL)
         return (1);
-    //new->id = id;
+    new->id = id;
     new->lvl = 1;
     new->team_id = team_id;
     new->pos = {0, 0}; // generate pos & dir here ?
@@ -25,7 +25,7 @@ t_player *new_player(char *team_id)
     new->time_left = 126;
     new->act_time_left = 0;
     new->action = NULL;
-    return (player);
+    return (new);
 }
 
 void del_player(t_player *player)
@@ -33,5 +33,4 @@ void del_player(t_player *player)
     if (player->action != NULL)
         free(player->action);
     free(player);
-    return (0);
 }

@@ -12,13 +12,19 @@ typedef struct s_position
   int			y;
 }			t_position;
 
+typedef struct s_direction
+{
+  int			x;
+  int			y;
+}			t_direction;
+
 typedef struct s_configuration
 {
     int				port;
     int				world_height;
     int				world_width;
     int				client_per_team;
-    double			temporal_delay;
+    double			frequency;
     int				seed;
     char*           team1_name;
     char*           team2_name;
@@ -50,7 +56,7 @@ typedef struct s_player
     int team_id;
     int lvl;
     t_position pos;
-    t_position dir;
+    t_direction dir;
     t_ressources ress;
     int time_left;
     int act_time_left; // temp restant de l'action
@@ -70,11 +76,6 @@ typedef struct s_rlist
 /*
 ** chained list for client
 */
-typedef struct s_clist
-{
-    t_client *client;
-    struct s_plist *next;
-} t_clist;
 
 typedef struct s_client
 {
@@ -85,8 +86,11 @@ typedef struct s_client
     t_player *player;
 }						t_client;
 
-int new_client(t_server *server, int socket, struct sockaddr_in in)
-int del_client(t_server *server/*, int fd*/);
+typedef struct s_clist
+{
+    t_client *client;
+    struct s_plist *next;
+} t_clist;
 
 typedef struct s_game
 {
@@ -105,13 +109,13 @@ typedef struct s_server
     int sock;
     fd_set master;
     int max_clients;
-    //t_client *clients;
+    t_client *clients;
     t_clist *client_list;
     t_configuration *configuration;
     t_game *game;
 }						t_server;
 
-t_player *new_player(int team_id);
+t_player *new_player(int id, int team_id);
 void del_player(t_player *player);
 
 int add_resp(t_game *game, char *resp, int player_id); // add at the back

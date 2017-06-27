@@ -23,8 +23,6 @@ t_server *create_server(t_configuration *config)
 	server = get_server_socket(config->port);
 	server->configuration = config;
 	server->max_clients = config->client_per_team * 2;
-	server->clients = calloc(server->max_clients + 1, sizeof(t_client) + 1);
-	server->clients[server->max_clients + 1].fd = -1;
 	FD_ZERO(&server->master);
 	FD_SET(server->fd, &server->master);
 	server->game = init_game(config);

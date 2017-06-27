@@ -31,7 +31,7 @@ t_game *init_game(t_configuration *configuration)
         init_tile_tab(game, i);
         i++;
     }
-    game->player_list = NULL;
+    //game->player_list = NULL;
     game->resp = NULL;
     game->freq = 100;
     return (game);

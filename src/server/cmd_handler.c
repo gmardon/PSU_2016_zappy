@@ -63,7 +63,7 @@ int do_cmd(t_server *serv, t_client *cl)
     {
         if (strstr(cl->player->action, g_cmd_tab[i].str) != NULL)
         {
-            ret = g_cmd_tab[i].fct(game, cl);
+            ret = g_cmd_tab[i].fct(serv, cl);
             free(cl->player->action);
             cl->player->action = NULL;
             return (ret);
