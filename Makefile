@@ -22,6 +22,7 @@ SRC_SERVER			=		src/server/server.c		\
 							src/server/select_team.c \
 							src/server/commands/map_cmd.c \
 							src/server/commands/move_cmd.c \
+							src/server/commands/obj_cmd.c \
 							src/server/game.c \
 							$(SRC_COMMON)
 
