@@ -8,6 +8,7 @@ typedef	struct s_cli
 {
   int	sock;
   int	port;
+  char	teamname;
   char	*addr;
   struct sockaddr_in	m_addr;
 }		t_cli;

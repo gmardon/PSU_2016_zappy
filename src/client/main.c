@@ -5,7 +5,7 @@
 ** Login   <julienN@epitech.net>
 ** 
 ** Started on  Wed Jun 28 16:00:09 2017 Julien Nabti
-** Last update Wed Jun 28 16:03:39 2017 Julien Nabti
+** Last update Wed Jun 28 17:14:12 2017 Julien Nabti
 */
 #include "client.h"
 
@@ -19,7 +19,7 @@ t_cli	*get_opt(int ac, char **av)
   client->addr = -1;
   client->port = -1;
   memset(&(client->m_addr), 0, sizeof(client->m_addr));
-  while ((opt = getopt(ac, av, "p:a:")) != -1)
+  while ((opt = getopt(ac, av, "p:n:m")) != -1)
     {
       if (opt == 'p')
 	{
@@ -31,7 +31,7 @@ t_cli	*get_opt(int ac, char **av)
 	    }
 	  printf("[*] Port set to %d ...\n", client->port);
 	}
-      else if (opt == 'a')
+      else if (opt == 'm')
 	{
 	  if ((client->addr = optarg) == NULL)
 	    {
@@ -40,8 +40,16 @@ t_cli	*get_opt(int ac, char **av)
 	    }
 	  printf("[*] Address set to %s ...\n", client->addr);
 	}
-      else
+      else if (opt = 'n')
 	{
+	  if ((client->teamname = optarg) == NULL)
+	    {
+	      printf("[!] Can't set teamname...\n");
+	      return (NULL);
+	    }
+	}
+      else
+      	{
 	  printf("[!] Unrecognized arg : %c\n", opt);
 	  return (NULL);
 	}
@@ -49,6 +57,7 @@ t_cli	*get_opt(int ac, char **av)
   return (client);
 }
 
+  
 t_cli	*initCli(t_cli *client)
 {
   int	i = 1;
