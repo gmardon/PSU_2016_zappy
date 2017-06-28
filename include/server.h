@@ -5,6 +5,8 @@
 # define GRAPHIC -2
 # define CLIENT_STATE_CONNECTED 1
 # define CLIENT_STATE_TEAM_SELECTED 2
+# define MAX_CLI 1023
+
 
 typedef struct s_position
 {
@@ -89,7 +91,8 @@ typedef struct s_client
 typedef struct s_clist
 {
     t_client *client;
-    struct s_plist *next;
+    /* struct s_plist *next; */
+  struct s_clist *next;
 } t_clist;
 
 typedef struct s_game
