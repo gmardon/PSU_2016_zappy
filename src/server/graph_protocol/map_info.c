@@ -20,7 +20,7 @@ int bct_evnt(t_server *serv, int x, int y)
     if ((tmp = get_all_ress(&(serv->game->map[x][y].ress))) == NULL)
         return (1);
     sprintf(ret, "bct %d %d %s\n", x, y, tmp);
-    add_resp(serv->game, ret, plr->id);
+    //add_resp(serv->game, ret, plr->id); TODO add player to function
     free(tmp);
     free(ret);
     return (0);
@@ -53,7 +53,7 @@ int msz_evnt(t_server *serv)
         return (1);
     sprintf(ret, "msz %d %d\n", serv->game->width,
     serv->game->height);
-    add_resp(serv->game, ret, plr->id);
+    //add_resp(serv->game, ret, plr->id);  TODO give player to function
     free(ret);
     return (0);
 }

@@ -15,8 +15,8 @@ int forward_cmd(t_server *serv, t_client *cl)
 
     if ((plr = cl->player) == NULL)
         return (1);
-    plr->pos.x += plr->dir.x
-    plr->pos.y += plr->dir.y
+    plr->pos.x += plr->dir.x;
+    plr->pos.y += plr->dir.y;
     check_pos(serv->game, plr);
     add_resp(serv->game, "ok\n", cl->fd);
     return (0);
@@ -26,7 +26,7 @@ int right_cmd(t_server *serv, t_client *cl)
 {
     t_player *plr;
 
-    if ((plr = cl->player) == NULL)$
+    if ((plr = cl->player) == NULL)
         return (1);
     if (plr->dir.x != 0)
     {
@@ -47,7 +47,7 @@ int left_cmd(t_server *serv, t_client *cl)
 {
     t_player *plr;
 
-    if ((plr = cl->player) == NULL)$
+    if ((plr = cl->player) == NULL)
         return (1);
     if (plr->dir.x != 0)
     {

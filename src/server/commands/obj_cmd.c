@@ -12,7 +12,7 @@
 int inventory_cmd(t_server *serv, t_client *cl)
 {
     char *resp;
-    t_playetr *player;
+    t_player *player;
 
     if ((resp = malloc(sizeof(char) * 444)) == NULL)
         return (1);
@@ -25,7 +25,7 @@ int inventory_cmd(t_server *serv, t_client *cl)
     sprintf(resp, "%s, phiras %d", resp, player->ress.phiras);
     sprintf(resp, "%s, thystame %d", resp, player->ress.thystame);
     sprintf(resp, "%s, food %d]\n", resp, player->ress.food);
-    add_resp(game, resp, player->id);
+    add_resp(serv->game, resp, player->id);
     free(resp);
     return (0);
 }
