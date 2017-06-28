@@ -28,8 +28,7 @@ typedef struct s_configuration
     int				client_per_team;
     double			frequency;
     int				seed;
-    char*           team1_name;
-    char*           team2_name;
+    char**           teams;
 }				t_configuration;
 
 typedef struct s_ressources
