@@ -23,6 +23,9 @@ SRC_SERVER			=		src/server/server.c		\
 							src/server/commands/map_cmd.c \
 							src/server/commands/move_cmd.c \
 							src/server/commands/obj_cmd.c \
+							src/server/graph_protocol/game_info.c \
+							src/server/graph_protocol/map_info.c \
+							src/server/graph_protocol/player_info.c \
 							src/server/game.c \
 							$(SRC_COMMON)
 
@@ -38,11 +41,11 @@ CFLAGS			=		-W -Wall -Wextra -g -I./include/ -g
 
 all:			zappy_ai zappy_server
 
-zappy_server:			$(OBJ_SERVER)
-				gcc -I./src/server/ -o $(NAME_SERVER) $(OBJ_SERVER) $(CFLAGS) -lm
+zappy_server:			$(OBJ_SERVER) 
+				gcc -o $(NAME_SERVER) $(OBJ_SERVER) $(CFLAGS) -lm
 
 zappy_ai:			$(OBJ_AI)
-				gcc -I./src/ai/ -o $(NAME_AI) $(OBJ_AI) $(CFLAGS) 
+				gcc -o $(NAME_AI) $(OBJ_AI) $(CFLAGS) 
 
 clean:
 				rm -rf $(OBJ_SERVER)
