@@ -1,5 +1,7 @@
 NAME_SERVER			=		zappy_server
 
+NAME_CLI			=		zappy_client
+
 NAME_AI				=		zappy_ai
 
 SRC_COMMON			= 		src/my_malloc.c			\
@@ -30,6 +32,9 @@ SRC_SERVER			=		src/server/server.c		\
 							src/server/game.c \
 							$(SRC_COMMON)
 
+SRC_CLI				=		src/client/instructions.c \
+						src/client/main.c
+
 SRC_AI				=		src/ai/main.c		\
 							src/ai/configuration.c \
 							$(SRC_COMMON)
@@ -37,6 +42,8 @@ SRC_AI				=		src/ai/main.c		\
 OBJ_SERVER			=		$(SRC_SERVER:.c=.o)
 
 OBJ_AI			=		$(SRC_AI:.c=.o)
+
+OBJ_CLI			=		$(SRC_CLI:.c=.o)
 
 CFLAGS			=		-W -Wall -Wextra -g -I./include/ -g
 
@@ -47,6 +54,9 @@ zappy_server:			$(OBJ_SERVER)
 
 zappy_ai:			$(OBJ_AI)
 				gcc -o $(NAME_AI) $(OBJ_AI) $(CFLAGS) 
+
+client:				$(OBJ_CLI)
+				gcc -o $(NAME_CLI) $(OBJ_CLI) $(CFLAGS)
 
 clean:
 				rm -rf $(OBJ_SERVER)

@@ -5,7 +5,7 @@
 ** Login   <aurelien.olibe@epitech.eu@epitech.net>
 ** 
 ** Started on  Mon Jun 26 16:58:18 2017 Aurelien
-** Last update Mon Jun 26 16:58:30 2017 Aurelien
+** Last update Wed Jun 28 12:21:41 2017 Julien Nabti
 */
 #include "server.h"
 
@@ -24,6 +24,7 @@ int add_client(t_server *server, t_client *client)
         server->client_list = new;
     else
         tmp->next = new;
+    server->max_clients++;
     return (0);
 }
 
@@ -49,6 +50,7 @@ int del_client(t_server *server, int fd)
         old->next = tmp->next;
     free(tmp->client);
     free(tmp);
+    server->max_clients--;
     return (0);
 }
 
