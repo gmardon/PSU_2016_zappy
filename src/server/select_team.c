@@ -2,17 +2,19 @@
 
 void handle_select_team(char *team_name, t_client *client, t_server *server)
 {
-  //if (!(server->configuration->team1_name))
-  //  client->team_id = 1;
-  if (strcmp(team_name, server->configuration->team1_name) == 0)
+  int index; 
+
+  index = 0;
+  client->team_id = -1;
+  while (server->configuration->teams[index])
+  {
+    if (strcmp(team_name, server->configuration->teams[index]) == 0)
     {
-      client->team_id = 1;
+      client->team_id = index;
     }
-  else if (strcmp(team_name, server->configuration->team2_name) == 0)
-    {
-      client->team_id = 2;
-    }
-  else
+    index++;
+  }
+  if (client->team_id == -1)
     {
       send_message(client, "ko\n");
       close_client(client, server);
