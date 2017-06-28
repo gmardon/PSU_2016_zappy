@@ -67,7 +67,7 @@ void handle_new_client(t_server *server, int *max)
 	FD_SET(client->fd, &server->master);
 	if (client->fd > *max)
 		*max = client->fd;
-	
+
 	if (clients_length(server->client_list) >= server->max_clients) 
 	{
 		send_message(client, "MAX USER REACHED\n");
@@ -88,29 +88,25 @@ void start_server(t_server *server)
 	fd_set read_fds;
 	t_client *client;
 	t_clist *tmp;
+	struct timeval tv = {1, 0};
 
 	max = server->fd;
 	printf("start on port %d, waiting for connections...\n", server->configuration->port);
 	while (TRUE)
 	{
 		read_fds = server->master;
-		if (select(max + 1, &read_fds, NULL, NULL, 0) == -1)
+		if (select(max + 1, &read_fds, NULL, NULL, &tv) == -1)
 			my_error("select", -1);
 		if (FD_ISSET(server->fd, &read_fds))
 			handle_new_client(server, &max);
 		index = 0;
 		
-
 		tmp = server->client_list;
-		while (tmp != NULL && tmp->next != NULL)
-			
-		//while (server->clients[index].fd > 0 && index != server->max_clients)
+		while (tmp != NULL)
 		{
-			tmp = tmp->next;
-
 			if (FD_ISSET(tmp->client->fd, &read_fds))
 				handle_io(&tmp->client, server);
-			index++;
+			tmp = tmp->next;
 		}
 		if (calc_elapsed((1000000 / server->game->freq)))
         	do_one_cycle(server);
