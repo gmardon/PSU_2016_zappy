@@ -2,8 +2,8 @@
 
 void handle_select_team(char *team_name, t_client *client, t_server *server)
 {
-  if (!(server->configuration->team1_name))
-    client->team_id = 1;
+  //if (!(server->configuration->team1_name))
+  //  client->team_id = 1;
   if (strcmp(team_name, server->configuration->team1_name) == 0)
     {
       client->team_id = 1;
