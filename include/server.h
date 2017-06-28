@@ -28,7 +28,7 @@ typedef struct s_configuration
     int				client_per_team;
     double			frequency;
     int				seed;
-    char**           teams;
+    char**          teams;
 }				t_configuration;
 
 typedef struct s_ressources
@@ -109,6 +109,7 @@ typedef struct s_server
 	int fd;
 	struct sockaddr_in in;
     int sock;
+    int max_id;
     fd_set master;
     int max_clients;
   //  t_client *clients;

@@ -11,6 +11,7 @@ void handle_select_team(char *team_name, t_client *client, t_server *server)
     if (strcmp(team_name, server->configuration->teams[index]) == 0)
     {
       client->team_id = index;
+      break;
     }
     index++;
   }
@@ -20,7 +21,8 @@ void handle_select_team(char *team_name, t_client *client, t_server *server)
       close_client(client, server);
       return;
     }
-    //send_message(client, "%i\n", client->id);
-    send_message(client, "%i %i\n", server->configuration->world_width, server->configuration->world_height);
-    client->state = CLIENT_STATE_TEAM_SELECTED;
+  client->player = new_player(server->game, server->max_id++);
+  //send_message(client, "%i\n", client->id);
+  send_message(client, "%i %i\n", server->configuration->world_width, server->configuration->world_height);
+  client->state = CLIENT_STATE_TEAM_SELECTED;
 }

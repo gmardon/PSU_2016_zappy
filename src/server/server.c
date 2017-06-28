@@ -22,6 +22,7 @@ t_server *create_server(t_configuration *config)
 	server = get_server_socket(config->port);
 	server->configuration = config;
 	server->max_clients = config->client_per_team * 2;
+	server->max_id = 0;
 	FD_ZERO(&server->master);
 	FD_SET(server->fd, &server->master);
 	server->game = init_game(config);
@@ -64,7 +65,6 @@ void handle_new_client(t_server *server, int *max)
 	t_clist *tmp;
 
 	client = accept_client(server);
-
 	FD_SET(client->fd, &server->master);
 	if (client->fd > *max)
 		*max = client->fd;
@@ -78,7 +78,7 @@ void handle_new_client(t_server *server, int *max)
 	else
 		add_client(server, client);
 
-	printf("New client connected from <%s:%d>\n", get_client_addr(client->in), get_client_port(client->in));
+	printf("New client connected from <%s:%d> with id %i\n", get_client_addr(client->in), get_client_port(client->in));
     send_message(client, "WELCOME\n");
 }
 
