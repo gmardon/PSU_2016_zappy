@@ -12,6 +12,7 @@ SRC_SERVER			=		src/server/server.c		\
 							src/server/server_socket.c \
 							src/server/main.c		\
 							src/server/client.c 	\
+							src/server/client_list.c \
 							src/server/client_utils.c 	\
 							src/server/configuration.c \
 							src/server/cmd_handler.c    \

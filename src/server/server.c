@@ -2,7 +2,6 @@
 
 t_client *create_client(int socket, struct sockaddr_in in)
 {
-	int opt;
 	t_client *client;
 
 	client = my_malloc(sizeof(t_client));
@@ -61,23 +60,22 @@ void handle_new_client(t_server *server, int *max)
 {
 	int index;
 	t_client *client;
+	t_clist *tmp;
 
 	client = accept_client(server);
 
 	FD_SET(client->fd, &server->master);
 	if (client->fd > *max)
 		*max = client->fd;
-	index = 0;
-	while (server->clients[index].fd < 0 && index != server->max_clients)
-		index++;
-	if (index == server->max_clients)
+	
+	if (clients_length(server->client_list) >= server->max_clients) 
 	{
 		send_message(client, "MAX USER REACHED\n");
 		close_client(client);
 		return;
 	}
 	else
-		server->clients[index] = *client;
+		add_client(server, client);
 
 	printf("New client connected from <%s:%d>\n", get_client_addr(client->in), get_client_port(client->in));
     send_message(client, "WELCOME\n");
@@ -89,6 +87,7 @@ void start_server(t_server *server)
 	int index;
 	fd_set read_fds;
 	t_client *client;
+	t_clist *tmp;
 
 	max = server->fd;
 	printf("start on port %d, waiting for connections...\n", server->configuration->port);
@@ -100,10 +99,17 @@ void start_server(t_server *server)
 		if (FD_ISSET(server->fd, &read_fds))
 			handle_new_client(server, &max);
 		index = 0;
-		while (server->clients[index].fd > 0 && index != server->max_clients)
+		
+
+		tmp = server->client_list;
+		while (tmp != NULL && tmp->next != NULL)
+			
+		//while (server->clients[index].fd > 0 && index != server->max_clients)
 		{
-			if (FD_ISSET(server->clients[index].fd, &read_fds))
-				handle_io(&server->clients[index], server);
+			tmp = tmp->next;
+
+			if (FD_ISSET(tmp->client->fd, &read_fds))
+				handle_io(&tmp->client, server);
 			index++;
 		}
 		if (calc_elapsed((1000000 / server->game->freq)))

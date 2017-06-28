@@ -109,7 +109,7 @@ typedef struct s_server
     int sock;
     fd_set master;
     int max_clients;
-    t_client *clients;
+  //  t_client *clients;
     t_clist *client_list;
     t_configuration *configuration;
     t_game *game;
@@ -168,7 +168,6 @@ t_client *accept_client(t_server *server);
 t_client *create_client(int socket, struct sockaddr_in in);
 t_configuration *parse_args(int argc, char *argv[]);
 void send_message(t_client *client, char *msg, ...);
-
 void check_pos(t_game *game, t_player *plr);
 
 int forward_cmd(t_server *serv, t_client *cl);

@@ -22,6 +22,7 @@ void close_client(t_client *client, t_server *server)
     if (client->fd > 0)
     {
         FD_CLR(client->fd, &server->master);
+        del_client(server, client->fd);
         close(client->fd);
     }
     client->fd = 0;

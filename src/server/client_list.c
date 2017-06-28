@@ -9,17 +9,17 @@
 */
 #include "server.h"
 
-int new_client(t_server *server, int socket, struct sockaddr_in in)
+int add_client(t_server *server, t_client *client)
 {
     t_clist *tmp;
-    t_perso *new;
+    t_clist *new;
 
     tmp = server->client_list;
     while (tmp != NULL && tmp->next != NULL)
         tmp = tmp->next;
     if ((new = malloc(sizeof(t_clist))) == NULL)
         return (1);
-    new->client = create_client(socket, in);
+    new->client = client;
     if (tmp == NULL)
         server->client_list = new;
     else
@@ -47,7 +47,22 @@ int del_client(t_server *server, int fd)
         server->client_list = tmp->next;
     else
         old->next = tmp->next;
-    free(tmp->client):
+    free(tmp->client);
     free(tmp);
     return (0);
+}
+
+int clients_length(t_clist *client_list)
+{
+    t_clist *tmp;
+    int i;
+
+    i = 0;
+    tmp = client_list;
+    while (tmp != NULL)
+    {
+        tmp = tmp->next;
+        i++;
+    }
+    return (i);
 }

@@ -9,4 +9,5 @@ typedef struct s_configuration
     char*			machine;
 }				t_configuration;
 
+t_configuration *parse_args(int argc, char *argv[]);
 #endif
