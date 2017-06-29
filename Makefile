@@ -37,6 +37,20 @@ SRC_CLI				=		src/client/instructions.c \
 
 SRC_AI				=		src/ai/main.c		\
 							src/ai/configuration.c \
+							src/ai/client.c \
+							src/ai/destroy_client.c \
+							src/ai/init_client.c \
+							src/ai/init.c \
+							src/ai/invent.c \
+							src/ai/items.c \
+							src/ai/lay.c \
+							src/ai/listen.c \
+							src/ai/main.c \
+							src/ai/move.c \
+							src/ai/opt.c \
+							src/ai/send.c \
+							src/ai/take.c \
+							src/ai/go_ojb.c \
 							$(SRC_COMMON)
 
 OBJ_SERVER			=		$(SRC_SERVER:.c=.o)
