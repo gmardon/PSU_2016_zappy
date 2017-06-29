@@ -9,6 +9,27 @@
 */
 #include "server.h"
 
+int send_all_resp(t_server* serv)
+{
+    t_rlist *tmp;
+    t_rlist *old;
+    t_client *cl;
+
+    tmp = serv->game->resp;
+    while (tmp != NULL)
+    {
+        if (tmp->id != GRAPHIC)
+        {
+            if ((cl = get_cl_by_id(serv, tmp->id)) != NULL)
+                send_message(cl, tmp->msg);
+        }
+        old = tmp;
+        tmp = tmp->next;
+        del_resp(serv->game, old);
+    }
+    return (0);
+}
+
 int add_resp(t_game *game, char *resp, int player_id)
 {
     t_rlist *tmp;

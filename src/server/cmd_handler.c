@@ -25,6 +25,7 @@ static t_cmd g_cmd_tab[] =
     {"Set", &set_cmd, 7}, // take 1 arg
     {"Incantation", &incant_cmd, 300}, // not regular...
     */
+    //{"ppo", &ppo_cmd, 0}, // take 1 arg
     {"", 0, 0}
 };
 
@@ -49,8 +50,9 @@ int handle_cmd(t_server *server, t_client *client, char *cmd)
         }
         i++;
     }
+    add_resp(server->game, "404 command not found\n", client->player->id);
     // NEED check if cmd is ok
-    return (1);
+    return (404);
 }
 
 int do_cmd(t_server *serv, t_client *cl)
@@ -59,6 +61,8 @@ int do_cmd(t_server *serv, t_client *cl)
     int ret;
 
     i = ret = 0;
+    if (cl->player->action == NULL)
+        return (1);
     while (g_cmd_tab[i].fct != 0)
     {
         if (strstr(cl->player->action, g_cmd_tab[i].str) != NULL)

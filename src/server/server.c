@@ -20,6 +20,7 @@ t_server *create_server(t_configuration *config)
 	t_server *server;
 
 	server = get_server_socket(config->port);
+	server->client_list = NULL;
 	server->configuration = config;
 	server->max_clients = config->client_per_team * 2;
 	server->max_id = 0;
@@ -39,7 +40,7 @@ void handle_io(t_client *client, t_server *server)
 	buffer = my_malloc(BUFFER_SIZE);
 	memset(buffer, 0, BUFFER_SIZE);
 	printf("handle io with fd: %d\n", client->fd);
-	rc = recv(client->fd, buffer, sizeof(buffer), 0);
+	rc = recv(client->fd, buffer, BUFFER_SIZE/*sizeof(buffer)*/, 0);
 	if (rc < 0)
 	{
 		if (errno != EWOULDBLOCK)
@@ -52,9 +53,9 @@ void handle_io(t_client *client, t_server *server)
 		return;
 	}
 	len = rc;
-	printf("< %s", buffer);
 	if (buffer[rc - 1] == '\n')
 		buffer[rc - 1] = 0;
+	printf("< %s\n", buffer);
 	handle_client_message(buffer, client, server);
 }
 
@@ -111,5 +112,6 @@ void start_server(t_server *server)
 		}
 		if (calc_elapsed((1000000 / server->game->freq)))
         	do_one_cycle(server);
+		send_all_resp(server);
 	}
 }

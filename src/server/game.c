@@ -63,7 +63,7 @@ int do_one_cycle(t_server *serv)
             player->act_time_left -= 1;
         if (player->act_time_left <= 0)
         {
-            do_cmd(serv, player);
+            do_cmd(serv, tmp->client);
             // fin action -> add_evnt
             // resp
         }

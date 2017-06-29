@@ -20,6 +20,7 @@ int add_client(t_server *server, t_client *client)
     if ((new = malloc(sizeof(t_clist))) == NULL)
         return (1);
     new->client = client;
+    new->next = NULL;
     if (tmp == NULL)
         server->client_list = new;
     else
@@ -67,4 +68,23 @@ int clients_length(t_clist *client_list)
         i++;
     }
     return (i);
+}
+
+t_client *get_cl_by_id(t_server *serv, int id)
+{
+    t_clist *tmp;
+    t_client *ret;
+
+    ret = NULL;
+    tmp = serv->client_list;
+    while (tmp != NULL)
+    {
+        if (tmp->client->player != NULL && tmp->client->player->id == id)
+        {
+            ret = tmp->client;
+            break;
+        }
+        tmp = tmp->next;
+    }
+    return (ret);
 }

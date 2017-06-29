@@ -108,7 +108,7 @@ typedef struct s_server
 {
 	int fd;
 	struct sockaddr_in in;
-    int sock;
+    // int sock;
     int max_id;
     fd_set master;
     int max_clients;
@@ -123,6 +123,7 @@ void del_player(t_player *player);
 
 int add_resp(t_game *game, char *resp, int player_id); // add at the back
 int del_resp(t_game *game, t_rlist *node);
+int send_all_resp(t_server* serv);
 
 int do_one_cycle(t_server *serv);
 int calc_elapsed(double unit);
@@ -172,6 +173,7 @@ t_client *create_client(int socket, struct sockaddr_in in);
 t_configuration *parse_args(int argc, char *argv[]);
 void send_message(t_client *client, char *msg, ...);
 void check_pos(t_game *game, t_player *plr);
+t_client *get_cl_by_id(t_server *serv, int id);
 
 int forward_cmd(t_server *serv, t_client *cl);
 int right_cmd(t_server *serv, t_client *cl);
