@@ -17,14 +17,14 @@ static t_cmd g_cmd_tab[] =
     /*{"Look", &look_cmd, 7},*/
     {"Inventory", &inventory_cmd, 1},
      // {"Broadcast", &broadcast_cmd, 1}, exception, take 1 arg (text)
-    /*{"Connect_nbr", &connect_nbr_cmd, 0},
-    {"Fork", &fork_cmd, 42},
-    {"Eject", &eject_cmd, 7},
+    //{"Connect_nbr", &connect_nbr_cmd, 0},
+    //{"Fork", &fork_cmd, 42},
+    //{"Eject", &eject_cmd, 7},
     // {"Death", &death_cmd, 7}, execption, not a cmd ...
     {"Take", &take_cmd, 7}, // take 1 arg
     {"Set", &set_cmd, 7}, // take 1 arg
-    {"Incantation", &incant_cmd, 300}, // not regular...
-    */
+    //{"Incantation", &incant_cmd, 300}, // not regular...
+    
     //{"ppo", &ppo_cmd, 0}, // take 1 arg
     {"", 0, 0}
 };
@@ -45,7 +45,7 @@ int handle_cmd(t_server *server, t_client *client, char *cmd)
             if (player->act_time_left > 0)
                 return (3);
             player->act_time_left = g_cmd_tab[i].cycle;
-            player->action = strdup(g_cmd_tab[i].str);
+            player->action = strdup(cmd);
             return (0);
         }
         i++;

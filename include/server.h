@@ -157,7 +157,8 @@ int do_cmd(t_server *serv, t_client *cl);
 */
 t_game *init_game(t_configuration *configuration);
 void init_tile_tab(t_game *game, int i);
-t_ressources init_ress(int gen); // maybe generate ressources here ?
+t_ressources init_ress(int gen);
+int *get_ress_by_name(t_ressources *ress, char *name);
 void handle_select_team(char *team_name, t_client *client, t_server *server);
 void handle_client_message(char *message, t_client *client, t_server *server);
 void handle_new_client(t_server *server, int *max);

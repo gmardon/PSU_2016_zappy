@@ -29,3 +29,84 @@ int inventory_cmd(t_server *serv, t_client *cl)
     free(resp);
     return (0);
 }
+
+int set_cmd(t_server *serv, t_client *cl)
+{
+    t_ressources *re;
+    int *obj;
+    char *str;
+
+    re = &(cl->player->ress);
+    if ((str = strstr(cl->player->action, "Set")) == NULL)
+        return (666);
+    str += (uintptr_t) 4;
+    while (*str == ' ')
+        str += (uintptr_t) 1;
+    if ((obj = get_ress_by_name(re, str)) == NULL || *obj <= 0)
+    {
+        add_resp(serv->game, "ko\n", cl->player->id);
+        return (404); // obj not found
+    }
+    *obj -= 1;
+    re = &(serv->game->map[cl->player->pos.x][cl->player->pos.y].ress);
+    obj = get_ress_by_name(re, str); // can't return NULL (i hope)
+    *obj += 1;
+    add_resp(serv->game, "ok\n", cl->player->id);
+    return (0);
+}
+
+int take_cmd(t_server *serv, t_client *cl)
+{
+    t_ressources *re;
+    int *obj;
+    char *str;
+
+    re = &(serv->game->map[cl->player->pos.x][cl->player->pos.y].ress);
+    printf("Take: cl.player.Action = %s\n", cl->player->action);
+    if ((str = strstr(cl->player->action, "Take")) == NULL)
+        return (666);
+    printf("Take: str_before = %s\n", str);
+    str += (uintptr_t) 4;
+    while (*str == ' ')
+        str += (uintptr_t) 1;
+    if ((obj = get_ress_by_name(re, str)) == NULL || *obj <= 0)
+    {
+        printf("Take: parsed str = %s\n", str);
+        add_resp(serv->game, "ko\n", cl->player->id);
+        return (404); // obj not found
+    }
+    *obj -= 1;
+    re = &(cl->player->ress);
+    obj = get_ress_by_name(re, str); // can't return NULL (i hope)
+    *obj += 1;
+    add_resp(serv->game, "ok\n", cl->player->id);
+
+    char *tmp;
+    if ((tmp = get_all_ress(&(serv->game->map[cl->player->pos.x][cl->player->pos.y].ress))) == NULL)
+        return (1);
+    printf("Take: tile: x=%d y=%d, %s\n");
+    free(tmp);
+    return (0);
+}
+
+int *get_ress_by_name(t_ressources *ress, char *name)
+{
+    int *ret;
+
+    ret = NULL;
+    if (strstr(name, "linemate") != NULL)
+        ret = &(ress->linemate);
+    else if (strstr(name, "deraumere") != NULL)
+        ret = &(ress->deraumere);
+    else if (strstr(name, "sibur") != NULL)
+        ret = &(ress->sibur);
+    else if (strstr(name, "mendiane") != NULL)
+        ret = &(ress->mendiane);
+    else if (strstr(name, "phiras") != NULL)
+        ret = &(ress->phiras);
+    else if (strstr(name, "thystame") != NULL)
+        ret = &(ress->thystame);
+    else if (strstr(name, "food") != NULL)
+        ret = &(ress->food);
+    return (ret);
+}
