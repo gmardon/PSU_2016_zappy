@@ -18,13 +18,11 @@ int inventory_cmd(t_server *serv, t_client *cl)
         return (1);
     if ((player = cl->player) == NULL)
         return (2);
-    sprintf(resp, "[linemate %d", player->ress.linemate);
-    sprintf(resp, "%s, deraumere %d", resp, player->ress.deraumere);
-    sprintf(resp, "%s, sibur %d", resp, player->ress.sibur);
-    sprintf(resp, "%s, mendiane %d", resp, player->ress.mendiane);
-    sprintf(resp, "%s, phiras %d", resp, player->ress.phiras);
-    sprintf(resp, "%s, thystame %d", resp, player->ress.thystame);
-    sprintf(resp, "%s, food %d]\n", resp, player->ress.food);
+    sprintf(resp, "[linemate %d"" deraumere %d"" sibur %d"
+    " mendiane %d"" phiras %d"" thystame %d"" food %d]\n",
+    player->ress.linemate, player->ress.deraumere, player->ress.sibur,
+    player->ress.mendiane, player->ress.phiras, player->ress.thystame,
+    player->ress.food);
     add_resp(serv->game, resp, player->id);
     free(resp);
     return (0);
@@ -62,16 +60,13 @@ int take_cmd(t_server *serv, t_client *cl)
     char *str;
 
     re = &(serv->game->map[cl->player->pos.x][cl->player->pos.y].ress);
-    printf("Take: cl.player.Action = %s\n", cl->player->action);
     if ((str = strstr(cl->player->action, "Take")) == NULL)
         return (666);
-    printf("Take: str_before = %s\n", str);
     str += (uintptr_t) 4;
     while (*str == ' ')
         str += (uintptr_t) 1;
     if ((obj = get_ress_by_name(re, str)) == NULL || *obj <= 0)
     {
-        printf("Take: parsed str = %s\n", str);
         add_resp(serv->game, "ko\n", cl->player->id);
         return (404); // obj not found
     }
@@ -80,12 +75,6 @@ int take_cmd(t_server *serv, t_client *cl)
     obj = get_ress_by_name(re, str); // can't return NULL (i hope)
     *obj += 1;
     add_resp(serv->game, "ok\n", cl->player->id);
-
-    char *tmp;
-    if ((tmp = get_all_ress(&(serv->game->map[cl->player->pos.x][cl->player->pos.y].ress))) == NULL)
-        return (1);
-    printf("Take: tile: x=%d y=%d, %s\n");
-    free(tmp);
     return (0);
 }
 
