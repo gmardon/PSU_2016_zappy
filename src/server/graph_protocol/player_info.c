@@ -26,7 +26,7 @@ int ppo_evnt(t_server *serv, t_player *plr)
         orient = 4;
     sprintf(ret, "ppo #%d %d %d %d\n",
     plr->id, plr->pos.x, plr->pos.y, orient);
-    add_resp(serv->game, ret, plr->id);
+    add_resp(serv->game, ret, GRAPHIC);
     free(ret);
     return (0);
 }
@@ -39,7 +39,7 @@ int plv_evnt(t_server *serv, t_player *plr)
         return (1);
     sprintf(ret, "plv #%d %d\n",
     plr->id, plr->lvl);
-    add_resp(serv->game, ret, plr->id);
+    add_resp(serv->game, ret, GRAPHIC);
     free(ret);
     return (0);
 }
@@ -55,7 +55,7 @@ int pin_evnt(t_server *serv, t_player *plr)
         return (1);
     sprintf(ret, "pin #%d %d %d %s\n",
     plr->id, plr->pos.x, plr->pos.y, tmp);
-    add_resp(serv->game, ret, plr->id);
+    add_resp(serv->game, ret, GRAPHIC);
     free(tmp);
     free(ret);
     return (0);

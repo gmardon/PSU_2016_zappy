@@ -178,14 +178,14 @@ t_client *get_cl_by_id(t_server *serv, int id);
 int forward_cmd(t_server *serv, t_client *cl);
 int right_cmd(t_server *serv, t_client *cl);
 int left_cmd(t_server *serv, t_client *cl);
-int look_cmd(t_server *serv, t_client *cl);
+//int look_cmd(t_server *serv, t_client *cl);
 int inventory_cmd(t_server *serv, t_client *cl);
-int connect_nbr_cmd(t_server *serv, t_client *cl); // ??
-int fork_cmd(t_server *serv, t_client *cl);
-int eject_cmd(t_server *serv, t_client *cl);
+//int connect_nbr_cmd(t_server *serv, t_client *cl); // ??
+//int fork_cmd(t_server *serv, t_client *cl);
+//int eject_cmd(t_server *serv, t_client *cl);
 int take_cmd(t_server *serv, t_client *cl);
 int set_cmd(t_server *serv, t_client *cl);
-int incant_cmd(t_server *serv, t_client *cl);
+//int incant_cmd(t_server *serv, t_client *cl);
 
 /*
 ** Graphic protocol
