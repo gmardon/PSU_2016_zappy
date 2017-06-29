@@ -39,8 +39,7 @@ void handle_io(t_client *client, t_server *server)
 
 	buffer = my_malloc(BUFFER_SIZE);
 	memset(buffer, 0, BUFFER_SIZE);
-	printf("handle io with fd: %d\n", client->fd);
-	rc = recv(client->fd, buffer, BUFFER_SIZE/*sizeof(buffer)*/, 0);
+	rc = recv(client->fd, buffer, BUFFER_SIZE, 0);
 	if (rc < 0)
 	{
 		if (errno != EWOULDBLOCK)
@@ -78,8 +77,7 @@ void handle_new_client(t_server *server, int *max)
 	}
 	else
 		add_client(server, client);
-
-	printf("New client connected from <%s:%d> with id %i\n", get_client_addr(client->in), get_client_port(client->in));
+	printf("New client connected from <%s:%d>\n", get_client_addr(client->in), get_client_port(client->in));
     send_message(client, "WELCOME\n");
 }
 
