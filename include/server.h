@@ -6,7 +6,7 @@
 # define CLIENT_STATE_CONNECTED 1
 # define CLIENT_STATE_TEAM_SELECTED 2
 # define MAX_CLI 1023
-
+# define MAX_RESS_TILE 6
 
 typedef struct s_position
 {
@@ -118,7 +118,7 @@ typedef struct s_server
     t_game *game;
 }						t_server;
 
-t_player *new_player(int id, int team_id);
+t_player *new_player(t_server *serv, int id, int team_id);
 void del_player(t_player *player);
 
 int add_resp(t_game *game, char *resp, int player_id); // add at the back
@@ -157,7 +157,7 @@ int do_cmd(t_server *serv, t_client *cl);
 */
 t_game *init_game(t_configuration *configuration);
 void init_tile_tab(t_game *game, int i);
-t_ressources init_ress(); // maybe generate ressources here ?
+t_ressources init_ress(int gen); // maybe generate ressources here ?
 void handle_select_team(char *team_name, t_client *client, t_server *server);
 void handle_client_message(char *message, t_client *client, t_server *server);
 void handle_new_client(t_server *server, int *max);

@@ -9,7 +9,7 @@
 */
 #include "server.h"
 
-t_player *new_player(int id, int team_id)
+t_player *new_player(t_server *serv, int id, int team_id)
 {
     t_player *new;
 
@@ -18,11 +18,11 @@ t_player *new_player(int id, int team_id)
     new->id = id;
     new->lvl = 1;
     new->team_id = team_id;
-    //new->pos = {0, 0}; // generate pos & dir here ?
-    //new->dir = {0, -1};
-    new->pos.x = new->pos.y = new->dir.x = 0;
+    new->pos.x = rand() % serv->configuration->world_width;
+    new->pos.y = rand() % serv->configuration->world_height;
+    new->dir.x = 0;
     new->dir.y = -1;
-    new->ress = init_ress();
+    new->ress = init_ress(0);
     new->ress.food = 9;
     new->time_left = 126;
     new->act_time_left = 0;

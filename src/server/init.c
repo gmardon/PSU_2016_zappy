@@ -32,6 +32,7 @@ t_game *init_game(t_configuration *configuration)
         i++;
     }
     //game->player_list = NULL;
+    srand(time(NULL));
     game->resp = NULL;
     game->freq = 100;
     return (game);
@@ -44,15 +45,32 @@ void init_tile_tab(t_game *game, int i)
     j = 0;
     while (j < game->height)
     {
-        game->map[i][j].ress = init_ress();
+        game->map[i][j].ress = init_ress(1);
         j++;
     }
 }
 
-t_ressources init_ress()
+t_ressources init_ress(int gen)
 {
     t_ressources ress;
+    int *tmp;
+    int val;
+    size_t i;
 
+    if (gen == 0)
+        val = 0;
+    tmp = &ress;
+    i = 0;
+    while (i < (sizeof(t_ressources) / sizeof(int)))
+    {
+        if (gen != 0)
+            val = rand() % MAX_RESS_TILE;
+        tmp[i] = val;
+        i++;
+        //i += sizeof(int);
+    }
+
+    /*
     ress.linemate = 0;
     ress.deraumere = 0;
     ress.sibur = 0;
@@ -60,5 +78,6 @@ t_ressources init_ress()
     ress.phiras = 0;
     ress.thystame = 0;
     ress.food = 0;
+    */
     return (ress);
 }
