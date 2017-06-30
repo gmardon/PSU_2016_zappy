@@ -5,9 +5,8 @@
 ** Login   <julienN@epitech.net>
 ** 
 ** Started on  Fri Jun 30 17:29:18 2017 Julien Nabti
-** Last update Fri Jun 30 17:29:21 2017 Julien Nabti
+** Last update Fri Jun 30 22:24:08 2017 Julien Nabti
 */
-x
 
 #include <stdlib.h>
 #include <stdio.h>
