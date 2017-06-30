@@ -27,6 +27,7 @@ t_player *new_player(t_server *serv, int id, int team_id)
     new->time_left = 126;
     new->act_time_left = 0;
     new->action = NULL;
+    new->action_list = NULL;
     return (new);
 }
 

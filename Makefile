@@ -23,6 +23,7 @@ SRC_SERVER			=		src/server/server.c		\
 							src/server/player.c     \
 							src/server/client_handler.c \
 							src/server/select_team.c \
+							src/server/action_list.c \
 							src/server/commands/map_cmd.c \
 							src/server/commands/move_cmd.c \
 							src/server/commands/obj_cmd.c \

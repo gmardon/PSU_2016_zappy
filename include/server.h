@@ -48,6 +48,14 @@ typedef struct s_tile
     // player ref?
 } t_tile;
 
+/*
+** liste chainée pr les actions du player
+*/
+typedef struct s_alist
+{
+    char *str;
+    struct s_alist *next;
+} t_alist;
 
 typedef struct s_player
 {
@@ -62,6 +70,7 @@ typedef struct s_player
     int time_left;
     int act_time_left; // temp restant de l'action
     char *action;
+    t_alist *action_list;
 } t_player;
 
 /*
@@ -123,6 +132,9 @@ void del_player(t_player *player);
 int add_resp(t_game *game, char *resp, int player_id); // add at the back
 int del_resp(t_game *game, t_rlist *node);
 int send_all_resp(t_server* serv);
+
+int add_action(t_player *plr, char *cmd);
+char *pop_action(t_player *plr);
 
 int do_one_cycle(t_server *serv);
 int calc_elapsed(double unit);

@@ -46,7 +46,7 @@ int handle_cmd(t_server *server, t_client *client, char *cmd)
             if ((player) == NULL)
                 return (2);
             if (player->act_time_left > 0)
-                return (3);
+                return (add_action(client->player, cmd));
             player->act_time_left = g_cmd_tab[i].cycle;
             player->action = strdup(cmd);
             return (0);
@@ -62,6 +62,7 @@ int do_cmd(t_server *serv, t_client *cl)
 {
     int i;
     int ret;
+    char *tmp;
 
     i = ret = 0;
     if (cl->player->action == NULL)
@@ -73,6 +74,11 @@ int do_cmd(t_server *serv, t_client *cl)
             ret = g_cmd_tab[i].fct(serv, cl);
             free(cl->player->action);
             cl->player->action = NULL;
+            if ((tmp = pop_action(cl->player)) != NULL)
+            {
+                handle_cmd(serv, cl, tmp);
+                free(tmp);
+            }
             return (ret);
         }
         i++;
