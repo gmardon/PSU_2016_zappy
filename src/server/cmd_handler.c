@@ -11,22 +11,22 @@
 
 static t_cmd g_cmd_tab[] =
 {
-    {"Forward", &forward_cmd, 7},
-    {"Right", &right_cmd, 7},
-    {"Left", &left_cmd, 7},
+    {"Forward", &forward_cmd, 0, 7},
+    {"Right", &right_cmd, 0, 7},
+    {"Left", &left_cmd, 0, 7},
     /*{"Look", &look_cmd, 7},*/
-    {"Inventory", &inventory_cmd, 1},
+    {"Inventory", &inventory_cmd, 0, 1},
      // {"Broadcast", &broadcast_cmd, 1}, exception, take 1 arg (text)
     //{"Connect_nbr", &connect_nbr_cmd, 0},
     //{"Fork", &fork_cmd, 42},
     //{"Eject", &eject_cmd, 7},
     // {"Death", &death_cmd, 7}, execption, not a cmd ...
-    {"Take", &take_cmd, 7}, // take 1 arg
-    {"Set", &set_cmd, 7}, // take 1 arg
+    {"Take", &take_cmd, &take_cmd_chk, 7}, // take 1 arg
+    {"Set", &set_cmd, &set_cmd_chk, 7}, // take 1 arg
     //{"Incantation", &incant_cmd, 300}, // not regular...
     
     //{"ppo", &ppo_cmd, 0}, // take 1 arg
-    {"", 0, 0}
+    {"", 0, 0, 0}
 };
 
 int handle_cmd(t_server *server, t_client *client, char *cmd)
@@ -40,6 +40,9 @@ int handle_cmd(t_server *server, t_client *client, char *cmd)
     {
         if (strstr(cmd, g_cmd_tab[i].str) != NULL)
         {
+            if (g_cmd_tab[i].check != 0
+            && g_cmd_tab[i].check(server, player, cmd))
+                return (4);
             if ((player) == NULL)
                 return (2);
             if (player->act_time_left > 0)
@@ -50,8 +53,8 @@ int handle_cmd(t_server *server, t_client *client, char *cmd)
         }
         i++;
     }
+    // to replace to "ko"
     add_resp(server->game, "404 command not found\n", client->player->id);
-    // NEED check if cmd is ok
     return (404);
 }
 

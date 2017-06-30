@@ -117,7 +117,6 @@ typedef struct s_server
     t_configuration *configuration;
     t_game *game;
 }						t_server;
-
 t_player *new_player(t_server *serv, int id, int team_id);
 void del_player(t_player *player);
 
@@ -132,14 +131,15 @@ int calc_elapsed(double unit);
 //t_plist *get_player_node(t_game *game, int id);
 
 typedef int (*cmd_fct)(t_server *serv, t_client *cl);
+typedef int (*cmd_chk_fct)(t_server *serv, t_player *plr, char *cmd);
 
 typedef struct s_cmd
 {
     char *str;
     cmd_fct fct;
+    cmd_chk_fct check;
     int cycle;
 } t_cmd;
-
 
 /*
 ** set cycle for the next action, ret > 0 if not found/error
@@ -151,11 +151,11 @@ int handle_cmd(t_server *server, t_client *client, char *cmd);
 */
 int do_cmd(t_server *serv, t_client *cl);
 
-/*
-** malloc & init the t_game struct
-** return NULL on error
-*/
+void close_client(t_client *client, t_server *server);
 t_game *init_game(t_configuration *configuration);
+int add_client(t_server *server, t_client *client);
+int del_client(t_server *server, int fd);
+int clients_length(t_clist *client_list);
 void init_tile_tab(t_game *game, int i);
 t_ressources init_ress(int gen);
 int *get_ress_by_name(t_ressources *ress, char *name);
@@ -187,6 +187,9 @@ int inventory_cmd(t_server *serv, t_client *cl);
 int take_cmd(t_server *serv, t_client *cl);
 int set_cmd(t_server *serv, t_client *cl);
 //int incant_cmd(t_server *serv, t_client *cl);
+
+int set_cmd_chk(t_server *serv, t_player *plr, char *cmd);
+int take_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 
 /*
 ** Graphic protocol

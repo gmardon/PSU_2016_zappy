@@ -12,45 +12,13 @@
 #include <sys/time.h>
 #include "server.h"
 
-//main is for exemple of use only
-/*
-int main()
-{
-    t_game *game;
-    char *cmd;
-
-    int width = 100;
-    int height = 100;
-    int clientsNb = 5;
-   
-    while (1)
-    {
-        // need to check if the client can accept the cmd
-        do_game(game, cmd, player_id);
-        // resp is to be sendedd to the client
-        // and all graph_evnt need to be sended to graph monitor
-    }
-    return (0);
-}*/
-
-/*int do_game(t_game *game, char *cmd, int id)
-{
-    struct timeval elapsed;
-
-    // need de geerer la circularaité de la map
-    //if (cmd != NULL) // also need to know the player who sended the cmd
-    //    do_cmd(game, cmd, id);
-    if (calc_elapsed((1000000 / game->freq)))
-        do_one_cycle(game); // response now generated only at the end of the action ?
-    return (0);
-}*/
-
 int do_one_cycle(t_server *serv)
 {
     t_clist *tmp;
     t_player *player;
 
     tmp = serv->client_list;
+    printf("do_one_cycle\n");
     while (tmp != NULL)
     {
         if ((player = tmp->client->player) == NULL)
@@ -78,8 +46,6 @@ int do_one_cycle(t_server *serv)
         }
         tmp = tmp->next;
     }
-    // ???
-    // other evnt ?
     return (0);
 }
 
@@ -94,8 +60,9 @@ int calc_elapsed(double unit)
     {
         gettimeofday(&old_tv, NULL);
         bool_old_set = 1;
+        return (0);
     }
-    gettimeofday(&tv, NULL); // if the ret is not 0 -> err
+    gettimeofday(&tv, NULL);
     if ((elapsed.tv_sec = tv.tv_sec - old_tv.tv_sec) > 0
         && elapsed.tv_sec--)
         elapsed.tv_usec = tv.tv_usec + (1000000 - old_tv.tv_usec);

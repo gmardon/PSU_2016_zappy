@@ -39,6 +39,7 @@ int right_cmd(t_server *serv, t_client *cl)
         plr->dir.x = (plr->dir.y * -1);
         plr->dir.y = 0;
     }
+    add_resp(serv->game, "ok\n", cl->player->id);    
     ppo_evnt(serv, cl->player);
     return (0);
 }

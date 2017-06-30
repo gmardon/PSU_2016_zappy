@@ -51,7 +51,7 @@ int pin_evnt(t_server *serv, t_player *plr)
 
     if ((ret = malloc(sizeof(char) * 111)) == NULL)
         return (1);
-    if ((tmp = get_all_ress(plr)) == NULL)
+    if ((tmp = get_all_ress(&(plr->ress))) == NULL)
         return (1);
     sprintf(ret, "pin #%d %d %d %s\n",
     plr->id, plr->pos.x, plr->pos.y, tmp);
@@ -68,7 +68,7 @@ int pex_evnt(t_server *serv, t_player *plr)
     if ((ret = malloc(sizeof(char) * 22)) == NULL)
         return (1);
     sprintf(ret, "pex #%d\n", plr->id);
-    add_resp(serv, ret, GRAPHIC);
+    add_resp(serv->game, ret, GRAPHIC);
     return (0);
 }
 

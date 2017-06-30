@@ -14,7 +14,7 @@ t_player *new_player(t_server *serv, int id, int team_id)
     t_player *new;
 
     if ((new = malloc(sizeof(t_player))) == NULL)
-        return (1);
+        return (NULL);
     new->id = id;
     new->lvl = 1;
     new->team_id = team_id;

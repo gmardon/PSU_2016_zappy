@@ -15,7 +15,7 @@
 t_game *init_game(t_configuration *configuration)
 {
     t_game *game;
-    size_t i;
+    int i;
 
     if ((game = malloc(sizeof(t_game))) == NULL)
         return (NULL);
@@ -34,13 +34,13 @@ t_game *init_game(t_configuration *configuration)
     //game->player_list = NULL;
     srand(time(NULL));
     game->resp = NULL;
-    game->freq = 100;
+    game->freq = configuration->frequency;
     return (game);
 }
 
 void init_tile_tab(t_game *game, int i)
 {
-    size_t j;
+    int j;
 
     j = 0;
     while (j < game->height)
@@ -59,7 +59,7 @@ t_ressources init_ress(int gen)
 
     if (gen == 0)
         val = 0;
-    tmp = &ress;
+    tmp = (int *) &ress;
     i = 0;
     while (i < (sizeof(t_ressources) / sizeof(int)))
     {
