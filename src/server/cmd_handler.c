@@ -23,8 +23,7 @@ static t_cmd g_cmd_tab[] =
     // {"Death", &death_cmd, 7}, execption, not a cmd ...
     {"Take", &take_cmd, &take_cmd_chk, 7}, // take 1 arg
     {"Set", &set_cmd, &set_cmd_chk, 7}, // take 1 arg
-    //{"Incantation", &incant_cmd, 300}, // not regular...
-    
+    {"Incantation", &incant_cmd, &incant_cmd_chk, 300}, // not regular...
     //{"ppo", &ppo_cmd, 0}, // take 1 arg
     {"", 0, 0, 0}
 };
@@ -45,7 +44,7 @@ int handle_cmd(t_server *server, t_client *client, char *cmd)
                 return (add_action(client->player, cmd));
             if (g_cmd_tab[i].check != 0
             && g_cmd_tab[i].check(server, player, cmd))
-                return (4);
+                return (set_next_action(server, client));
             player->act_time_left = g_cmd_tab[i].cycle;
             player->action = strdup(cmd);
             return (0);
@@ -61,7 +60,6 @@ int do_cmd(t_server *serv, t_client *cl)
 {
     int i;
     int ret;
-    char *tmp;
 
     i = ret = 0;
     if (cl->player->action == NULL)
@@ -73,16 +71,29 @@ int do_cmd(t_server *serv, t_client *cl)
             ret = g_cmd_tab[i].fct(serv, cl);
             free(cl->player->action);
             cl->player->action = NULL;
-            if ((tmp = pop_action(cl->player)) != NULL)
-            {
-                handle_cmd(serv, cl, tmp);
-                free(tmp);
-            }
+            set_next_action(serv, cl);
             return (ret);
         }
         i++;
     }
     return (404); // cmd not found
+}
+
+int set_next_action(t_server *serv, t_client *cl)
+{
+    char *tmp;
+
+    if ((tmp = pop_action(cl->player)) != NULL)
+    {
+        handle_cmd(serv, cl, tmp);
+        free(tmp);
+    }
+    else
+    {
+        cl->player->action = NULL;
+        cl->player->act_time_left = 0;
+    }
+    return (4);
 }
 
 /*t_player *get_player(t_game *game, int id)

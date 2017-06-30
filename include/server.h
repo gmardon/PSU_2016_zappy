@@ -136,6 +136,7 @@ int send_all_resp(t_server* serv);
 int add_action(t_player *plr, char *cmd);
 char *pop_action(t_player *plr);
 
+int set_next_action(t_server *serv, t_client *cl);
 int do_one_cycle(t_server *serv);
 int calc_elapsed(double unit);
 
@@ -152,6 +153,13 @@ typedef struct s_cmd
     cmd_chk_fct check;
     int cycle;
 } t_cmd;
+
+typedef struct s_incant_req
+{
+    int lvl;
+    int nb_plr;
+    t_ressources ress;
+} t_incant_req;
 
 /*
 ** set cycle for the next action, ret > 0 if not found/error
@@ -199,10 +207,11 @@ int inventory_cmd(t_server *serv, t_client *cl);
 //int eject_cmd(t_server *serv, t_client *cl);
 int take_cmd(t_server *serv, t_client *cl);
 int set_cmd(t_server *serv, t_client *cl);
-//int incant_cmd(t_server *serv, t_client *cl);
+int incant_cmd(t_server *serv, t_client *cl);
 
 int set_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 int take_cmd_chk(t_server *serv, t_player *plr, char *cmd);
+int incant_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 
 /*
 ** Graphic protocol
@@ -217,6 +226,10 @@ int msz_evnt(t_server *serv);
 int sgt_evnt(t_server *serv);
 int sst_evnt(t_server *serv, int freq);
 
+int incant_chk(t_server *serv, t_player *plr);
 char *get_all_ress(t_ressources *ress);
+int comp_ress(t_ressources need_ress, t_ressources map_ress);
+int count_plr_pos_lvl(t_server *serv, t_player *plr);
+
 
 #endif
