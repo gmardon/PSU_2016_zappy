@@ -51,8 +51,9 @@ SRC_AI				=		src/ai/main.c		\
 							src/ai/move.c \
 							src/ai/opt.c \
 							src/ai/send.c \
+							src/ai/ia.c \
 							src/ai/take.c \
-							src/ai/go_ojb.c \
+							src/ai/go_obj.c \
 							$(SRC_COMMON)
 
 OBJ_SERVER			=		$(SRC_SERVER:.c=.o)
@@ -69,7 +70,7 @@ zappy_server:			$(OBJ_SERVER)
 				gcc -o $(NAME_SERVER) $(OBJ_SERVER) $(CFLAGS) -lm
 
 zappy_ai:			$(OBJ_AI)
-				gcc -o $(NAME_AI) $(OBJ_AI) $(CFLAGS) 
+				gcc -o $(NAME_AI) $(OBJ_AI) $(CFLAGS) -pthread
 
 client:				$(OBJ_CLI)
 				gcc -o $(NAME_CLI) $(OBJ_CLI) $(CFLAGS)

@@ -12,26 +12,22 @@
 #include <unistd.h>
 #include "ai.h"
 
-void
-take_food(struct s_client * client)
+void take_food(struct s_client * client)
 {
   send(client->fd, "prend nourriture\n", 17, 0);
 }
 
-void
-take_linemate(struct s_client * client)
+void take_linemate(struct s_client * client)
 {
   send(client->fd, "prend linemate\n", 15, 0);
 }
 
-void
-take_deraumere(struct s_client * client)
+void take_deraumere(struct s_client * client)
 {
   send(client->fd, "prend deraumere\n", 14, 0);
 }
 
-void
-take_sibur(struct s_client * client)
+void take_sibur(struct s_client * client)
 {
   send(client->fd, "prend sibur\n", 12, 0);
 }

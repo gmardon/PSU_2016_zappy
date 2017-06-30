@@ -21,8 +21,7 @@
 **  Lancement de la boucle autonome
 */
 
-static int
-socket_create(struct s_client *client)
+static int socket_create(struct s_client *client)
 {
     int rc;
 
@@ -42,8 +41,7 @@ socket_create(struct s_client *client)
     return (0);
 }
 
-int
-launch_client(struct s_client * client)
+int launch_client(struct s_client * client)
 {
     char    buff[100];
     int     rc;

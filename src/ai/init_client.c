@@ -18,8 +18,7 @@
 **  s_client utilisée
 */
 
-struct s_client
-*init_client()
+struct s_client *init_client()
 {
     t_client    *zappy_client;
 

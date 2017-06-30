@@ -19,8 +19,7 @@
 
 //////////// TODO Conditionnal jump dans free de team
 
-void
-destroy_client(struct s_client **zappy_client)
+void destroy_client(struct s_client **zappy_client)
 {
     close((*zappy_client)->fd);
     free((*zappy_client)->options->team);
