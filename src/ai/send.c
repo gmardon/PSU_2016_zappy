@@ -1,12 +1,13 @@
 /*
-** send.c for PSU_2015_zappy in /home/quentin/Dropbox/progra/tek2/Projets_C/PSU_2015_zappy/client/src
-**
-** Made by quentin quero
-** Login   <quentin@epitech.net>
-**
-** Started on  Sat Jun 18 11:25:34 2016 quentin quero
-** Last update Tue Jun 21 14:43:28 2016 quentin quero
+** send.c for  in /home/julienN/PSU_2016_zappy/src/ai
+** 
+** Made by Julien Nabti
+** Login   <julienN@epitech.net>
+** 
+** Started on  Fri Jun 30 17:26:43 2017 Julien Nabti
+** Last update Fri Jun 30 17:26:46 2017 Julien Nabti
 */
+
 
 #include <string.h>
 #include <stdio.h>

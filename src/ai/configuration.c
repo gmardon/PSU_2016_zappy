@@ -1,3 +1,13 @@
+/*
+** configuration.c for  in /home/julienN/PSU_2016_zappy/src/ai
+** 
+** Made by Julien Nabti
+** Login   <julienN@epitech.net>
+** 
+** Started on  Fri Jun 30 17:27:36 2017 Julien Nabti
+** Last update Fri Jun 30 17:27:37 2017 Julien Nabti
+*/
+
 #include "ai.h"
 
 void validate_configuration(t_configuration *config)

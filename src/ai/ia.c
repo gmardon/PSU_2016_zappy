@@ -1,12 +1,13 @@
 /*
-** main.c for PSU_2015_zappy in /home/quero_q/progra/PSU_2015_zappy/IA/src
-**
-** Made by quero_q
-** Login   <quero_q@epitech.net>
-**
-** Started on  Thu Jun  9 15:42:13 2016 quero_q
-** Last update Mon Jun 27 11:14:10 2016 quentin quero
+** ia.c for  in /home/julienN/PSU_2016_zappy/src/ai
+** 
+** Made by Julien Nabti
+** Login   <julienN@epitech.net>
+** 
+** Started on  Fri Jun 30 17:26:35 2017 Julien Nabti
+** Last update Fri Jun 30 17:26:47 2017 Julien Nabti
 */
+
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -136,8 +137,10 @@ void	*check(void *client)
     read_buffer[rc] = '\0';
     write(1, read_buffer, rc);
     if (strcmp(read_buffer, "mort") == 0)
-      ((t_client *)client)->end = 1;
-      add_to_recvs();
+      {
+	((t_client *)client)->end = 1;
+	add_to_recvs();
+      }
   }
   pthread_exit((void *)client);
 }

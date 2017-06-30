@@ -1,12 +1,13 @@
 /*
-** init.c for PSU_2015_zappy in /home/quentin/Dropbox/progra/tek2/Projets_C/PSU_2015_zappy/client/src
-**
-** Made by quentin quero
-** Login   <quentin@epitech.net>
-**
-** Started on  Mon Jun 27 11:08:55 2016 quentin quero
-** Last update Mon Jun 27 11:13:11 2016 quentin quero
+** init.c for  in /home/julienN/PSU_2016_zappy/src/ai
+** 
+** Made by Julien Nabti
+** Login   <julienN@epitech.net>
+** 
+** Started on  Fri Jun 30 17:29:37 2017 Julien Nabti
+** Last update Fri Jun 30 17:29:38 2017 Julien Nabti
 */
+
 
 #include <stdlib.h>
 #include <stdio.h>

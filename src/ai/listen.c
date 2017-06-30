@@ -1,12 +1,13 @@
 /*
-** listen.c for zappy_ai in /home/danibo_a/Documents/Epitech/tek2/PSU_2015_zappy/client
+** listen.c for  in /home/julienN/PSU_2016_zappy/src/ai
 ** 
-** Made by Daniboon
-** Login   <danibo_a@epitech.net>
+** Made by Julien Nabti
+** Login   <julienN@epitech.net>
 ** 
-** Started on  Sun Jun 26 17:11:14 2016 Daniboon
-** Last update Sun Jun 26 17:11:15 2016 Daniboon
+** Started on  Fri Jun 30 17:28:12 2017 Julien Nabti
+** Last update Fri Jun 30 17:28:13 2017 Julien Nabti
 */
+
 
 #include <stdlib.h>
 #include <string.h>

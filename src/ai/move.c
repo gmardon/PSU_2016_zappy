@@ -1,12 +1,13 @@
 /*
-** move.c for PSU_2015_zappy in /home/quentin/Dropbox/progra/tek2/Projets_C/PSU_2015_zappy/client/IA/src
-**
-** Made by quentin quero
-** Login   <quentin@epitech.net>
-**
-** Started on  Tue Jun 14 16:28:27 2016 quentin quero
-** Last update Fri Jun 17 10:43:05 2016 quentin quero
+** move.c for  in /home/julienN/PSU_2016_zappy/src/ai
+** 
+** Made by Julien Nabti
+** Login   <julienN@epitech.net>
+** 
+** Started on  Fri Jun 30 17:27:56 2017 Julien Nabti
+** Last update Fri Jun 30 17:27:57 2017 Julien Nabti
 */
+
 
 #include <stdlib.h>
 #include <string.h>

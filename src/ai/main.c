@@ -1,12 +1,13 @@
 /*
-** main.c for zappy_ai in /home/danibo_a/Documents/Epitech/tek2/PSU_2015_zappy/client/src
+** main.c for  in /home/julienN/PSU_2016_zappy/src/ai
 ** 
-** Made by Daniboon
-** Login   <danibo_a@epitech.net>
+** Made by Julien Nabti
+** Login   <julienN@epitech.net>
 ** 
-** Started on  Wed Jun 15 14:52:00 2016 Daniboon
-** Last update Wed Jun 15 14:52:01 2016 Daniboon
+** Started on  Fri Jun 30 17:28:48 2017 Julien Nabti
+** Last update Fri Jun 30 17:28:49 2017 Julien Nabti
 */
+
 
 #include <stdlib.h>
 #include <stdio.h>

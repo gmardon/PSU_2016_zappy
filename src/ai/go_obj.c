@@ -1,12 +1,13 @@
 /*
-** go_obj.c for PSU_2015_zappy in /home/quentin/Dropbox/progra/tek2/Projets_C/PSU_2015_zappy/client/src
-**
-** Made by quentin quero
-** Login   <quentin@epitech.net>
-**
-** Started on  Sun Jun 26 17:08:19 2016 quentin quero
-** Last update Mon Jun 27 10:50:07 2016 quentin quero
+** go_obj.c for  in /home/julienN/PSU_2016_zappy/src/ai
+** 
+** Made by Julien Nabti
+** Login   <julienN@epitech.net>
+** 
+** Started on  Fri Jun 30 17:28:26 2017 Julien Nabti
+** Last update Fri Jun 30 17:28:27 2017 Julien Nabti
 */
+
 
 
 #include <stdlib.h>

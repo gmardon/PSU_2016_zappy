@@ -1,12 +1,13 @@
 /*
-** take.c for PSU_2015_zappy in /home/quentin/Dropbox/progra/tek2/Projets_C/PSU_2015_zappy/client/src
-**
-** Made by quentin quero
-** Login   <quentin@epitech.net>
-**
-** Started on  Thu Jun 16 14:40:40 2016 quentin quero
-** Last update Sun Jun 26 22:00:10 2016 quentin quero
+** take.c for  in /home/julienN/PSU_2016_zappy/src/ai
+** 
+** Made by Julien Nabti
+** Login   <julienN@epitech.net>
+** 
+** Started on  Fri Jun 30 17:28:03 2017 Julien Nabti
+** Last update Fri Jun 30 17:28:04 2017 Julien Nabti
 */
+
 
 #include <stdlib.h>
 #include <stdio.h>

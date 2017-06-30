@@ -1,12 +1,13 @@
 /*
-** map.c for PSU_2015_zappy in /home/quentin/Dropbox/progra/tek2/Projets_C/PSU_2015_zappy/client/IA/src
-**
-** Made by quentin quero
-** Login   <quentin@epitech.net>
-**
-** Started on  Wed Jun 15 09:48:45 2016 quentin quero
-** Last update Fri Jun 24 17:09:09 2016 quentin quero
+** map.c for  in /home/julienN/PSU_2016_zappy/src/ai
+** 
+** Made by Julien Nabti
+** Login   <julienN@epitech.net>
+** 
+** Started on  Fri Jun 30 17:29:45 2017 Julien Nabti
+** Last update Fri Jun 30 17:29:45 2017 Julien Nabti
 */
+
 
 #include <stdlib.h>
 #include <stdio.h>

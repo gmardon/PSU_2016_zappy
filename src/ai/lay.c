@@ -1,12 +1,13 @@
 /*
-** lay.c for PSU_2015_zappy in /home/quentin/Dropbox/progra/tek2/Projets_C/PSU_2015_zappy/client/src
-**
-** Made by quentin quero
-** Login   <quentin@epitech.net>
-**
-** Started on  Thu Jun 16 15:05:41 2016 quentin quero
-** Last update Fri Jun 17 10:42:18 2016 quentin quero
+** lay.c for  in /home/julienN/PSU_2016_zappy/src/ai
+** 
+** Made by Julien Nabti
+** Login   <julienN@epitech.net>
+** 
+** Started on  Fri Jun 30 17:27:44 2017 Julien Nabti
+** Last update Fri Jun 30 17:27:46 2017 Julien Nabti
 */
+
 
 #include <stdlib.h>
 #include <stdio.h>

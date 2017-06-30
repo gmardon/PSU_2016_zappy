@@ -1,12 +1,13 @@
 /*
-** opt.c for zappy_ai in /home/danibo_a/Documents/Epitech/tek2/PSU_2015_zappy/client/src
-**
-** Made by Daniboon
-** Login   <danibo_a@epitech.net>
-**
-** Started on  Wed Jun 15 15:06:13 2016 Daniboon
-** Last update Thu Jun 16 17:22:46 2016 quentin quero
+** opt.c for  in /home/julienN/PSU_2016_zappy/src/ai
+** 
+** Made by Julien Nabti
+** Login   <julienN@epitech.net>
+** 
+** Started on  Fri Jun 30 17:29:18 2017 Julien Nabti
+** Last update Fri Jun 30 17:29:21 2017 Julien Nabti
 */
+x
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -68,10 +69,10 @@ get_team(struct s_client * receiver,
     return (0);
 }
 
-static int
-get_index(int c)
+static int	get_index(int c)
 {
-    int i;
+
+  int i;
 
     i = 0;
     while (argstr[i])

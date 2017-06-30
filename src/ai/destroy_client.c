@@ -1,12 +1,13 @@
 /*
-** destroy_client.c for zappy_ai in /home/danibo_a/Documents/Epitech/tek2/PSU_2015_zappy/client
-**
-** Made by Daniboon
-** Login   <danibo_a@epitech.net>
-**
-** Started on  Wed Jun 15 16:51:00 2016 Daniboon
-** Last update Fri Jun 24 16:46:56 2016 Daniboon
+** destroy_client.c for  in /home/julienN/PSU_2016_zappy/src/ai
+** 
+** Made by Julien Nabti
+** Login   <julienN@epitech.net>
+** 
+** Started on  Fri Jun 30 17:27:14 2017 Julien Nabti
+** Last update Fri Jun 30 17:27:14 2017 Julien Nabti
 */
+
 
 #include <stdlib.h>
 #include <unistd.h>
