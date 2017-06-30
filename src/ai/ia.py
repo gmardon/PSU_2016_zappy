@@ -2,6 +2,7 @@
 
 import socket
 import re
+import getopt, sys
 
 host = "127.0.0.1"
 port = 4242
@@ -13,10 +14,12 @@ xMax = -1
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
+
+
 def     _cmd_failed(cmd):
     print("[!] Error while processing [" + cmd + "]!\n[!] Connection closed by ZappyServer\n");
     s.close();
-    exit();
+    sys.exit(-1);
 
 def     _connect_routine():
     s.connect((host, port))
@@ -130,5 +133,16 @@ def     _incant():
         return (-1);
     print ("[*] Elevation done : " + str(buff) + " !");
     return (1);
+
+
+def     _display_help():
+
+    print ("USAGE: ./zappy_ai -p port -n name -h machine \n\tport is the port number")
+    print ("\tname\t is the name of the team\n\tmachine\t is the name of the machine; localhost by default\n");
+    sys.exit(-1);
     
+if (len(sys.argv) != 4):
+    _display_help();
+opt, rem = getopt.getopt(sys.argv[1:], 'n:p:h:')
+print opt
 _connect_routine();
