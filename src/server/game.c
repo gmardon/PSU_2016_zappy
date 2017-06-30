@@ -18,7 +18,6 @@ int do_one_cycle(t_server *serv)
     t_player *player;
 
     tmp = serv->client_list;
-    printf("do_one_cycle\n");
     while (tmp != NULL)
     {
         if ((player = tmp->client->player) == NULL)
