@@ -35,7 +35,7 @@ SRC_SERVER			=		src/server/server.c		\
 							$(SRC_COMMON)
 
 SRC_CLI				=		src/client/instructions.c \
-						src/client/main.c
+							src/client/main.c
 
 SRC_AI				=		src/ai/main.c		\
 							src/ai/configuration.c \
@@ -47,7 +47,6 @@ SRC_AI				=		src/ai/main.c		\
 							src/ai/items.c \
 							src/ai/lay.c \
 							src/ai/listen.c \
-							src/ai/main.c \
 							src/ai/move.c \
 							src/ai/opt.c \
 							src/ai/send.c \
