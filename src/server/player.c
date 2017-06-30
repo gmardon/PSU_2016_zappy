@@ -20,8 +20,9 @@ t_player *new_player(t_server *serv, int id, int team_id)
     new->team_id = team_id;
     new->pos.x = rand() % serv->configuration->world_width;
     new->pos.y = rand() % serv->configuration->world_height;
-    new->dir.x = 0;
-    new->dir.y = -1;
+    /*new->dir.x = 0;
+    new->dir.y = -1;*/
+    new->dir = give_rand_dir();
     new->ress = init_ress(0);
     new->ress.food = 9;
     new->time_left = 126;
@@ -36,4 +37,30 @@ void del_player(t_player *player)
     if (player->action != NULL)
         free(player->action);
     free(player);
+}
+
+t_direction give_rand_dir()
+{
+    t_direction dir;
+    int tmp;
+    int tmp2;
+
+    tmp2 = rand() % 2;
+    if ((tmp = rand() % 2))
+    {
+        if (tmp2)
+            dir.x = 1;
+        else
+            dir.x = -1;
+        dir.y = 0;
+    }
+    else
+    {
+        if (tmp2)
+            dir.y = 1;
+        else
+            dir.y = -1;
+        dir.x = 0;
+    }
+    return (dir);
 }

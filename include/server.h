@@ -164,6 +164,7 @@ int handle_cmd(t_server *server, t_client *client, char *cmd);
 int do_cmd(t_server *serv, t_client *cl);
 
 void close_client(t_client *client, t_server *server);
+t_direction give_rand_dir();
 t_game *init_game(t_configuration *configuration);
 int add_client(t_server *server, t_client *client);
 int del_client(t_server *server, int fd);

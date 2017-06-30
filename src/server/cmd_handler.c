@@ -34,19 +34,18 @@ int handle_cmd(t_server *server, t_client *client, char *cmd)
     int i;
     t_player *player;
 
-    player = client->player;
+    if ((player = client->player) == NULL)
+        return (2);
     i = 0;
     while (g_cmd_tab[i].fct != 0)
     {
         if (strstr(cmd, g_cmd_tab[i].str) != NULL)
         {
+            if (player->act_time_left > 0)
+                return (add_action(client->player, cmd));
             if (g_cmd_tab[i].check != 0
             && g_cmd_tab[i].check(server, player, cmd))
                 return (4);
-            if ((player) == NULL)
-                return (2);
-            if (player->act_time_left > 0)
-                return (add_action(client->player, cmd));
             player->act_time_left = g_cmd_tab[i].cycle;
             player->action = strdup(cmd);
             return (0);
