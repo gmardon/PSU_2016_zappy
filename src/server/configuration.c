@@ -21,14 +21,13 @@ char **parse_teams(char *first_team, int argc, char *argv[])
     int index;
     char **teams;
 
-    teams = my_malloc((argc - optind) + 2);
+    teams = my_malloc(((argc - optind) + 2) * sizeof(char*));
     if (first_team)
     {
         index = 0;
         teams[0] = first_team;
         while ((optind + index) < argc && argv[optind + index] != NULL)
         {
-            printf("index: %i\n", index);
             teams[index] = strdup(argv[optind + index]);
             index++;
         }
