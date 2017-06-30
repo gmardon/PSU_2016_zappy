@@ -4,8 +4,9 @@ import socket
 import re
 import getopt, sys
 
-host = "127.0.0.1"
-port = 4242
+host = -1
+port = -1
+teamname = "NONE";
 
 buff = bytearray(1024)
 yMax = -1
@@ -24,7 +25,7 @@ def     _cmd_failed(cmd):
 def     _connect_routine():
     s.connect((host, port))
 
-    print ("[-] ZappySanchezStyle\n[*] Connection on {}".format(port));
+    print ("[-] ZappySanchezStyle\n[*] Connection on {}".format(port) + " @ " + host);
     
     r = s.recv_into(buff, 1024);
 #    print "<-" + buff
@@ -42,7 +43,7 @@ def     _connect_routine():
     xMax = regEx[2];
 
     print ("[*]Info:\n\tRemaining conn :" + rem + "\n\tYmax : " + yMax + "\n\txMax : " + xMax);
-    s.close()
+    
 
 def     _forward():
     s.send("Forward\n");
@@ -140,9 +141,17 @@ def     _display_help():
     print ("USAGE: ./zappy_ai -p port -n name -h machine \n\tport is the port number")
     print ("\tname\t is the name of the team\n\tmachine\t is the name of the machine; localhost by default\n");
     sys.exit(-1);
+
+
+if (len(sys.argv) != 7):
+    print len(sys.argv);
     
-if (len(sys.argv) != 4):
-    _display_help();
 opt, rem = getopt.getopt(sys.argv[1:], 'n:p:h:')
-print opt
+for opt, arg in opt :
+    if opt in ("-n"):
+        teamname = arg;
+    elif opt in ("-p"):
+        port = int(arg);
+    elif opt in ("-h"):
+        host = arg;
 _connect_routine();
