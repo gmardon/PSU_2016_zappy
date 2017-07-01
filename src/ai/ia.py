@@ -180,7 +180,7 @@ def     _updateVision():
     if (ret[0][0] == '['):
         while (i < 4):
             board[i] = ret[i].split(" ");
-            print board[i];
+#            print board[i];
             i += 1;
     return (1);    
 
@@ -259,9 +259,10 @@ def     _updateInventory():
     return (inventory);
 
 def     _ia():
-    move = random.randint(1, 5);
-    stone = "none";
     while (3945):
+        stone = "none";
+        move = random.randint(1, 5);
+        _updateVision();
         if (int(_updateInventory()[0]) < 10):
             print ("[*] Food level critically low [" + str(food) + "] !");
             _scavengeFood();
@@ -291,7 +292,7 @@ for opt, arg in opt :
     elif opt in ("-h"):
         host = arg;
 _connect_routine();
-#_ia();
+_ia();
 
 ## DBG
 _updateInventory();
