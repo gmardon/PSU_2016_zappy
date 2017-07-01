@@ -10,6 +10,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setApplicationName("Zappy - Visual client");
     QGraphicsView *view = new QGraphicsView();
     QGraphicsScene *scene = new QGraphicsScene();
     //AuthenticationDialog *dialog = new AuthenticationDialog();
@@ -25,6 +26,7 @@ int main(int argc, char *argv[])
 
     view->setScene(scene);
     view->show();
+
 
 
 
