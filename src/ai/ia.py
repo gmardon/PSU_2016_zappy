@@ -199,7 +199,6 @@ def     _updateInventory():
     i = 0;
     while (i < 7):
         inventory[i] = l[i].split(' ')[2];
-        print inventory[i];
         i += 1;
     return (inventory);
 
