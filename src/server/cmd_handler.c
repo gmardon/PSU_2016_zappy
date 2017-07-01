@@ -14,7 +14,7 @@ static t_cmd g_cmd_tab[] =
     {"Forward", &forward_cmd, 0, 7},
     {"Right", &right_cmd, 0, 7},
     {"Left", &left_cmd, 0, 7},
-    /*{"Look", &look_cmd, 7},*/
+    {"Look", &look_cmd, 0, 7},
     {"Inventory", &inventory_cmd, 0, 1},
      // {"Broadcast", &broadcast_cmd, 1}, exception, take 1 arg (text)
     //{"Connect_nbr", &connect_nbr_cmd, 0},

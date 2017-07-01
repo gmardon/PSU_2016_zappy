@@ -17,7 +17,7 @@ int forward_cmd(t_server *serv, t_client *cl)
         return (1);
     plr->pos.x += plr->dir.x;
     plr->pos.y += plr->dir.y;
-    check_pos(serv->game, plr);
+    check_pos(serv->game, &(plr->pos));
     add_resp(serv->game, "ok\n", cl->player->id);
     ppo_evnt(serv, cl->player);    
     return (0);
@@ -65,14 +65,14 @@ int left_cmd(t_server *serv, t_client *cl)
     return (0);
 }
 
-void check_pos(t_game *game, t_player *plr)
+void check_pos(t_game *game, t_position *pos)
 {
-    if (plr->pos.x >= game->width)
-        plr->pos.x = 0;
-    else if (plr->pos.x < 0)
-        plr->pos.x = game->width - 1;
-    if (plr->pos.y >= game->height)
-        plr->pos.y = 0;
-    else if (plr->pos.y < 0)
-        plr->pos.y = game->height - 1;
+    if (pos->x >= game->width)
+        pos->x = 0;
+    else if (pos->x < 0)
+        pos->x = game->width - 1;
+    if (pos->y >= game->height)
+        pos->y = 0;
+    else if (pos->y < 0)
+        pos->y = game->height - 1;
 }

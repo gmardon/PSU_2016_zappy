@@ -196,13 +196,13 @@ t_client *accept_client(t_server *server);
 t_client *create_client(int socket, struct sockaddr_in in);
 t_configuration *parse_args(int argc, char *argv[]);
 void send_message(t_client *client, char *msg, ...);
-void check_pos(t_game *game, t_player *plr);
+void check_pos(t_game *game, t_position *pos);
 t_client *get_cl_by_id(t_server *serv, int id);
 
 int forward_cmd(t_server *serv, t_client *cl);
 int right_cmd(t_server *serv, t_client *cl);
 int left_cmd(t_server *serv, t_client *cl);
-//int look_cmd(t_server *serv, t_client *cl);
+int look_cmd(t_server *serv, t_client *cl);
 int inventory_cmd(t_server *serv, t_client *cl);
 //int connect_nbr_cmd(t_server *serv, t_client *cl); // ??
 //int fork_cmd(t_server *serv, t_client *cl);
@@ -230,10 +230,21 @@ int msz_evnt(t_server *serv);
 int sgt_evnt(t_server *serv);
 int sst_evnt(t_server *serv, int freq);
 
+char *get_one_line(t_server *serv, t_client *cl, int lvl);
+char *get_one_tile(t_server *serv, t_position pos, int first);
+char *get_tile_plr(t_server *serv, t_position pos, int first);
+char *get_tile_ress(t_server *serv, t_position pos);
+char *get_next_ress(t_ressources *ress);
+void get_init_pos(t_server *serv, t_position *pos,
+                    t_direction *dir, int lvl);
 int incant_chk(t_server *serv, t_player *plr);
 char *get_all_ress(t_ressources *ress);
 int comp_ress(t_ressources need_ress, t_ressources map_ress);
 int count_plr_pos_lvl(t_server *serv, t_player *plr);
 
+/*
+** do strcat but count & realloc a if not large enough
+*/
+char *my_strcat(char *a, char *b, int *len);
 
 #endif
