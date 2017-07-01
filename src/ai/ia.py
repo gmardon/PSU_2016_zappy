@@ -14,7 +14,7 @@ buff_size = 2048
 buff = bytearray(buff_size)
 yMax = -1
 xMax = -1
-lvl = 1
+lvl = 2
 food = 3
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -188,13 +188,40 @@ def     _scavengeFood():
     print ("ok\n");
     if any ("food" in s for s in board[0]):
         print ("[*] Found food on current tile !\n");
-        print (board[0]);
+        _printInventory();
         _take("food");
+        _printInventory();
         return (1);
 
         
 def     _checkInventory():
-
+    i = 1;
+    while (i < 7):
+        print ("inventory: " + str(inventory[i]) + "  p : " + (str(lvlUpPatterns[lvl -1][i]) + "  ."))
+        if (int(inventory[i]) < int(lvlUpPatterns[lvl -1][i])):
+            print (i);
+            if (i == 1):
+                print ("Looking for linemate\n");
+                return ("linemate");
+            if (i == 2):
+                print ("Looking for deraumere\n");
+                return ("deraumere");
+            if (i == 3):
+                print ("Looking for sibur\n");
+                return ("sibur");
+            if (i == 4):
+                print ("Looking for mendiane\n");
+                return ("mendiane");
+            if (i == 5):
+                print ("Looking for phiras\n");
+                return ("phiras");
+            if (i == 6):
+                print ("Looking for thystame\n");
+                return ("thystame\n");
+        i += 1;
+    print ("[*] No stone to look for !\n");
+    return ("none");
+                
     return (1);
 
 def     _scavengeStones():
@@ -211,6 +238,12 @@ def     _layInventory():
 
 def     _incant():
     return (1);
+
+def     _printInventory():
+    i = 0;
+    while (i < 7):
+        print inventory[i];
+        i +=1;
 
 def     _updateInventory():
 
@@ -259,3 +292,4 @@ _connect_routine();
 _updateInventory();
 _updateVision();
 _scavengeFood();
+_checkInventory();
