@@ -242,15 +242,15 @@ def     _scavengeStones():
                 _take(stone);
                 return (1);
             if (i == 1):
-                print ("[?] Should move left\n");
+                print ("[?] Should move left next turn\n");
                 moveBuff.append("L");
                 return (0);
             if (i == 2):
-                print ("[?] Should move forward\n");
+                print ("[?] Should move forward next turn\n");
                 moveBuff.append("F");
                 return (0);
             if (i == 3):
-                print ("[?] Should move right\n");
+                print ("[?] Should move right next turn\n");
                 moveBuff.append("R");
                 return (0);
         i += 1;
@@ -290,8 +290,7 @@ def     _updateInventory():
         i += 1;
     return (inventory);
 
-def     _checkInventory2():
-    stone = "lol";
+
 
 def     _ia():
     global found;
@@ -316,13 +315,13 @@ def     _ia():
                 if (moveBuff[-1:]):
                     char = str(moveBuff[-1:])
                     print "char : >" + str(char) + "<";
-                    if (char == "F"):
+                    if (char[2] == "F"):
                         print ("[*] Moving forward");
                         _forward();
-                    elif (char == "R"):
+                    elif (char[2] == "R"):
                         print ("[*] Moving right");
                         _right();
-                    elif (char == "L"):
+                    elif (char[2] == "L"):
                         print ("[*] Moving left");
                         _left();
                     # sys.exit(0);
