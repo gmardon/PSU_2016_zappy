@@ -12,6 +12,11 @@ TARGET = visual_client
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    gamemap.cpp
 
-HEADERS  +=
+HEADERS  += \
+    gamemap.h
+
+RESOURCES += \
+    ressources.qrc
