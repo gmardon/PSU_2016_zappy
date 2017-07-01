@@ -31,7 +31,7 @@ char **parse_teams(char *first_team, int argc, char *argv[])
             teams[index + 1] = strdup(argv[optind + index]);
             index++;
         }
-        teams[index] = 0;
+        teams[index + 1] = 0;
     }
     return (teams);
 }
