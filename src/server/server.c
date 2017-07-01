@@ -102,5 +102,6 @@ void start_server(t_server *server)
 		if (calc_elapsed((1000000 / server->game->freq)))
         	do_one_cycle(server);
 		send_all_resp(server);
+		check_del_cl(server);
 	}
 }

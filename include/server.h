@@ -176,6 +176,8 @@ t_direction give_rand_dir();
 t_game *init_game(t_configuration *configuration);
 int add_client(t_server *server, t_client *client);
 int del_client(t_server *server, int fd);
+int free_client(t_client *client);
+int check_del_cl(t_server *serv);
 int clients_length(t_clist *client_list);
 void init_tile_tab(t_game *game, int i);
 t_ressources init_ress(int gen);

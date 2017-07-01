@@ -34,8 +34,12 @@ t_player *new_player(t_server *serv, int id, int team_id)
 
 void del_player(t_player *player)
 {
+    char *tmp;
+
     if (player->action != NULL)
         free(player->action);
+    while ((tmp = pop_action(player)) != NULL)
+        free(tmp);
     free(player);
 }
 
