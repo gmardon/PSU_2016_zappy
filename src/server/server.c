@@ -4,7 +4,7 @@ t_client *create_client(int socket, struct sockaddr_in in)
 {
 	t_client *client;
 
-	client = my_malloc(sizeof(t_client));
+	client = my_malloc(sizeof(t_client) * 2);
 	client->fd = socket;
 	set_non_blocking(client->fd);
 
@@ -34,8 +34,6 @@ void handle_io(t_client *client, t_server *server)
 {
 	char *buffer;
 	int rc;
-	// int bytes_available; // unused var
-	//int len; // set but not used
 
 	buffer = my_malloc(BUFFER_SIZE);
 	memset(buffer, 0, BUFFER_SIZE);
@@ -51,7 +49,6 @@ void handle_io(t_client *client, t_server *server)
 		close_client(client, server);
 		return;
 	}
-	//len = rc;
 	if (buffer[rc - 1] == '\n')
 		buffer[rc - 1] = 0;
 	printf("< %s\n", buffer);
@@ -82,7 +79,6 @@ void handle_new_client(t_server *server, int *max)
 void start_server(t_server *server)
 {
 	int max;
-	//int index; // set but not used
 	fd_set read_fds;
 	t_clist *tmp;
 	struct timeval tv = {1, 0};
@@ -96,8 +92,6 @@ void start_server(t_server *server)
 			my_error("select", -1);
 		if (FD_ISSET(server->fd, &read_fds))
 			handle_new_client(server, &max);
-		// index = 0;
-		
 		tmp = server->client_list;
 		while (tmp != NULL)
 		{

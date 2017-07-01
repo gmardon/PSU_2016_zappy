@@ -28,7 +28,7 @@ char **parse_teams(char *first_team, int argc, char *argv[])
         teams[0] = first_team;
         while ((optind + index) < argc && argv[optind + index] != NULL)
         {
-            teams[index] = strdup(argv[optind + index]);
+            teams[index + 1] = strdup(argv[optind + index]);
             index++;
         }
         teams[index] = 0;
