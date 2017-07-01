@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -14,11 +14,19 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     gamemap.cpp \
-    authenticationdialog.cpp
+    authenticationdialog.cpp \
+    clientsocket.cpp \
+    mapcell.cpp \
+    zappy.cpp \
+    error.cpp
 
 HEADERS  += \
     gamemap.h \
-    authenticationdialog.h
+    authenticationdialog.h \
+    clientsocket.h \
+    mapcell.h \
+    zappy.h \
+    error.h
 
 RESOURCES += \
     ressources.qrc

@@ -9,9 +9,14 @@ public:
     GameMap(int height, int width);
     ~GameMap();
 
+    QRectF boundingRect() const;
     void paint( QPainter *painter,
                 const QStyleOptionGraphicsItem *option,
                 QWidget *widget);
+
+private:
+    int height;
+    int width;
 };
 
 

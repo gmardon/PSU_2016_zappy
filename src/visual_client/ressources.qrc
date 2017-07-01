@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/images">
         <file alias="grass.png">ressources/grass.png</file>
+        <file alias="monkey_wait.png">ressources/monkey_wait.png</file>
     </qresource>
 </RCC>

@@ -5,25 +5,28 @@
 #include <QGraphicsPixmapItem>
 #include "gamemap.h"
 #include "authenticationdialog.h"
+#include "zappy.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QGraphicsView *view = new QGraphicsView();
     QGraphicsScene *scene = new QGraphicsScene();
-    //GameMap *map = new GameMap(5, 5);
-    QPixmap image(":/images/grass.png");
+    //AuthenticationDialog *dialog = new AuthenticationDialog();
+    //dialog->show();
+    Zappy *zappy = new Zappy("localhost", 4242);
 
-    QGraphicsPixmapItem *enemyItem = scene->addPixmap(image);
-    enemyItem->setPos(50, 50);
+    //QPixmap image(":/images/grass.png");
 
-    //scene->addItem(map);
+   // QGraphicsPixmapItem *enemyItem = scene->addPixmap(image);
+   // enemyItem->setPos(50, 50);
+
+    scene->addItem(zappy->getMap());
 
     view->setScene(scene);
-   // view->show();
+    view->show();
 
-    AuthenticationDialog *dialog = new AuthenticationDialog();
-    dialog->show();
+
 
     return a.exec();
 }
