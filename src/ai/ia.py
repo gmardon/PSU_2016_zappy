@@ -230,14 +230,15 @@ def     _checkInventory():
 def     _scavengeStones():
     i = 0;
     global stone;
-    print ("stone : [" + stone + " !");
+    global found;
+    print ("stone : [" + stone + "] !");
     while (i < 4):
-        print (str(board[i]));
-        if any ("linemate" in s for s in str(board[i])):
+#        print (str(board[i]));
+        if any (str(stone) in s for s in board[i]):
             print ("[*] Found " + stone + " on tile " + str(i) + " .");
-            Found = True;
-            print ("ok\n");
             if (i == 0):
+                found = True;
+                print ("[*] Taking " + stone + " !");
                 _take(stone);
                 return (1);
             if (i == 1):
@@ -310,10 +311,26 @@ def     _ia():
         else:
             _layInventory();
             _incant();
-        if (found != True):
-            _forward();
+        if (found == False):
+            if (moveBuff):
+                if (moveBuff[-1:]):
+                    print ("[!!] Buffered : + " + str(moveBuff[-1:]));
+                    print ("BUFF : " + str(moveBuff[-1:]))
+                    if (str(moveBuff[-1:]) == "F"):
+                        print ("[*] Moving forward");
+                        _forward();
+                    elif (str(moveBuff[-1:]) == "R"):
+                        print ("[*] Moving Right");
+                        _right();
+                    elif (str(moveBuff[-1:]) == "L"):
+                        print ("[*] Moving Left");
+                        _left();
+                    else :
+                        print ("FAIIIIL!\n");
+                    moveBuff.pop();
         else:
-            print ("TRUE!\n");
+            print ("[*] Turning left");
+            _left();
         #Synchro ?
         #sleep(1);
         
