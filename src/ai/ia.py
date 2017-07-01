@@ -13,12 +13,13 @@ buff = bytearray(1024)
 yMax = -1
 xMax = -1
 lvl = 1
-food = 9
+food = 3
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 backtrack = []
 
+inventory = [0, 0, 0, 0, 0, 0, 0]
 
 lvlUpPatterns = [
     [1, 0, 0, 0, 0, 0, 0],
@@ -29,8 +30,9 @@ lvlUpPatterns = [
     [6, 1, 2, 3, 0, 1, 0],
     [6, 2, 2, 2, 2, 2, 1]
 ]
-
+# Food
 # nb plyr, line, derau, sib, mendia, phiras, thystame
+
 # 0          1       2    3       4       5         6
 # index -> lvl du drone
 
@@ -45,10 +47,8 @@ def     _connect_routine():
     print ("[-] ZappySanchezStyle\n[*] Connection on {}".format(port) + " @ " + host);
     
     r = s.recv_into(buff, 1024);
-#    print "<-" + buff
 
     s.send("nj\n");
- #   print "-> nj"
     
     r = s.recv_into(buff, 1024);
     if (str(buff) == "ko"):
@@ -91,14 +91,13 @@ def     _look():
     if (s.recv_into(buff, 1024) == 0  or str(buff) == "ko\n"):
         return(_cmd_failed("Look"));
     print("[*] Look:\n" + str(buff));
-    return (1);
+    return (str(buff));
 
 def     _inventory():
     s.send("Inventory\n");
     if (s.recv_into(buff, 1024) == 0  or str(buff) == "ko\n"):
         return(_cmd_failed("Inventory"));
-    print("[*] Inventory:\n" + str(buff));
-    return (1);
+    return (str(buff));
 
 def     _broadcast(text):
     s.send("Broadcast" + text + "\n");
@@ -145,7 +144,7 @@ def     _take(obj):
     if (str(buff) == "ok\n"):
         print ("[*] Object taken successfully !\n");
         return (1);
-   else:
+    else:
         print ("[!] Couldn't pick up object ...\n");
         return (-1);
 
@@ -172,25 +171,53 @@ def     _display_help():
 
 
 def     _scavengeFood():
-    
+
+    return (1);
+        
+def     _checkInventory():
+
     return (1);
 
-        
-    
+def     _scavengeStones():
+    return (1);
+
+def     _checkLvlUp():
+    return (1);
+
+def     _gatherDrones():
+    return (1);
+
+def     _layInventory():
+    return (1);
+
+def     _incant():
+    return (1);
+
+def     _updateInventory():
+
+    l = _inventory().split(',');
+    i = 0;
+    while (i < 7):
+        inventory[i] = l[i].split(' ')[2];
+        print inventory[i];
+        i += 1;
+    return (inventory);
+
 def     _ia():
     move = random.randint(1, 5);
-    if (food < 4):
-        print ("[*] Food level critically low [" + str(food) + "] !");
-        _scavengeFood();
-    elif (_checkInventory()):
-        print ("[*] Looking for some more stones !");
-        _scavengeStones();
-    elif (_checkLvlUp()):
-        print ("[*] Gathering other drones !");
-        _gatherDrones();
-    else:
-        _layInventory();
-        _incant();
+    while (3945):
+        if (_updateInventory()[0] < 4):
+            print ("[*] Food level critically low [" + str(food) + "] !");
+            _scavengeFood();
+        elif (_checkInventory()):
+            print ("[*] Looking for some more stones !");
+            _scavengeStones();
+        elif (_checkLvlUp()):
+            print ("[*] Gathering other drones !");
+            _gatherDrones();
+        else:
+            _layInventory();
+            _incant();
         
         
     
