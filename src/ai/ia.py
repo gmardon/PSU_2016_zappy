@@ -14,7 +14,7 @@ buff_size = 2048
 buff = bytearray(buff_size)
 yMax = -1
 xMax = -1
-lvl = 2
+lvl = 1
 food = 3
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -200,7 +200,6 @@ def     _checkInventory():
     i = 1;
     while (i < 7):
         if (int(inventory[i]) < int(lvlUpPatterns[lvl -1][i])):
-            print ("ok\n");
             print (i);
             if (i == 1):
                 print ("Looking for linemate\n");
