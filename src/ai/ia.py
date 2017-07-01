@@ -314,23 +314,36 @@ def     _ia():
         if (found == False):
             if (moveBuff):
                 if (moveBuff[-1:]):
-                    print ("[!!] Buffered : + " + str(moveBuff[-1:]));
-                    print ("BUFF : " + str(moveBuff[-1:]))
-                    if (str(moveBuff[-1:]) == 'F'):
+                    char = str(moveBuff[-1:])
+                    print "char : >" + str(char) + "<";
+                    if (str(char) == "F"):
                         print ("[*] Moving forward");
                         _forward();
-                    elif (str(moveBuff[-1:]) == 'R'):
-                        print ("[*] Moving Right");
+                    elif (str(char) == "R"):
+                        print ("[*] Moving right");
                         _right();
-                    elif (str(moveBuff[-1:]) == 'L'):
-                        print ("[*] Moving Left");
+                    elif (str(char) == "L"):
+                        print ("[*] Moving left");
                         _left();
-                    else :
-                        print ("FAIIIIL!\n");
+                    # sys.exit(0);
+                    # print ("[!!] Buffered : + " + str(moveBuff[-1:]));
+                    # print ("BUFF : " + str(moveBuff[-1:]))
+                    # if (str(moveBuff[-1:]) == "F"):
+                    #     print ("[*] Moving forward");
+                    #     _forward();
+                    # elif (str(moveBuff[-1:]) == "R"):
+                    #     print ("[*] Moving Right");
+                    #     _right();
+                    # elif (str(moveBuff[-1:]) == "L"):
+                    #     print ("[*] Moving Left");
+                    #     _left();
                     moveBuff.pop();
+            else:
+                print ("[>] Turning forward");
+                _forward();
         else:
-            print ("[*] Turning left");
-            _left();
+            print ("[<] Turning forward");
+            _forward();
         #Synchro ?
         #sleep(1);
         
