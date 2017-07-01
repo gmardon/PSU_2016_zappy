@@ -90,7 +90,6 @@ def     _look():
     s.send("Look\n");
     if (s.recv_into(buff, 1024) == 0  or str(buff) == "ko\n"):
         return(_cmd_failed("Look"));
-    print("[*] Look:\n" + str(buff));
     return (str(buff));
 
 def     _inventory():
@@ -172,6 +171,7 @@ def     _display_help():
 
 def     _scavengeFood():
 
+
     return (1);
         
 def     _checkInventory():
@@ -205,7 +205,7 @@ def     _updateInventory():
 def     _ia():
     move = random.randint(1, 5);
     while (3945):
-        if (_updateInventory()[0] < 4):
+        if (int(_updateInventory()[0]) < 10):
             print ("[*] Food level critically low [" + str(food) + "] !");
             _scavengeFood();
         elif (_checkInventory()):
@@ -217,6 +217,8 @@ def     _ia():
         else:
             _layInventory();
             _incant();
+        #Synchro ?
+        #sleep(1);
         
         
     
