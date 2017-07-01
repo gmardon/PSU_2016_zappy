@@ -20,7 +20,7 @@ static t_cmd g_cmd_tab[] =
     //{"Connect_nbr", &connect_nbr_cmd, 0},
     //{"Fork", &fork_cmd, 42},
     //{"Eject", &eject_cmd, 7},
-    // {"Death", &death_cmd, 7}, execption, not a cmd ...
+    {"Death", &death_cmd, &death_cmd_chk, 0},
     {"Take", &take_cmd, &take_cmd_chk, 7}, // take 1 arg
     {"Set", &set_cmd, &set_cmd_chk, 7}, // take 1 arg
     {"Incantation", &incant_cmd, &incant_cmd_chk, 300}, // not regular...
@@ -40,7 +40,8 @@ int handle_cmd(t_server *server, t_client *client, char *cmd)
     {
         if (strstr(cmd, g_cmd_tab[i].str) != NULL)
         {
-            if (player->act_time_left > 0)
+            if (player->act_time_left > 0
+                && strstr(cmd, "Death") == NULL)
                 return (add_action(client->player, cmd));
             if (g_cmd_tab[i].check != 0
             && g_cmd_tab[i].check(server, player, cmd))

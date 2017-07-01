@@ -41,6 +41,8 @@ int do_one_cycle(t_server *serv)
                 tmp->client->player->ress.food -= 1;
                 tmp->client->player->time_left = 126;
             }
+            else
+                handle_cmd(serv, tmp->client, "Death");
             // else    player is dead // TO DO
         }
         tmp = tmp->next;
