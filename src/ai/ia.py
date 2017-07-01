@@ -230,10 +230,10 @@ def     _checkInventory():
 def     _scavengeStones():
     i = 0;
     global stone;
-    print ("stone : " + stone + " !");
+    print ("stone : [" + stone + " !");
     while (i < 4):
         print (str(board[i]));
-        if any (str(stone) in s for s in str(board[i])):
+        if any ("linemate" in s for s in str(board[i])):
             print ("[*] Found " + stone + " on tile " + str(i) + " .");
             Found = True;
             print ("ok\n");
