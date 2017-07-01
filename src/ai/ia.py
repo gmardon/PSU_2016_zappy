@@ -316,13 +316,13 @@ def     _ia():
                 if (moveBuff[-1:]):
                     char = str(moveBuff[-1:])
                     print "char : >" + str(char) + "<";
-                    if (str(char) == "F"):
+                    if (char == "F"):
                         print ("[*] Moving forward");
                         _forward();
-                    elif (str(char) == "R"):
+                    elif (char == "R"):
                         print ("[*] Moving right");
                         _right();
-                    elif (str(char) == "L"):
+                    elif (char == "L"):
                         print ("[*] Moving left");
                         _left();
                     # sys.exit(0);
