@@ -210,10 +210,12 @@ int inventory_cmd(t_server *serv, t_client *cl);
 int take_cmd(t_server *serv, t_client *cl);
 int set_cmd(t_server *serv, t_client *cl);
 int incant_cmd(t_server *serv, t_client *cl);
+int death_cmd(t_server *serv, t_client *cl);
 
 int set_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 int take_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 int incant_cmd_chk(t_server *serv, t_player *plr, char *cmd);
+int death_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 
 /*
 ** Graphic protocol
