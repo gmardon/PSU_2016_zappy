@@ -14,7 +14,7 @@ buff_size = 2048
 buff = bytearray(buff_size)
 yMax = -1
 xMax = -1
-lvl = 2
+lvl = 1
 food = 3
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
