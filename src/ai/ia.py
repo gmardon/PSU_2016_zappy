@@ -23,7 +23,8 @@ backtrack = []
 board = [[], [], [], []]
 vision = []
 moveBuff = [];
-stone = "!";
+stone = "";
+found = False;
 inventory = [0, 0, 0, 0, 0, 0, 0]
 
 lvlUpPatterns = [
@@ -186,17 +187,16 @@ def     _updateVision():
 
 def     _scavengeFood():
     i = 0;
-    print ("ok\n");
     if any ("food" in s for s in board[0]):
         print ("[*] Found food on current tile !\n");
-        _printInventory();
         _take("food");
-        _printInventory();
+        found = True;
         return (1);
 
         
 def     _checkInventory():
     i = 1;
+    global stone;
     while (i < 7):
         if (int(inventory[i]) < int(lvlUpPatterns[lvl -1][i])):
             if (i == 1):
@@ -225,27 +225,31 @@ def     _checkInventory():
                 return (1);
         i += 1;
     print ("[*] No stone to look for !\n");
-    stone = "lol";
     return (0);
 
 def     _scavengeStones():
     i = 0;
+    global stone;
     print ("stone : " + stone + " !");
     while (i < 4):
+        print (str(board[i]));
         if any (str(stone) in s for s in str(board[i])):
             print ("[*] Found " + stone + " on tile " + str(i) + " .");
+            Found = True;
             print ("ok\n");
             if (i == 0):
                 _take(stone);
                 return (1);
             if (i == 1):
+                print ("[?] Should move left\n");
                 moveBuff.append("L");
-                _forward();
                 return (0);
             if (i == 2):
+                print ("[?] Should move forward\n");
                 moveBuff.append("F");
                 return (0);
             if (i == 3):
+                print ("[?] Should move right\n");
                 moveBuff.append("R");
                 return (0);
         i += 1;
@@ -285,14 +289,19 @@ def     _updateInventory():
         i += 1;
     return (inventory);
 
+def     _checkInventory2():
+    stone = "lol";
+
 def     _ia():
+    global found;
     while (3945):
+        found = False;
         move = random.randint(1, 5);
         _updateVision();
         if (int(_updateInventory()[0]) < 10):
             print ("[*] Food level critically low [" + str(food) + "] !");
             _scavengeFood();
-        elif (_checkInventory() != 0):
+        elif ( _checkInventory() != 0):
             print ("[*] Looking for " + stone + " !");
             _scavengeStones();
         elif (_checkLvlUp()):
@@ -301,6 +310,10 @@ def     _ia():
         else:
             _layInventory();
             _incant();
+        if (found != True):
+            _forward();
+        else:
+            print ("TRUE!\n");
         #Synchro ?
         #sleep(1);
         
