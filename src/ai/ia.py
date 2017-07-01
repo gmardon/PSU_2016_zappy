@@ -14,7 +14,7 @@ buff_size = 2048
 buff = bytearray(buff_size)
 yMax = -1
 xMax = -1
-lvl = 1
+lvl = 2
 food = 3
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -22,6 +22,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 backtrack = []
 board = [[], [], [], []]
 vision = []
+moveBuff = [];
 stone = "";
 
 inventory = [0, 0, 0, 0, 0, 0, 0]
@@ -199,6 +200,7 @@ def     _checkInventory():
     i = 1;
     while (i < 7):
         if (int(inventory[i]) < int(lvlUpPatterns[lvl -1][i])):
+            print ("ok\n");
             print (i);
             if (i == 1):
                 print ("Looking for linemate\n");
@@ -229,7 +231,26 @@ def     _checkInventory():
     return (0);
 
 def     _scavengeStones():
-    return (1);
+    i = 0;
+    print stone;
+    while (i < 4):
+        if any (stone in s for s in board[i]):
+            print ("[*] Found " + stone + " on tile " + str(i) + " .");
+            if (i == 0):
+                _take(stone);
+                return (1);
+            if (i == 1):
+                moveBuff.append("L");
+                _forward();
+                return (0);
+            if (i == 2):
+                moveBuff.append("F");
+                return (0);
+            if (i == 3):
+                moveBuff.append("R");
+                return (0);
+        i += 1;
+    return (0);
 
 def     _checkLvlUp():
     return (1);
