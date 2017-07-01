@@ -13,10 +13,15 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    gamemap.cpp
+    gamemap.cpp \
+    authenticationdialog.cpp
 
 HEADERS  += \
-    gamemap.h
+    gamemap.h \
+    authenticationdialog.h
 
 RESOURCES += \
     ressources.qrc
+
+FORMS += \
+    authenticationdialog.ui
