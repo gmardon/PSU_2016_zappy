@@ -22,6 +22,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 backtrack = []
 board = [[], [], [], []]
 vision = []
+stone = "";
 
 inventory = [0, 0, 0, 0, 0, 0, 0]
 
@@ -197,32 +198,35 @@ def     _scavengeFood():
 def     _checkInventory():
     i = 1;
     while (i < 7):
-        print ("inventory: " + str(inventory[i]) + "  p : " + (str(lvlUpPatterns[lvl -1][i]) + "  ."))
         if (int(inventory[i]) < int(lvlUpPatterns[lvl -1][i])):
             print (i);
             if (i == 1):
                 print ("Looking for linemate\n");
-                return ("linemate");
+                stone = "linemate";
+                return (1);
             if (i == 2):
                 print ("Looking for deraumere\n");
-                return ("deraumere");
+                stone = "deraumere";
+                return (1);
             if (i == 3):
                 print ("Looking for sibur\n");
-                return ("sibur");
+                stone = "sibur";
+                return (1);
             if (i == 4):
                 print ("Looking for mendiane\n");
-                return ("mendiane");
+                stone = "mendiane";
+                return (1);
             if (i == 5):
                 print ("Looking for phiras\n");
-                return ("phiras");
+                stone = "mendiane";
+                return (1);
             if (i == 6):
                 print ("Looking for thystame\n");
-                return ("thystame\n");
+                stoen = "thystame";
+                return (1);
         i += 1;
     print ("[*] No stone to look for !\n");
-    return ("none");
-                
-    return (1);
+    return (0);
 
 def     _scavengeStones():
     return (1);
@@ -256,11 +260,12 @@ def     _updateInventory():
 
 def     _ia():
     move = random.randint(1, 5);
+    stone = "none";
     while (3945):
         if (int(_updateInventory()[0]) < 10):
             print ("[*] Food level critically low [" + str(food) + "] !");
             _scavengeFood();
-        elif (_checkInventory()):
+        elif (_checkInventory != 0):
             print ("[*] Looking for some more stones !");
             _scavengeStones();
         elif (_checkLvlUp()):
