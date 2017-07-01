@@ -316,13 +316,13 @@ def     _ia():
                 if (moveBuff[-1:]):
                     print ("[!!] Buffered : + " + str(moveBuff[-1:]));
                     print ("BUFF : " + str(moveBuff[-1:]))
-                    if (str(moveBuff[-1:]) == "F"):
+                    if (str(moveBuff[-1:]) == 'F'):
                         print ("[*] Moving forward");
                         _forward();
-                    elif (str(moveBuff[-1:]) == "R"):
+                    elif (str(moveBuff[-1:]) == 'R'):
                         print ("[*] Moving Right");
                         _right();
-                    elif (str(moveBuff[-1:]) == "L"):
+                    elif (str(moveBuff[-1:]) == 'L'):
                         print ("[*] Moving Left");
                         _left();
                     else :
