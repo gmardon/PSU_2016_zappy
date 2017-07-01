@@ -1,4 +1,5 @@
 #!/usr/bin
+#coding: utf-8
 
 import socket
 import re
@@ -9,7 +10,8 @@ host = -1
 port = -1
 teamname = "NONE";
 
-buff = bytearray(1024)
+buff_size = 2048
+buff = bytearray(buff_size)
 yMax = -1
 xMax = -1
 lvl = 1
@@ -18,6 +20,8 @@ food = 3
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 backtrack = []
+board = [[], [], [], []]
+vision = []
 
 inventory = [0, 0, 0, 0, 0, 0, 0]
 
@@ -44,13 +48,13 @@ def     _cmd_failed(cmd):
 def     _connect_routine():
     s.connect((host, port))
 
-    print ("[-] ZappySanchezStyle\n[*] Connection on {}".format(port) + " @ " + host);
+    print ("[-] ZappySanchezStyle - Les maçons du code\n[*] Connection on {}".format(port) + " @ " + host);
     
-    r = s.recv_into(buff, 1024);
+    r = s.recv_into(buff, buff_size);
 
     s.send("nj\n");
     
-    r = s.recv_into(buff, 1024);
+    r = s.recv_into(buff, buff_size);
     if (str(buff) == "ko"):
         cmd_failed();
     buff[r] = 0;
@@ -64,7 +68,7 @@ def     _connect_routine():
 
 def     _forward():
     s.send("Forward\n");
-    if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
+    if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Forward"));
     print("[*] Moved forward\n");
     backtrack.append("F");
@@ -72,15 +76,15 @@ def     _forward():
 
 def     _right():
     s.send("Right\n");
-    if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
+    if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Right"));
     print("[*] Move right\n");
     backtrack.append("R");
     return (1);
-    
+
 def     _left():
     s.send("Left\n");
-    if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
+    if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Left"));
     print("[*] Moved left\n");
     backtrack.append("L");
@@ -88,75 +92,75 @@ def     _left():
 
 def     _look():
     s.send("Look\n");
-    if (s.recv_into(buff, 1024) == 0  or str(buff) == "ko\n"):
+    if (s.recv_into(buff, buff_size) == 0  or str(buff) == "ko\n"):
         return(_cmd_failed("Look"));
     return (str(buff));
 
 def     _inventory():
     s.send("Inventory\n");
-    if (s.recv_into(buff, 1024) == 0  or str(buff) == "ko\n"):
+    if (s.recv_into(buff, buff_size) == 0  or str(buff) == "ko\n"):
         return(_cmd_failed("Inventory"));
     return (str(buff));
 
 def     _broadcast(text):
     s.send("Broadcast" + text + "\n");
-    if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
+    if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Broadcast"));
     print("[*] [" + text + "] broadcasted\n");
     return (1);
 
 def     _connect_nbr():
     s.send("Connect_nbr\n");
-    if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
+    if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Connect_nbr"));
     print("[*] Number of team unused slots: " + str(buff));
     return (1);               
 
 def     _fork():
     s.send("Fork\n");
-    if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
+    if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Fork"));
     print("[*] Drone forked\n");
     return (1);
 
 def     _eject():
     s.send("Eject\n");
-    if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
+    if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Eject"));
     if (str(buff) == "ko\n"):
         print ("[!] Couldn't eject drone ...\n");
     else:
         print ("[*} Player Ejected\n");
-    return (1);
+        return (1);
 
 def      _dead():
     s.send("-\n");
-    if (s.recv_into(buff, 1024) == 0 or str(buff) != "dead\n"):
+    if (s.recv_into(buff, buff_size) == 0 or str(buff) != "dead\n"):
         return(_cmd_failed("Dead"));
     print ("[*] X_X\n");
     return (1);
 
 def     _take(obj):
-    s.send("Take " + obj + "\n");
-    if (s.recv_into(buff, 1024) == 0  or str(buff) == "ko\n"):
+    s.send("Take food\n");
+    if (s.recv_into(buff, buff_size) == 0  or str(buff) == "ko\n"):
         return(_cmd_failed("Take"));
-    if (str(buff) == "ok\n"):
+    if (str(buff).split(" ")[0].split("\n")[0] == "ok"):
         print ("[*] Object taken successfully !\n");
-        return (1);
+        return (str(buff));
     else:
         print ("[!] Couldn't pick up object ...\n");
-        return (-1);
+        return (NULL);
 
 def     _set(obj):
     s.send("Set " + obj + "\n");
-    if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
+    if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Set"));
     print ("[*] Object " + obj + " has been put down !\n");
     return (-1);
 
 def     _incant():
     s.send("Incantation\n");
-    if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
+    if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Incantation"));
     print ("[*] " + str(buff));
     return (1);
@@ -169,10 +173,25 @@ def     _display_help():
     sys.exit(-1);
 
 
+def     _updateVision():
+    i = 0;
+    ret = _look().split(",");
+    if (ret[0][0] == '['):
+        while (i < 4):
+            board[i] = ret[i].split(" ");
+            print board[i];
+            i += 1;
+    return (1);    
+
 def     _scavengeFood():
+    i = 0;
+    print ("ok\n");
+    if any ("food" in s for s in board[0]):
+        print ("[*] Found food on current tile !\n");
+        print (board[0]);
+        _take("food");
+        return (1);
 
-
-    return (1);
         
 def     _checkInventory():
 
@@ -234,4 +253,9 @@ for opt, arg in opt :
     elif opt in ("-h"):
         host = arg;
 _connect_routine();
-_ia();
+#_ia();
+
+## DBG
+_updateInventory();
+_updateVision();
+_scavengeFood();
