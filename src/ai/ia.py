@@ -3,6 +3,7 @@
 import socket
 import re
 import getopt, sys
+import random
 
 host = -1
 port = -1
@@ -11,16 +12,32 @@ teamname = "NONE";
 buff = bytearray(1024)
 yMax = -1
 xMax = -1
+lvl = 1
+food = 9
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+backtrack = []
 
+
+lvlUpPatterns = [
+    [1, 0, 0, 0, 0, 0, 0],
+    [2, 1, 1, 1, 0, 0, 0],
+    [2, 2, 0, 1, 0, 2, 0],
+    [4, 1 ,1, 2, 0, 1, 0],
+    [4, 1, 2, 1, 3, 0, 0],
+    [6, 1, 2, 3, 0, 1, 0],
+    [6, 2, 2, 2, 2, 2, 1]
+]
+
+# nb plyr, line, derau, sib, mendia, phiras, thystame
+# 0          1       2    3       4       5         6
+# index -> lvl du drone
 
 
 def     _cmd_failed(cmd):
-    print("[!] Error while processing [" + cmd + "]!\n[!] Connection closed by ZappyServer\n");
-    s.close();
-    sys.exit(-1);
+    print("[!] Error while processing [" + cmd + "]!\n");
+    return (-1);
 
 def     _connect_routine():
     s.connect((host, port))
@@ -48,91 +65,102 @@ def     _connect_routine():
 def     _forward():
     s.send("Forward\n");
     if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
-        _cmd_failed("Forward");
+        return(_cmd_failed("Forward"));
     print("[*] Moved forward\n");
+    backtrack.append("F");
+    return (1);
 
 def     _right():
     s.send("Right\n");
     if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
-        _cmd_failed("Right");
+        return(_cmd_failed("Right"));
     print("[*] Move right\n");
+    backtrack.append("R");
+    return (1);
     
 def     _left():
     s.send("Left\n");
     if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
-        _cmd_failed("Left");
+        return(_cmd_failed("Left"));
     print("[*] Moved left\n");
+    backtrack.append("L");
+    return (1);
 
 def     _look():
     s.send("Look\n");
     if (s.recv_into(buff, 1024) == 0  or str(buff) == "ko\n"):
-        _cmd_failed("Look");
+        return(_cmd_failed("Look"));
     print("[*] Look:\n" + str(buff));
+    return (1);
 
 def     _inventory():
     s.send("Inventory\n");
     if (s.recv_into(buff, 1024) == 0  or str(buff) == "ko\n"):
-        _cmd_failed("Inventory");
+        return(_cmd_failed("Inventory"));
     print("[*] Inventory:\n" + str(buff));
+    return (1);
 
 def     _broadcast(text):
     s.send("Broadcast" + text + "\n");
     if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
-        _cmd_failed("Broadcast");
+        return(_cmd_failed("Broadcast"));
     print("[*] [" + text + "] broadcasted\n");
+    return (1);
 
 def     _connect_nbr():
     s.send("Connect_nbr\n");
     if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
-        _cmd_failed("Connect_nbr");
+        return(_cmd_failed("Connect_nbr"));
     print("[*] Number of team unused slots: " + str(buff));
+    return (1);               
 
 def     _fork():
     s.send("Fork\n");
     if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
-        _cmd_failed("Fork");
+        return(_cmd_failed("Fork"));
     print("[*] Drone forked\n");
+    return (1);
 
 def     _eject():
     s.send("Eject\n");
     if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
-        _cmd_failed("Eject");
+        return(_cmd_failed("Eject"));
     if (str(buff) == "ko\n"):
         print ("[!] Couldn't eject drone ...\n");
     else:
         print ("[*} Player Ejected\n");
+    return (1);
 
 def      _dead():
     s.send("-\n");
     if (s.recv_into(buff, 1024) == 0 or str(buff) != "dead\n"):
-        _cmd_failed("Dead");
+        return(_cmd_failed("Dead"));
     print ("[*] X_X\n");
+    return (1);
 
 def     _take(obj):
     s.send("Take " + obj + "\n");
     if (s.recv_into(buff, 1024) == 0  or str(buff) == "ko\n"):
-        _cmd_failed("Take");
+        return(_cmd_failed("Take"));
     if (str(buff) == "ok\n"):
         print ("[*] Object taken successfully !\n");
         return (1);
-    else:
+   else:
         print ("[!] Couldn't pick up object ...\n");
         return (-1);
 
 def     _set(obj):
     s.send("Set " + obj + "\n");
     if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
-        _cmd_failed("Set");
+        return(_cmd_failed("Set"));
     print ("[*] Object " + obj + " has been put down !\n");
+    return (-1);
 
 def     _incant():
     s.send("Incantation\n");
     if (s.recv_into(buff, 1024) == 0 or str(buff) == "ko\n"):
-        _cmd_failed("Incantation");
-    if (str(buff) == "Elevation underway"):
-        print ("[!] Couldn't accomplish elevation...\n");
-        return (-1);
-    print ("[*] Elevation done : " + str(buff) + " !");
+        return(_cmd_failed("Incantation"));
+    print ("[*] " + str(buff));
     return (1);
 
 
@@ -143,6 +171,29 @@ def     _display_help():
     sys.exit(-1);
 
 
+def     _scavengeFood():
+    
+    return (1);
+
+        
+    
+def     _ia():
+    move = random.randint(1, 5);
+    if (food < 4):
+        print ("[*] Food level critically low [" + str(food) + "] !");
+        _scavengeFood();
+    elif (_checkInventory()):
+        print ("[*] Looking for some more stones !");
+        _scavengeStones();
+    elif (_checkLvlUp()):
+        print ("[*] Gathering other drones !");
+        _gatherDrones();
+    else:
+        _layInventory();
+        _incant();
+        
+        
+    
 if (len(sys.argv) != 7):
     print len(sys.argv);
     
@@ -155,3 +206,4 @@ for opt, arg in opt :
     elif opt in ("-h"):
         host = arg;
 _connect_routine();
+_ia();
