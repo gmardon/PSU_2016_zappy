@@ -2,57 +2,88 @@
 <ui version="4.0">
  <class>AuthenticationDialog</class>
  <widget class="QDialog" name="AuthenticationDialog">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>400</width>
-    <height>161</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="connect">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>120</y>
-     <width>91</width>
+     <x>115</x>
+     <y>115</y>
+     <width>80</width>
      <height>25</height>
     </rect>
    </property>
    <property name="text">
-    <string>PushButton</string>
+    <string>Connect</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLabel" name="teamname_label">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>20</y>
-     <width>113</width>
-     <height>25</height>
+     <x>10</x>
+     <y>10</y>
+     <width>81</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Team name :</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="teamname">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>290</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_2">
+  <widget class="QLineEdit" name="server_host">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>70</y>
-     <width>113</width>
-     <height>25</height>
+     <x>10</x>
+     <y>80</y>
+     <width>211</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
-  <widget class="QSpinBox" name="spinBox">
+  <widget class="QLabel" name="server_host_label">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>70</y>
-     <width>45</width>
-     <height>26</height>
+     <x>10</x>
+     <y>60</y>
+     <width>91</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Server host :</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="server_port_label">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>60</y>
+     <width>54</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Port :</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="server_port">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>79</y>
+     <width>68</width>
+     <height>23</height>
     </rect>
    </property>
   </widget>

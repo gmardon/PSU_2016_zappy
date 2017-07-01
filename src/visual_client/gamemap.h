@@ -1,6 +1,7 @@
 #ifndef GAMEMAP_H
 #define GAMEMAP_H
-#include "QtGui"
+#include <QGraphicsItem>
+#include <QGraphicsScene>
 
 class GameMap : public QGraphicsItem
 {

@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     QGraphicsPixmapItem *enemyItem = scene->addPixmap(image);
     enemyItem->setPos(50, 50);
 
-    scene->addItem(map);
+    //scene->addItem(map);
 
     view->setScene(scene);
    // view->show();
