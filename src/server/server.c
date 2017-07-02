@@ -26,7 +26,7 @@ t_server *create_server(t_configuration *config)
 	server->configuration = config;
 	while (config->teams[++i]);
 	server->max_clients = config->client_per_team * i;
-	server->max_id = 0;
+	server->max_id = 1;
 	FD_ZERO(&server->master);
 	FD_SET(server->fd, &server->master);
 	server->game = init_game(config);

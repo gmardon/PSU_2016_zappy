@@ -18,11 +18,11 @@ int inventory_cmd(t_server *serv, t_client *cl)
         return (1);
     if ((player = cl->player) == NULL)
         return (2);
-    sprintf(resp, "[linemate %d"" deraumere %d"" sibur %d"
-    " mendiane %d"" phiras %d"" thystame %d"" food %d]\n",
-    player->ress.linemate, player->ress.deraumere, player->ress.sibur,
-    player->ress.mendiane, player->ress.phiras, player->ress.thystame,
-    player->ress.food);
+    sprintf(resp, "[ food %d, linemate %d,"" deraumere %d,"" sibur %d,"
+    " mendiane %d,"" phiras %d,"" thystame %d ]\n",
+    player->ress.food, player->ress.linemate, player->ress.deraumere,
+    player->ress.sibur, player->ress.mendiane, player->ress.phiras,
+    player->ress.thystame);
     add_resp(serv->game, resp, player->id);
     free(resp);
     return (0);

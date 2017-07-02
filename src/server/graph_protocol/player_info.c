@@ -76,7 +76,7 @@ char *get_all_ress(t_ressources *ress)
 {
     char *str;
 
-    if ((str = malloc(sizeof(char) * 88)))
+    if ((str = malloc(sizeof(char) * 88)) == NULL)
         return (NULL);
     sprintf(str, "%d %d %d %d %d %d %d",
     ress->linemate, ress->deraumere, ress->sibur,

@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "ia.py", line 459, in <module>
+    _ia();
+  File "ia.py", line 432, in _ia
+    if (int(_updateInventory()[0]) < 3):
+  File "ia.py", line 391, in _updateInventory
+    invent = _inventory().split(']')[0];
+  File "ia.py", line 161, in _inventory
+    if (s.recv_into(buff, buff_size) == 0  or str(buff) == "ko\n"):
+KeyboardInterrupt

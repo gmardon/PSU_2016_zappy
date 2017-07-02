@@ -23,11 +23,34 @@ int send_all_resp(t_server* serv)
             if ((cl = get_cl_by_id(serv, tmp->id)) != NULL)
                 send_message(cl, tmp->msg);
         }
+        else
+        {
+            if ((cl = get_cl_graph(serv)) != NULL)
+                send_message(cl, tmp->msg);
+        }
         old = tmp;
         tmp = tmp->next;
         del_resp(serv->game, old);
     }
     return (0);
+}
+
+t_client *get_cl_graph(t_server *serv)
+{
+    t_clist *tmp;
+    t_client *cl;
+
+    cl = NULL;
+    tmp = serv->client_list;
+    while (tmp != NULL)
+    {
+        if (tmp->client->team_id == GRAPHIC)
+            break;
+        tmp = tmp->next;
+    }
+    if (tmp != NULL)
+        cl = tmp->client;
+    return (cl);
 }
 
 int add_resp(t_game *game, char *resp, int player_id)

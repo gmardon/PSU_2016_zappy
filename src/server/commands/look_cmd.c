@@ -15,7 +15,7 @@ int look_cmd(t_server *serv, t_client *cl)
     char *tmp;
     int lvl;
 
-    resp = strdup("[");
+    resp = strdup("[ ");
     tmp = get_one_tile(serv, cl->player->pos, 1);
     resp = my_strcat(resp, tmp, NULL);
     free(tmp);
@@ -27,7 +27,7 @@ int look_cmd(t_server *serv, t_client *cl)
         free(tmp);
         lvl++;
     }
-    resp = my_strcat(resp, "]\n\0", NULL);
+    resp = my_strcat(resp, " ]\n\0", NULL);
     add_resp(serv->game, resp, cl->player->id);
     free(resp);
     return (0);
