@@ -18,19 +18,10 @@ int fork_cmd(t_server *serv, t_client *cl)
 
 int connect_nbr_cmd(t_server *serv, t_client *cl)
 {
-    t_egg_list *tmp;
     char *resp;
     int nb;
 
-    nb = serv->configuration->client_per_team;
-    tmp = serv->game->egg;
-    while (tmp != NULL)
-    {
-        if (tmp->team_id == cl->team_id
-            && tmp->hatch_time <= 0)
-            nb++;
-        tmp = tmp->next;
-    }
+    nb = get_conn_nbr(serv, cl->team_id);
     resp = my_malloc(sizeof(char) * 33);
     sprintf(resp, "%d\n", nb);
     add_resp(serv->game, resp, cl->player->id);
