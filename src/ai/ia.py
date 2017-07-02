@@ -190,7 +190,7 @@ def     _take(obj):
         return(_cmd_failed("Take"));
     if (str(buff).split(" ")[0].split("\n")[0] == "ok"):
         print ("[*] Object taken successfully !\n");
-        return (str(buff));
+        return ("OK");
     else:
         print ("[!] Couldn't pick up object ...\n");
         time.sleep(0.5);
@@ -402,7 +402,6 @@ def     _ia():
     #print ("Changer la taille du buffer pour les msg");
     while (True):
         time.sleep(0.2);
-        print(str(buff));
         move = random.randint(1, 5);
         if (moveBuff):
             if (moveBuff[-1:]):
