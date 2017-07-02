@@ -1,16 +1,16 @@
 /*
 ** cmd_tab.c for zappy in /home/aurelien/home/aurelien.olibe/delivery/PSU_2016_zappy/src/game
-** 
+**
 ** Made by Aurelien
 ** Login   <aurelien.olibe@epitech.eu@epitech.net>
-** 
+**
 ** Started on  Sun Jun 25 02:51:28 2017 Aurelien
-** Last update Sun Jun 25 02:51:36 2017 Aurelien
+** Last update Sun Jul  2 22:41:17 2017 Aurelien
 */
 #include "server.h"
 
 static t_cmd g_cmd_tab[] =
-{
+  {
     {"Forward", &forward_cmd, 0, 7},
     {"Right", &right_cmd, 0, 7},
     {"Left", &left_cmd, 0, 7},
@@ -28,89 +28,89 @@ static t_cmd g_cmd_tab[] =
     {"mct", &mct_cmd, 0, 0},
     {"msz", &msz_cmd, 0, 0},
     {"", 0, 0, 0}
-};
+  };
 
-int handle_cmd(t_server *server, t_client *client, char *cmd)
+int		handle_cmd(t_server *server, t_client *client, char *cmd)
 {
-    int i;
-    t_player *player;
+  int		i;
+  t_player	*player;
 
-    if ((player = client->player) == NULL)
-        return (2);
-    i = 0;
-    while (g_cmd_tab[i].fct != 0)
+  if ((player = client->player) == NULL)
+    return (2);
+  i = 0;
+  while (g_cmd_tab[i].fct != 0)
     {
-        if (strstr(cmd, g_cmd_tab[i].str) != NULL)
+      if (strstr(cmd, g_cmd_tab[i].str) != NULL)
         {
-            if (player->act_time_left > 0
-                && strstr(cmd, "Death") == NULL)
-                return (add_action(client->player, cmd));
-            if (g_cmd_tab[i].check != 0
-            && g_cmd_tab[i].check(server, player, cmd))
-                return (set_next_action(server, client));
-            player->act_time_left = g_cmd_tab[i].cycle;
-            player->action = strdup(cmd);
-            return (0);
+	  if (player->act_time_left > 0
+	      && strstr(cmd, "Death") == NULL)
+	    return (add_action(client->player, cmd));
+	  if (g_cmd_tab[i].check != 0
+	      && g_cmd_tab[i].check(server, player, cmd))
+	    return (set_next_action(server, client));
+	  player->act_time_left = g_cmd_tab[i].cycle;
+	  player->action = strdup(cmd);
+	  return (0);
         }
-        i++;
+      i++;
     }
-    add_resp(server->game, "ko\n", client->player->id);
-    return (404);
+  add_resp(server->game, "ko\n", client->player->id);
+  return (404);
 }
 
-int do_cmd(t_server *serv, t_client *cl)
+int	do_cmd(t_server *serv, t_client *cl)
 {
-    int i;
-    int ret;
+  int	i;
+  int	ret;
 
-    i = ret = 0;
-    if (cl->player == NULL || cl->player->action == NULL)
-        return (1);
-    while (g_cmd_tab[i].fct != 0)
+  i = ret = 0;
+  if (cl->player == NULL || cl->player->action == NULL)
+    return (1);
+  while (g_cmd_tab[i].fct != 0)
     {
-        if (strstr(cl->player->action, g_cmd_tab[i].str) != NULL)
+      if (strstr(cl->player->action, g_cmd_tab[i].str) != NULL)
         {
-            ret = g_cmd_tab[i].fct(serv, cl);
-            free(cl->player->action);
-            cl->player->action = NULL;
-            set_next_action(serv, cl);
-            return (ret);
+	  ret = g_cmd_tab[i].fct(serv, cl);
+	  free(cl->player->action);
+	  cl->player->action = NULL;
+	  set_next_action(serv, cl);
+	  return (ret);
         }
-        i++;
+      i++;
     }
-    return (404); // cmd not found
+  return (404);
 }
 
-int set_next_action(t_server *serv, t_client *cl)
+int	set_next_action(t_server *serv, t_client *cl)
 {
-    char *tmp;
+  char	*tmp;
 
-    if ((tmp = pop_action(cl->player)) != NULL)
+  if ((tmp = pop_action(cl->player)) != NULL)
     {
-        handle_cmd(serv, cl, tmp);
-        free(tmp);
+      handle_cmd(serv, cl, tmp);
+      free(tmp);
     }
-    else
+  else
     {
-        cl->player->action = NULL;
-        cl->player->act_time_left = 0;
+      cl->player->action = NULL;
+      cl->player->act_time_left = 0;
     }
-    return (4);
+  return (4);
 }
 
-void handle_graph(t_server *serv, t_client *cl, char *cmd)
+void	handle_graph(t_server *serv, t_client *cl, char *cmd)
 {
-    int i;
+  int	i;
 
-    i = 0;
-    while (g_cmd_tab[i].fct != 0)
+  i = 0;
+  while (g_cmd_tab[i].fct != 0)
     {
-        if (strstr(cmd, g_cmd_tab[i].str) != NULL)
+      if (strstr(cmd, g_cmd_tab[i].str) != NULL)
         {
-            g_cmd_tab[i].fct(serv, cl);
-            return ;
+	  g_cmd_tab[i].fct(serv, cl);
+	  return ;
         }
-        i++;
+      i++;
     }
-    add_resp(serv->game, "suc\n", GRAPHIC);
+  add_resp(serv->game, "suc\n", GRAPHIC);
 }
