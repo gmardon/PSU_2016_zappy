@@ -5,9 +5,28 @@
 ** Login   <aurelien.olibe@epitech.eu@epitech.net>
 **
 ** Started on  Sun Jul  2 22:42:19 2017 Aurelien
-** Last update Sun Jul  2 22:43:04 2017 Aurelien
+** Last update Sun Jul  2 23:32:48 2017 Aurelien
 */
 #include "server.h"
+
+void cycle_gest(t_server *serv, t_player *player, t_clist *tmp)
+{
+  player->time_left -= 1;
+  if (player->act_time_left > 0)
+    player->act_time_left -= 1;
+  if (player->act_time_left <= 0)
+    do_cmd(serv, tmp->client);
+  if (tmp->client->player->time_left <= 0)
+    {
+      if (tmp->client->player->ress.food > 0)
+	{
+	  tmp->client->player->ress.food -= 1;
+	  tmp->client->player->time_left = 126;
+	}
+      else
+	handle_cmd(serv, tmp->client, "Death");
+    }
+}
 
 void validate_configuration(t_configuration *config)
 {

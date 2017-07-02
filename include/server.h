@@ -46,7 +46,6 @@ typedef struct s_ressources
 typedef struct s_tile
 {
     t_ressources ress;
-    // player ref?
 } t_tile;
 
 /*
@@ -60,8 +59,6 @@ typedef struct s_alist
 
 typedef struct s_player
 {
-    // info
-    // name or id ??
     int id;
     int team_id;
     int lvl;
@@ -69,7 +66,7 @@ typedef struct s_player
     t_direction dir;
     t_ressources ress;
     int time_left;
-    int act_time_left; // temp restant de l'action
+    int act_time_left;
     char *action;
     t_alist *action_list;
 } t_player;
@@ -87,7 +84,6 @@ typedef struct s_rlist
 /*
 ** chained list for client
 */
-
 typedef struct s_client
 {
 	int fd;
@@ -100,7 +96,6 @@ typedef struct s_client
 typedef struct s_clist
 {
     t_client *client;
-    /* struct s_plist *next; */
   struct s_clist *next;
 } t_clist;
 
@@ -116,12 +111,11 @@ typedef struct s_egg_list
 
 typedef struct s_game
 {
-    t_tile **map; // map[x][y] to get the tile
-    //t_clist *c_list;
-    int width; // x
-    int height; // y
+    t_tile **map;
+    int width;
+    int height;
     int freq;
-    t_rlist *resp; // response : to be checked after do_cmd/handle_cmd/do_one_cycle
+    t_rlist *resp;
     t_egg_list *egg;
 } t_game;
 
@@ -129,11 +123,9 @@ typedef struct s_server
 {
 	int fd;
 	struct sockaddr_in in;
-    // int sock;
     int max_id;
     fd_set master;
     int max_clients;
-  //  t_client *clients;
     t_clist *client_list;
     t_configuration *configuration;
     t_game *game;
@@ -141,7 +133,7 @@ typedef struct s_server
 t_player *new_player(t_server *serv, int id, int team_id);
 void del_player(t_player *player);
 
-int add_resp(t_game *game, char *resp, int player_id); // add at the back
+int add_resp(t_game *game, char *resp, int player_id);
 int del_resp(t_game *game, t_rlist *node);
 int send_all_resp(t_server* serv);
 
@@ -156,9 +148,7 @@ int set_next_action(t_server *serv, t_client *cl);
 int do_one_cycle(t_server *serv);
 int calc_elapsed(double unit);
 int do_one_cycle_egg(t_server *serv);
-
-//t_player *get_player(t_game *game, int id); // ret player by id srch
-//t_plist *get_player_node(t_game *game, int id);
+void cycle_gest(t_server *serv, t_player *player, t_clist *tmp);
 
 typedef int (*cmd_fct)(t_server *serv, t_client *cl);
 typedef int (*cmd_chk_fct)(t_server *serv, t_player *plr, char *cmd);
@@ -188,7 +178,9 @@ int handle_cmd(t_server *server, t_client *client, char *cmd);
 */
 int do_cmd(t_server *serv, t_client *cl);
 
+void game_funct(t_server *serv);
 int get_ress_num(char *str);
+void cycle_gest(t_server *serv, t_player *player, t_clist	*tmp);
 t_client *get_cl_graph(t_server *serv);
 void del_server(t_server *serv);
 void del_game(t_server *serv);
@@ -231,7 +223,6 @@ int right_cmd(t_server *serv, t_client *cl);
 int left_cmd(t_server *serv, t_client *cl);
 int look_cmd(t_server *serv, t_client *cl);
 int inventory_cmd(t_server *serv, t_client *cl);
-//int broadcast_cmd(t_server *serv, t_client *cl);
 int connect_nbr_cmd(t_server *serv, t_client *cl);
 int fork_cmd(t_server *serv, t_client *cl);
 int eject_cmd(t_server *serv, t_client *cl);
@@ -278,9 +269,6 @@ int sgt_cmd(t_server *serv, t_client *cl);
 int tna_cmd(t_server *serv, t_client *cl);
 int mct_cmd(t_server *serv, t_client *cl);
 int msz_cmd(t_server *serv, t_client *cl);
-
-
-
 
 char *get_one_line(t_server *serv, t_client *cl, int lvl);
 char *get_one_tile(t_server *serv, t_position pos, int first);
