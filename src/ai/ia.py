@@ -6,7 +6,12 @@ import re
 import getopt, sys
 import random
 import time
+import threading
+from threading import Condition, Thread, Lock
+
 sys.stderr = open("zappy.log", "w")
+
+condition = Condition();
 
 
 host = -1
@@ -15,6 +20,9 @@ teamname = "NONE";
 
 buff_size = 9999
 buff = bytearray(buff_size)
+IOBuff = bytearray(buff_size)
+IOStr = []
+
 yMax = -1
 xMax = -1
 lvl = 2
@@ -37,6 +45,8 @@ MENDIANE = 4
 PHIRAS = 5
 THYSTAME = 6
 
+alive = True
+
 lvlUpPatterns = [
     [1, 0, 0, 0, 0, 0, 0],
     [2, 1, 1, 1, 0, 0, 0],
@@ -46,13 +56,29 @@ lvlUpPatterns = [
     [6, 1, 2, 3, 0, 1, 0],
     [6, 2, 2, 2, 2, 2, 1]
 ]
-# Food
+
+
+    # Food
 # nb plyr, line, derau, sib, mendia, phiras, thystame
 
 # 0          1       2    3       4       5         6
 # index -> lvl du drone
 
-
+class   threadIO(threading.Thread):
+    def __init__(self, queue):
+        threading.Thread.__init__(self);
+        
+        def     run(self):
+            while (alive == True):
+                ret = s.recv_into(IOBuff, buff_size);
+                if (ret < 0):
+                    break;
+                IOStr = str(IOBuff);
+                IOStr[ret] = 0;
+                if (IOStr == "DEADBEEF"):
+                    alive = False;
+                print "[+] Rcvd : [" + IOStr + "]"
+            
 def     _cmd_failed(cmd):
     #print("[!] Error while processing [" + cmd + "]!\n");
     sys.exit(0);
@@ -124,7 +150,7 @@ def     _broadcast(text):
     s.send("Broadcast" + text + "\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Broadcast"));
-    #print("[*] [" + text + "] broadcasted\n");
+    print("[*] [" + text + "] broadcasted\n");
     return (1);
 
 def     _connect_nbr():
@@ -195,13 +221,6 @@ def     _updateVision():
     i = 0;
     ret = _look().split(",");
     ret[0] = ret[0][1:];
-    # #print("...");
-    # #print ret[0];
-    # #print("...");
-    # #print ret[1].split(" ");
-    # #print("...");
-    # #print ret[2].split(" ");
-
     
     # #print (">>";
     # #print ret;
@@ -221,8 +240,8 @@ def     _scavengeFood():
             #print ("[*] Found food on current tile !\n");
             if (_take("food") != "NULL"):
                 found = True;
-                return (1);
         i += 1;
+    return (1);
     #print ("[*] Didn't found any food");
         
 def     _checkInventory():
@@ -231,7 +250,7 @@ def     _checkInventory():
     global inventory;
     # _printInventory();
     while (i < 7):
-        #print ("Inv: " + str(inventory[i]) + " & patterns : " + str(lvlUpPatterns[lvl -1][i]) + " !");
+        print ("Inv: " + str(inventory[i]) + " & patterns : " + str(lvlUpPatterns[lvl -1][i]) + " !");
         if (int(inventory[i]) < int(lvlUpPatterns[lvl -1][i])):
             if (i == LINEMATE):
                 #print ("Looking for linemate\n");
@@ -268,7 +287,7 @@ def     _scavengeStones():
     global inventory;
     #print ("stone : [" + stone + "] !");
     while (i < 4):
-#        #print (str(board[i]));
+        #print (str(board[i]));
         if any (str(stone) in s for s in board[i]):
             #print ("[*] Found " + stone + " on tile " + str(i) + " .");
             if (i == 0):
@@ -277,20 +296,6 @@ def     _scavengeStones():
                 j = 0;
                 while (_take(stone) == "NULL" and j < 9):
                     j += 1;
-                # if (stone == "linemate"):
-                #     #inventory[LINEMATE] = int(inventory[LINEMATE] + 1);
-                #     inventory[1] = "99";
-                #     _#printInventory();
-                # elif (stone == "deraumere"):
-                #     inventory[DERAUMERE] += 1;
-                # elif (stone == "sibure"):
-                #     inventory[SIBURE] += 1;
-                # elif (stone == "mendiane"):
-                #     inventory[MENDIANE] += 1;
-                # elif (stone == "phiras"):
-                #     inventory[PHIRAS]  += 1;
-                # elif (stone == "thystame"):
-                #     inventory[THYSTAME]  += 1;
                 moveBuff.append("F");
                 return (0);
             if (i == 1):
@@ -326,9 +331,15 @@ def     _scavengeStones():
     return (-1);
 
 def     _checkLvlUp():
-    return (1);
+    i = 0;
+    while (i < 7):
+        if (int(inventory[i]) != int(lvlUpPatterns[lvl -1][i])):
+            return (False);
+        i+=1;
+    return (True);
 
 def     _gatherDrones():
+    broadcast(teamname + " LVL" + lvl + "ok");
     return (1);
 
 def     _layInventory():
@@ -355,29 +366,17 @@ def     _printMap():
     return (0);
 def     _updateInventory():
     global inventory;
-
-    invent = _inventory().split(']')[0];
-    l = invent.split(',');
-    l[0] = l[0][1:]
     i = 0;
-    #print l
+    l = [];
+    while (len(l) != 7):
+        invent = _inventory().split(']')[0];
+        l = invent.split(',');
+        l[0] = l[0][1:]
+
+        
     while (i < 7):
         inventory[i] = l[i].split(' ')[2];
         i += 1;
-#    l =  l.split(']')[0];
-#    r = l.split(',');
-    # #print l;
-    # while (i < 7):
-    #     buff = str(r[i]);
-    #     i +=1;
-    # # #print l.split(' ')[2][0];
-    # # #print l.split(' ', 2)[2];
-    # sys.exit(0);
-    # while (i < 7):
-    #     inventory[i] = l.split(' ', i)[2][0];
-    #     #print l.split(' |,')[2];
-    #     i += 1;
-    # _#printInventory();
     return (inventory);
 
 def     _checkBuff():
@@ -401,7 +400,7 @@ def     _ia():
     global found;
     global inventory
     #print ("Changer la taille du buffer pour les msg");
-    while (3945):
+    while (True):
         move = random.randint(1, 5);
         _updateVision();
         if (moveBuff):
@@ -414,9 +413,8 @@ def     _ia():
         elif ( _checkInventory() != 0):
             #print ("[*] Looking for " + stone + " !");
             _scavengeStones();
-        elif (_checkLvlUp()):
-            #print ("[*] Gathering other drones !");
-            sys.exit(0);
+        if (_checkLvlUp() == True):
+            print ("[*] Gathering other drones !");
             _gatherDrones();
         else:
             _layInventory();
@@ -437,6 +435,7 @@ for opt, arg in opt :
         host = arg;
 _connect_routine();
 _ia();
+sys.exit(0);
 
 ## DBG
 _updateInventory();
