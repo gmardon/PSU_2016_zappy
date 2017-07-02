@@ -69,6 +69,6 @@ clean:
 
 fclean:			clean
 				rm -rf $(NAME_SERVER)
-				rm -rf $(NAME_AI)
+				#rm -rf $(NAME_AI)
 
 re:			fclean all
