@@ -63,7 +63,7 @@ int do_cmd(t_server *serv, t_client *cl)
     int ret;
 
     i = ret = 0;
-    if (cl->player->action == NULL)
+    if (cl->player == NULL || cl->player->action == NULL)
         return (1);
     while (g_cmd_tab[i].fct != 0)
     {
@@ -97,16 +97,19 @@ int set_next_action(t_server *serv, t_client *cl)
     return (4);
 }
 
-/*t_player *get_player(t_game *game, int id)
+void handle_graph(t_server *serv, t_client *cl, char *cmd)
 {
-    t_plist *tmp;
+    int i;
 
-    tmp = game->player_list;
-    while (tmp != NULL)
+    i = 0;
+    while (g_cmd_tab[i].fct != 0)
     {
-        if (tmp->player.id == id)
-            break;
-        tmp = tmp->next;
+        if (strstr(cmd, g_cmd_tab[i].str) != NULL)
+        {
+            g_cmd_tab[i].fct(serv, cl);
+            return ;
+        }
+        i++;
     }
-    return (&(tmp->player));
-}*/
+    add_resp(serv->game, "suc\n", GRAPHIC);
+}

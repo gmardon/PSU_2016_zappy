@@ -11,7 +11,7 @@
 
 int fork_cmd(t_server *serv, t_client *cl)
 {
-    add_egg(serv, cl->player->pos, cl->team_id);
+    add_egg(serv, cl->player->pos, cl);
     add_resp(serv->game, "ok\n", cl->player->id);
     return (0);
 }
@@ -43,9 +43,9 @@ t_egg_list *get_egg_by_team(t_server *serv, int team_id)
     return (NULL);
 }
 
-int add_egg(t_server *serv, t_position pos, int team_id)
+int add_egg(t_server *serv, t_position pos, t_client *cl)
 {
-    static int id = 1;
+    static int egg_id = 1;
     t_egg_list *tmp;
     t_egg_list *new;
 
@@ -54,8 +54,9 @@ int add_egg(t_server *serv, t_position pos, int team_id)
         tmp = tmp->next;
     if ((new = malloc(sizeof(t_egg_list))) == NULL)
         return (1);
-    new->id = id;
-    new->team_id = team_id;
+    new->id = egg_id;
+    new->team_id = cl->team_id;
+    new->plr_id = cl->player->id;
     new->pos = pos;
     new->hatch_time = 600;
     new->next = NULL;
@@ -63,7 +64,7 @@ int add_egg(t_server *serv, t_position pos, int team_id)
         serv->game->egg = new;
     else
         tmp->next = new;
-    id++;
+    egg_id++;
     serv->max_clients += 1;
     return (0);
 }

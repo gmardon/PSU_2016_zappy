@@ -108,6 +108,7 @@ typedef struct s_egg_list
 {
     int id;
     int team_id;
+    int plr_id;
     t_position pos;
     int hatch_time;
     struct s_egg_list *next;
@@ -144,7 +145,7 @@ int add_resp(t_game *game, char *resp, int player_id); // add at the back
 int del_resp(t_game *game, t_rlist *node);
 int send_all_resp(t_server* serv);
 
-int add_egg(t_server *serv, t_position pos, int team_id);
+int add_egg(t_server *serv, t_position pos, t_client *cl);
 int del_egg(t_server *serv, t_egg_list *egg);
 t_egg_list *get_egg_by_team(t_server *serv, int team_id);;
 
@@ -187,6 +188,7 @@ int handle_cmd(t_server *server, t_client *client, char *cmd);
 */
 int do_cmd(t_server *serv, t_client *cl);
 
+t_client *get_cl_graph(t_server *serv);
 void del_server(t_server *serv);
 void del_game(t_server *serv);
 int check_game_finish(t_server *serv);
@@ -204,8 +206,11 @@ void init_tile_tab(t_game *game, int i);
 t_ressources init_ress(int gen);
 int *get_ress_by_name(t_ressources *ress, char *name);
 void handle_select_team(char *team_name, t_client *client, t_server *server);
+void handle_select_find(t_client *client, t_server *server, char *team);
+void handle_select_graph(t_server *serv, t_client *cl);
 void handle_client_message(char *message, t_client *client, t_server *server);
 void handle_new_client(t_server *server, int *max);
+void handle_graph(t_server *serv, t_client *cl, char *cmd);
 t_configuration *parse_args(int argc, char *argv[]);
 char *get_client_addr(struct sockaddr_in client);
 int get_client_port(struct sockaddr_in client);
@@ -252,6 +257,11 @@ int mct_evnt(t_server *serv);
 int msz_evnt(t_server *serv);
 int sgt_evnt(t_server *serv);
 int sst_evnt(t_server *serv, int freq);
+int all_tna_evnt(t_server *serv);
+int pnw_evnt(t_server *serv, t_player *plr);
+int all_pnw_evnt(t_server *serv);
+int enw_evnt(t_server *serv, t_egg_list *egg);
+int all_enw_evnt(t_server *serv);
 
 char *get_one_line(t_server *serv, t_client *cl, int lvl);
 char *get_one_tile(t_server *serv, t_position pos, int first);
@@ -266,6 +276,7 @@ int comp_ress(t_ressources need_ress, t_ressources map_ress);
 int count_plr_pos_lvl(t_server *serv, t_player *plr);
 int eject_dir_test(t_player *plr, t_player *tgt);
 int do_eject(t_player *plr, t_player *tgt);
+char *get_team_by_id(t_server *serv, int id);
 
 /*
 ** do strcat but count & realloc a if not large enough

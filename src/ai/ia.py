@@ -194,7 +194,7 @@ def     _eject():
         return (1);
 
     def      _dead():
-    s.send("-\n");
+        s.send("-\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) != "dead\n"):
         return(_cmd_failed("Dead"));
     #print ("[*] X_X\n");
