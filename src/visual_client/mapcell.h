@@ -23,6 +23,12 @@ private:
 public:
     int getFood() { return this->food; }
     void setFood(int food) { this->food = food; }
+    int getLinemate() { return this->linemate; }
+    void setLinemate(int linemane) { this->linemate = linemane; }
+    int getDeraumere() { return this->deraumere; }
+    void setDeraumere(int deraumere) { this->deraumere = deraumere; }
+    int getSibur() { return this->sibur; }
+    void setSibur(int sibur) { this->sibur = sibur; }
 };
 
 #endif // MAPCELL_H
