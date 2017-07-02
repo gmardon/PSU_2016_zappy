@@ -43,7 +43,7 @@ MapCell *GameMap::getCell(int x, int y)
 
 QRectF GameMap::boundingRect() const
 {
-    return QRectF(0.0, 0.0, width * 90, height * 25);
+    return QRectF(0.0, 0.0, width * 128, height * 37);
 }
 
 void GameMap::paint( QPainter* painter,
@@ -56,8 +56,13 @@ void GameMap::paint( QPainter* painter,
     QPixmap grass4(":/images/grass_4.png");
     QPixmap monkey_wait(":/images/monkey_wait.png");
     QPixmap banana_alert(":/images/banana_alert.png");
+    QPixmap perl(":/images/perl.png");
+    QPixmap berry(":/images/berry.png");
+    QPixmap crystal(":/images/crystal.png");
+    QPixmap diamond(":/images/diamond.png");
     for (int y = 0 ; y < height; y++)
     {
+        //painter->drawLine(QLine((y % 2 == 0 ? 0 : 43) + 0 * 128, y * 25, (y % 2 == 0 ? 0 : 43) + 10 * 87, y * 25));
         for (int x = 0; x < width; x++)
         {
             MapCell *cell = getCell(x, y);
@@ -77,8 +82,7 @@ void GameMap::paint( QPainter* painter,
                 grass = grass4;
                 break;
             }
-
-            painter->drawPixmap((y % 2 == 0 ? 0 : 43 ) + x * 87, y * 25, grass);
+            painter->drawPixmap((y % 2 == 0 ? 0 : 64) + x * 128, y * 37, grass);
         }
     }
 
@@ -86,16 +90,28 @@ void GameMap::paint( QPainter* painter,
     {
         for (int x = 0; x < width; x++)
         {
+            int item_id = 0;
             MapCell *cell = getCell(x, y);
-            if (cell->getFood() > 0)
+            if (cell->getFood() != 0)
             {
-
-                painter->drawPixmap((y % 2 == 0 ? 0 : 43 ) + x * 87, y * 25 + 40, banana_alert);
+                item_id++;
+                painter->drawPixmap(((y % 2 == 0 ? 0 : 64) + x * 128) + (item_id * 16), (y * 37) + (item_id * 16), berry);
             }
-            /*if (x == 4 && y == 10)
+            if (cell->getLinemate() != 0)
             {
-                painter->drawPixmap((y % 2 == 0 ? 0 : 43 ) + x * 87, y * 25 + 40, monkey_wait);
-            }*/
+                item_id++;
+                painter->drawPixmap(((y % 2 == 0 ? 0 : 64) + x * 128) + (item_id * 16), (y * 37) + (item_id * 16), perl);
+            }
+            if (cell->getDeraumere() != 0)
+            {
+                item_id++;
+                painter->drawPixmap(((y % 2 == 0 ? 0 : 64) + x * 128) + (item_id * 16), (y * 37) + (item_id * 16), crystal);
+            }
+            if (cell->getSibur() != 0)
+            {
+                item_id++;
+                painter->drawPixmap(((y % 2 == 0 ? 0 : 64) + x * 128) + (item_id * 16) + 10, (y * 37) + (item_id * 16) + 5, diamond);
+            }
         }
     }
 }

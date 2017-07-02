@@ -6,5 +6,14 @@
         <file alias="banana_alert.png">ressources/banana_alert.png</file>
         <file alias="grass_3.png">ressources/grass_3.png</file>
         <file alias="grass_4.png">ressources/grass_4.png</file>
+        <file>ressources/Treasure.png</file>
+        <file>ressources/Scroll.png</file>
+        <file alias="perl.png">ressources/pearl.png</file>
+        <file alias="water.png">ressources/Holy_Water.png</file>
+        <file alias="Herb.png">ressources/Herb.png</file>
+        <file alias="berry.png">ressources/berry.png</file>
+        <file>ressources/coin.png</file>
+        <file alias="crystal.png">ressources/crystal.png</file>
+        <file alias="diamond.png">ressources/diamond.png</file>
     </qresource>
 </RCC>
