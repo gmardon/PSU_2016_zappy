@@ -7,6 +7,7 @@ import getopt, sys
 import random
 import time
 import threading
+import subprocess
 from threading import Condition, Thread, Lock
 
 sys.stderr = open("zappy.log", "w")
@@ -45,8 +46,7 @@ MENDIANE = 4
 PHIRAS = 5
 THYSTAME = 6
 
-alive = True
-
+lvlUp = False;
 
 
 lvlUpPatterns = [
@@ -59,36 +59,44 @@ lvlUpPatterns = [
     [6, 2, 2, 2, 2, 2, 1]
 ]
 
-
+alive = True
     # Food
 # nb plyr, line, derau, sib, mendia, phiras, thystame
 
 # 0          1       2    3       4       5         6
 # index -> lvl du drone
 
+lock = Lock();
+condition = Condition();
+
 class   threadIO(threading.Thread):
-    def __init__(self, queue):
+    def __init__(self):
         threading.Thread.__init__(self);
         
-        def     run(self):
-            while (alive == True):
-                ret = s.recv_into(IOBuff, buff_size);
-                if (ret < 0):
-                    break;
-                IOStr = str(IOBuff);
-                IOStr[ret] = 0;
-                if (IOStr == "DEADBEEF"):
-                    alive = False;
-                #print "[+] Rcvd : [" + IOStr + "]"
+    def     run(self):
+        global queue;
+        global alive;
+        alive = True;
+                
+        print "[+] IOThread running";
+        # while (alive == True):
+        #     ret = s.recv_into(IOBuff, buff_size);
+        #     if (ret < 0):
+        #         print "Error";
+        #         break;
+        #     IOStr = str(IOBuff);
+        #     IOStr[ret] = '\0';
+        #     if (IOStr == "DEADBEEF"):
+        #         alive = False;
+        #     print "[+] Rcvd : [" + IOStr + "]"
             
 def     _cmd_failed(cmd):
-    #print("[!] Error while processing [" + cmd + "]!\n");
+    print("[!] Error while processing [" + cmd + "]!\n");
     sys.exit(0);
     
 def     _connect_routine():
     r = s.connect((host, port))
-    #print ("connect : " + str(r));
-    #print ("[-] ZappySanchezStyle - Les maçons du code\n[*] Connection on {}".format(port) + " @ " + host);
+    print ("[-] ZappySanchezStyle - Les maçons du code\n[*] Connection on {}".format(port) + " @ " + host);
     
     r = s.recv_into(buff, buff_size);
     #print ("[" + str(buff) + "]");
@@ -152,7 +160,7 @@ def     _broadcast(text):
     s.send("Broadcast" + text + "\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Broadcast"));
-    #print("[*] [" + text + "] broadcasted\n");
+    print("[*] [" + text + "] broadcasted\n");
     return (1);
 
 def     _connect_nbr():
@@ -191,10 +199,10 @@ def     _take(obj):
     if (s.recv_into(buff, buff_size) == 0  or str(buff) == "ko\n"):
         return(_cmd_failed("Take"));
     if (str(buff).split(" ")[0].split("\n")[0] == "ok"):
-        print ("[*] Object taken successfully !\n");
+#        print ("[*] Object taken successfully !\n");
         return ("OK");
     else:
-        print ("[!] Couldn't pick up object ...\n");
+        print ("[!] Couldn't pick up object : " + obj +" ...\n");
         time.sleep(0.5);
         return ("NULL");
 
@@ -215,8 +223,8 @@ def     _incant():
 
 def     _display_help():
 
-    #print ("USAGE: ./zappy_ai -p port -n name -h machine \n\tport is the port number")
-    #print ("\tname\t is the name of the team\n\tmachine\t is the name of the machine; localhost by default\n");
+    print ("USAGE: ./zappy_ai -p port -n name -h machine \n\tport is the port number")
+    print ("\tname\t is the name of the team\n\tmachine\t is the name of the machine; localhost by default\n");
     sys.exit(-1);
 
 
@@ -251,36 +259,38 @@ def     _checkInventory():
     i = 1;
     global stone;
     global inventory;
+    global lvlUp;
     # _#printInventory();
     while (i < 7):
-        print ("Inv: " + str(inventory[i]) + " & patterns : " + str(lvlUpPatterns[lvl -1][i]) + " !");
+#        print ("Inv: " + str(inventory[i]) + " & patterns : " + str(lvlUpPatterns[lvl -1][i]) + " !");
         if (int(inventory[i]) < int(lvlUpPatterns[lvl -1][i])):
             if (i == LINEMATE):
-                print ("Looking for linemate\n");
+ #               print ("Looking for linemate\n");
                 stone = "linemate";
                 return (1);
             if (i == DERAUMERE):
-                print ("Looking for deraumere\n");
+  #              print ("Looking for deraumere\n");
                 stone = "deraumere";
                 return (1);
             if (i == SIBURE):
-                print ("Looking for sibur\n");
+   #             print ("Looking for sibur\n");
                 stone = "sibur";
                 return (1);
             if (i == MENDIANE):
-                print ("Looking for mendiane\n");
+    #            print ("Looking for mendiane\n");
                 stone = "mendiane";
                 return (1);
             if (i == PHIRAS):
-                print ("Looking for phiras\n");
+     #           print ("Looking for phiras\n");
                 stone = "phiras";
                 return (1);
             if (i == THYSTAME):
-                print ("Looking for thystame\n");
+      #          print ("Looking for thystame\n");
                 stone = "thystame";
                 return (1);
         i += 1;
     print ("[*] All stones gathered, go lvl up  !\n");
+    lvlUp = True;
     return (0);
 
 def     _scavengeStones():
@@ -292,25 +302,26 @@ def     _scavengeStones():
     while (i < 4):
         #print (str(board[i]));
         if any (str(stone) in s for s in board[i]):
-            print ("[*] Found " + stone + " on tile " + str(i) + " .");
+#            print ("[*] Found " + stone + " on tile " + str(i) + " .");
             if (i == 0):
                 found = True;
-                print ("[*] Taking " + stone + " ! ");
+ #               print ("[*] Taking " + stone + " ! ");
                 j = 0;
                 if (_take(stone) != "NULL"):
+                    print "[*] " + stone + " taken !";
                     moveBuff.append("F");
                 return (0);
             if (i == 1):
-                print ("[?] Should move up and left next turn\n");
+#                print ("[?] Should move up and left next turn\n");
                 moveBuff.append("L");
                 moveBuff.append("F");
                 return (0);
             if (i == 2):
-                print ("[?] Should move forward next turn\n");
+ #               print ("[?] Should move forward next turn\n");
                 moveBuff.append("F");
                 return (0);
             if (i == 3):
-                print ("[?] Should move up and right next turn\n");
+  #              print ("[?] Should move up and right next turn\n");
                 moveBuff.append("R");
                 moveBuff.append("F");
                 _#printMap();
@@ -341,7 +352,7 @@ def     _checkLvlUp():
     return (True);
 
 def     _gatherDrones():
-    broadcast(teamname + " LVL" + lvl + "ok");
+    _broadcast(teamname + " LVL " + str(lvl) + " RDY");
     return (1);
 
 def     _layInventory():
@@ -385,13 +396,13 @@ def     _checkBuff():
     while (moveBuff[-1:]):
         char = str(moveBuff[-1:])
         if (char[2] == "F"):
-            print ("[*] Moving forward");
+#            print ("[*] Moving forward");
             _forward();
         elif (char[2] == "R"):
-            print ("[*] Moving right");
+ #           print ("[*] Moving right");
             _right();
         elif (char[2] == "L"):
-            print ("[*] Moving left");
+  #          print ("[*] Moving left");
             _left();
         moveBuff.pop();
     else:
@@ -401,6 +412,10 @@ def     _checkBuff():
 def     _ia():
     global found;
     global inventory
+    global lvlUp;
+
+    IO = threadIO();
+    IO.start();
     while (True):
         move = random.randint(1, 5);
         if (moveBuff):
@@ -411,12 +426,12 @@ def     _ia():
         if (int(_updateInventory()[0]) < 3):
             print ("[*] Food level critically low [" + str(food) + "] !");
             _scavengeFood();
-        elif ( _checkInventory() != 0):
-            print ("[*] Looking for " + stone + " !");
-            _scavengeStones();
-        if (_checkLvlUp() == True):
+        if (lvlUp == True):
             print ("[*] Gathering other drones !");
             _gatherDrones();
+        elif ( _checkInventory() != 0):
+            # print ("[*] Looking for " + stone + " !");
+            _scavengeStones();
         else:
             _layInventory();
             _incant();
