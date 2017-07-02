@@ -41,23 +41,7 @@ SRC_SERVER			=		src/server/server.c		\
 SRC_CLI				=		src/client/instructions.c \
 							src/client/main.c
 
-SRC_AI				=		src/ai/main.c		\
-							src/ai/configuration.c \
-							src/ai/client.c \
-							src/ai/destroy_client.c \
-							src/ai/init_client.c \
-							src/ai/init.c \
-							src/ai/invent.c \
-							src/ai/items.c \
-							src/ai/lay.c \
-							src/ai/listen.c \
-							src/ai/move.c \
-							src/ai/opt.c \
-							src/ai/send.c \
-							src/ai/ia.c \
-							src/ai/take.c \
-							src/ai/go_obj.c \
-							$(SRC_COMMON)
+SRC_AI				=		src/ai/zapp_ai
 
 OBJ_SERVER			=		$(SRC_SERVER:.c=.o)
 
@@ -72,8 +56,8 @@ all:			zappy_ai zappy_server
 zappy_server:			$(OBJ_SERVER) 
 				gcc -o $(NAME_SERVER) $(OBJ_SERVER) $(CFLAGS) -lm
 
-zappy_ai:			$(OBJ_AI)
-				gcc -o $(NAME_AI) $(OBJ_AI) $(CFLAGS) -pthread
+zappy_ai:
+				@$(shell cp src/ai/zappy_ai ./)
 
 client:				$(OBJ_CLI)
 				gcc -o $(NAME_CLI) $(OBJ_CLI) $(CFLAGS)
