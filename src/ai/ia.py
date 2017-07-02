@@ -157,7 +157,7 @@ def      _dead():
     return (1);
 
 def     _take(obj):
-    s.send("Take food\n");
+    s.send("Take " + obj + "\n");
     if (s.recv_into(buff, buff_size) == 0  or str(buff) == "ko\n"):
         return(_cmd_failed("Take"));
     if (str(buff).split(" ")[0].split("\n")[0] == "ok"):
@@ -199,21 +199,23 @@ def     _updateVision():
             i += 1;
     return (1);    
 
+#if (food in board[i])
 def     _scavengeFood():
     i = 0;
     while (i < 4):
-        print(i);
         if any ("food" in s for s in board[i]):
             print ("[*] Found food on current tile !\n");
-            _take("food");
-            found = True;
-            return (1);
+            if (_take("food") != "NULL"):
+                found = True;
+                return (1);
         i += 1;
     print ("[*] Didn't found any food");
         
 def     _checkInventory():
     i = 1;
     global stone;
+    global inventory;
+    _printInventory();
     while (i < 7):
         print ("Inv: " + str(inventory[i]) + " & patterns : " + str(lvlUpPatterns[lvl -1][i]) + " !");
         if (int(inventory[i]) < int(lvlUpPatterns[lvl -1][i])):
@@ -249,6 +251,7 @@ def     _scavengeStones():
     i = 0;
     global stone;
     global found;
+    global inventory;
     print ("stone : [" + stone + "] !");
     while (i < 4):
 #        print (str(board[i]));
@@ -258,21 +261,22 @@ def     _scavengeStones():
                 found = True;
                 print ("[*] Taking " + stone + " ! ");
                 _take(stone);
-                if (stone == "linemate"):
-                    #inventory[LINEMATE] = int(inventory[LINEMATE] + 1);
-                    inventory[LINEMATE] = "2";
-                elif (stone == "deraumere"):
-                    inventory[DERAUMERE] += 1;
-                elif (stone == "sibure"):
-                    inventory[SIBURE] += 1;
-                elif (stone == "mendiane"):
-                    inventory[MENDIANE] += 1;
-                elif (stone == "phiras"):
-                    inventory[PHIRAS]  += 1;
-                elif (stone == "thystame"):
-                    inventory[THYSTAME]  += 1;
+                # if (stone == "linemate"):
+                #     #inventory[LINEMATE] = int(inventory[LINEMATE] + 1);
+                #     inventory[1] = "99";
+                #     _printInventory();
+                # elif (stone == "deraumere"):
+                #     inventory[DERAUMERE] += 1;
+                # elif (stone == "sibure"):
+                #     inventory[SIBURE] += 1;
+                # elif (stone == "mendiane"):
+                #     inventory[MENDIANE] += 1;
+                # elif (stone == "phiras"):
+                #     inventory[PHIRAS]  += 1;
+                # elif (stone == "thystame"):
+                #     inventory[THYSTAME]  += 1;
                 moveBuff.append("F");
-                return (1);
+                return (0);
             if (i == 1):
                 print ("[?] Should move up and left next turn\n");
                 moveBuff.append("L");
@@ -285,13 +289,13 @@ def     _scavengeStones():
             if (i == 3):
                 print ("[?] Should move up and right next turn\n");
                 moveBuff.append("R");
-                moveBuff.append("U");
+                moveBuff.append("F");
                 return (0);
         i += 1;
-
-    if (_checkBuff() == -1):
-        _forward();
-    return (0);
+    else:
+        print ("MOVING RIGHT");
+        _right();
+    return (-1);
 
 def     _checkLvlUp():
     return (1);
@@ -319,7 +323,7 @@ def     _printMap():
         i +=1;
     return (0);
 def     _updateInventory():
-
+    global inventory;
     l = _inventory().split(',');
     i = 0;
     while (i < 7):
@@ -328,7 +332,7 @@ def     _updateInventory():
     return (inventory);
 
 def     _checkBuff():
-    if (moveBuff[-1:]):
+    while (moveBuff[-1:]):
         char = str(moveBuff[-1:])
         print "char : >" + str(char) + "<";
         if (char[2] == "F"):
@@ -340,13 +344,14 @@ def     _checkBuff():
         elif (char[2] == "L"):
             print ("[*] Moving left");
             _left();
-            moveBuff.pop();
+        moveBuff.pop();
     else:
         return (-1);
 
 
 def     _ia():
     global found;
+    global inventory
     while (3945):
         move = random.randint(1, 5);
         _updateVision();
@@ -366,12 +371,7 @@ def     _ia():
         else:
             _layInventory();
             _incant();
-#        else:
-#            print ("[<] Going forward");
-#            _forward();
-        #Synchro ?
-        #sleep(1);
-        
+    sleep(1); #sync
         
     
 if (len(sys.argv) != 7):
