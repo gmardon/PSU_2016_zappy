@@ -186,6 +186,7 @@ int handle_cmd(t_server *server, t_client *client, char *cmd);
 */
 int do_cmd(t_server *serv, t_client *cl);
 
+int get_conn_nbr(t_server *serv, int team_id);
 void close_client(t_client *client, t_server *server);
 t_direction give_rand_dir();
 t_game *init_game(t_configuration *configuration);
