@@ -39,7 +39,7 @@ int	pnw_evnt(t_server *serv, t_player *plr)
     orient = 2;
   else
     orient = 4;
-  sprintf(ret, "pnw #%d %d %d %d %d %s\n",
+  sprintf(ret, "pnw %d %d %d %d %d %s\n",
 	  plr->id, plr->pos.x, plr->pos.y, orient, plr->lvl,
 	  team);
   return (0);

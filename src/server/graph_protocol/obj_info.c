@@ -14,7 +14,7 @@ int	 pgt_evnt(t_server *serv, t_player *plr, char *str)
   char	*ret;
 
   ret = my_malloc(sizeof(char) * 69);
-  sprintf(ret, "pgt #%d %d\n", plr->id,
+  sprintf(ret, "pgt %d %d\n", plr->id,
 	  get_ress_num(str));
   add_resp(serv->game, ret, GRAPHIC);
   free(ret);
@@ -26,7 +26,7 @@ int	pdr_evnt(t_server *serv, t_player *plr, char *str)
   char	*ret;
 
   ret = my_malloc(sizeof(char) * 69);
-  sprintf(ret, "pdr #%d %d\n", plr->id,
+  sprintf(ret, "pdr %d %d\n", plr->id,
 	  get_ress_num(str));
   add_resp(serv->game, ret, GRAPHIC);
   free(ret);

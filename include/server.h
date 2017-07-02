@@ -15,7 +15,7 @@
 # define CLIENT_STATE_CONNECTED 1
 # define CLIENT_STATE_TEAM_SELECTED 2
 # define MAX_CLI 1023
-# define MAX_RESS_TILE 5
+# define MAX_RESS_TILE 3
 # define MAX_LVL 8
 
 typedef struct		s_position
