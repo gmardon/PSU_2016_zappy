@@ -85,14 +85,13 @@ class   threadIO(threading.Thread):
         self.term.write("[+]IOThread now running\n");
         print "ok\n"
         while (alive == True):
-        
-        ret = s.recv_into(IOBuff, buff_size);
+            ret = s.recv_into(IOBuff, buff_size);
             print (str(IOBuff));
             if (ret < 0):
                 print "Error";
-            break;
-        IOStr = str(IOBuff);
-        if (IOStr == "DEADBEEF"):
+                break;
+            IOStr = str(IOBuff);
+            if (IOStr == "DEADBEEF"):
                 alive = False;
            self.term.write("[+] Rcvd : [" + IOStr + "]\n");
             
