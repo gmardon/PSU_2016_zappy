@@ -1,6 +1,15 @@
+/*
+** server.h for zappy in /home/aurelien/home/aurelien.olibe/delivery/PSU_2016_zappy/include
+**
+** Made by Aurelien
+** Login   <aurelien.olibe@epitech.eu@epitech.net>
+**
+** Started on  Sun Jul  2 23:37:46 2017 Aurelien
+** Last update Sun Jul  2 23:39:46 2017 Aurelien
+*/
 #ifndef _SERVER_H_
-#define _SERVER_H_ 
-#include "zappy.h"
+# define _SERVER_H_
+# include "zappy.h"
 # define ALL_CLIENT -1
 # define GRAPHIC -2
 # define CLIENT_STATE_CONNECTED 1
@@ -9,19 +18,19 @@
 # define MAX_RESS_TILE 5
 # define MAX_LVL 8
 
-typedef struct s_position
+typedef struct		s_position
 {
   int			x;
   int			y;
 }			t_position;
 
-typedef struct s_direction
+typedef struct		s_direction
 {
   int			x;
   int			y;
 }			t_direction;
 
-typedef struct s_configuration
+typedef struct			s_configuration
 {
     int				port;
     int				world_height;
@@ -29,47 +38,47 @@ typedef struct s_configuration
     int				client_per_team;
     double			frequency;
     int				seed;
-    char**          teams;
+    char**			teams;
 }				t_configuration;
 
-typedef struct s_ressources
+typedef struct	s_ressources
 {
-    int linemate;
-    int deraumere;
-    int sibur;
-    int mendiane;
-    int phiras;
-    int thystame;
-    int food;
-} t_ressources;
+  int		linemate;
+  int		deraumere;
+  int		sibur;
+  int		mendiane;
+  int		phiras;
+  int		thystame;
+  int		food;
+}		t_ressources;
 
-typedef struct s_tile
+typedef struct	s_tile
 {
-    t_ressources ress;
-} t_tile;
+  t_ressources	ress;
+}		t_tile;
 
 /*
 ** liste chainée pr les actions du player
 */
-typedef struct s_alist
+typedef struct		s_alist
 {
-    char *str;
-    struct s_alist *next;
-} t_alist;
+  char			*str;
+  struct s_alist	*next;
+}			t_alist;
 
-typedef struct s_player
+typedef struct	s_player
 {
-    int id;
-    int team_id;
-    int lvl;
-    t_position pos;
-    t_direction dir;
-    t_ressources ress;
-    int time_left;
-    int act_time_left;
-    char *action;
-    t_alist *action_list;
-} t_player;
+  int			id;
+  int			team_id;
+  int			lvl;
+  t_position		pos;
+  t_direction		dir;
+  t_ressources		ress;
+  int			time_left;
+  int			act_time_left;
+  char			*action;
+  t_alist		*action_list;
+}			t_player;
 
 /*
 ** liste chainée pr les reponse client
