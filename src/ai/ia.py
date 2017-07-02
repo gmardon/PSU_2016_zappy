@@ -27,6 +27,13 @@ stone = "";
 found = False;
 inventory = [0, 0, 0, 0, 0, 0, 0]
 
+LINEMATE = 1
+DERAUMERE = 2
+SIBUR = 3
+MENDIANE = 4
+PHIRAS = 5
+THYSTAME = 6
+
 lvlUpPatterns = [
     [1, 0, 0, 0, 0, 0, 0],
     [2, 1, 1, 1, 0, 0, 0],
@@ -45,22 +52,28 @@ lvlUpPatterns = [
 
 def     _cmd_failed(cmd):
     print("[!] Error while processing [" + cmd + "]!\n");
-    return (-1);
-
+    sys.exit(0);
+    
 def     _connect_routine():
-    s.connect((host, port))
-
+    r = s.connect(("127.0.0.1", 4242))
+    print ("connect : " + str(r));
     print ("[-] ZappySanchezStyle - Les maçons du code\n[*] Connection on {}".format(port) + " @ " + host);
     
     r = s.recv_into(buff, buff_size);
-
+    print ("[" + str(buff) + "]");
     s.send("nj\n");
-    
     r = s.recv_into(buff, buff_size);
-    if (str(buff) == "ko"):
-        cmd_failed();
+    print ("[" + str(buff) + "]");
+    msg = str(buff);
+    if (msg.find("ok") != -1):
+        _cmd_failed("connection routine");
+    # else:
+    #     print ("buff =" + msg + " & find = " + msg.find("ok") + ".")
+    # if (msg.split(" ", 1)[0] == "ko"):
+    #     _cmd_failed("connection routine2");
+    #     print("Buff -> : [" + strmsg.split(" ")[0] + "]")
     buff[r] = 0;
-    regEx = re.findall(r"\b\d+\b", str(buff));
+    regEx = re.findall(r"\b\d+\b", str(msg));
     rem = regEx[0];
     yMax = regEx[1];
     xMax = regEx[2];
@@ -198,28 +211,29 @@ def     _checkInventory():
     i = 1;
     global stone;
     while (i < 7):
+        print ("Inv: " + str(inventory[i]) + " & patterns : " + str(lvlUpPatterns[lvl -1][i]) + " !");
         if (int(inventory[i]) < int(lvlUpPatterns[lvl -1][i])):
-            if (i == 1):
+            if (i == LINEMATE):
                 print ("Looking for linemate\n");
                 stone = "linemate";
                 return (1);
-            if (i == 2):
+            if (i == DERAUMERE):
                 print ("Looking for deraumere\n");
                 stone = "deraumere";
                 return (1);
-            if (i == 3):
+            if (i == SIBURE):
                 print ("Looking for sibur\n");
                 stone = "sibur";
                 return (1);
-            if (i == 4):
+            if (i == MENDIANE):
                 print ("Looking for mendiane\n");
                 stone = "mendiane";
                 return (1);
-            if (i == 5):
+            if (i == PHIRAS):
                 print ("Looking for phiras\n");
-                stone = "mendiane";
+                stone = "phiras";
                 return (1);
-            if (i == 6):
+            if (i == THYSTAME):
                 print ("Looking for thystame\n");
                 stone = "thystame";
                 return (1);
@@ -238,22 +252,41 @@ def     _scavengeStones():
             print ("[*] Found " + stone + " on tile " + str(i) + " .");
             if (i == 0):
                 found = True;
-                print ("[*] Taking " + stone + " !");
+                print ("[*] Taking " + stone + " ! ");
                 _take(stone);
+                if (stone == "linemate"):
+                    #inventory[LINEMATE] = int(inventory[LINEMATE] + 1);
+                    inventory[LINEMATE] = "2";
+                elif (stone == "deraumere"):
+                    inventory[DERAUMERE] += 1;
+                elif (stone == "sibure"):
+                    inventory[SIBURE] += 1;
+                elif (stone == "mendiane"):
+                    inventory[MENDIANE] += 1;
+                elif (stone == "phiras"):
+                    inventory[PHIRAS]  += 1;
+                elif (stone == "thystame"):
+                    inventory[THYSTAME]  += 1;
+                moveBuff.append("F");
                 return (1);
             if (i == 1):
-                print ("[?] Should move left next turn\n");
+                print ("[?] Should move up and left next turn\n");
                 moveBuff.append("L");
+                moveBuff.append("F");
                 return (0);
             if (i == 2):
                 print ("[?] Should move forward next turn\n");
                 moveBuff.append("F");
                 return (0);
             if (i == 3):
-                print ("[?] Should move right next turn\n");
+                print ("[?] Should move up and right next turn\n");
                 moveBuff.append("R");
+                moveBuff.append("U");
                 return (0);
         i += 1;
+
+    if (_checkBuff() == -1):
+        _forward();
     return (0);
 
 def     _checkLvlUp():
@@ -271,7 +304,7 @@ def     _incant():
 def     _printInventory():
     i = 0;
     while (i < 7):
-        print inventory[i];
+        print int(inventory[i]);
         i +=1;
 
 def     _printMap():
@@ -290,14 +323,33 @@ def     _updateInventory():
         i += 1;
     return (inventory);
 
+def     _checkBuff():
+    if (moveBuff[-1:]):
+        char = str(moveBuff[-1:])
+        print "char : >" + str(char) + "<";
+        if (char[2] == "F"):
+            print ("[*] Moving forward");
+            _forward();
+        elif (char[2] == "R"):
+            print ("[*] Moving right");
+            _right();
+        elif (char[2] == "L"):
+            print ("[*] Moving left");
+            _left();
+            moveBuff.pop();
+    else:
+        return (-1);
 
 
 def     _ia():
     global found;
     while (3945):
-        found = False;
         move = random.randint(1, 5);
         _updateVision();
+        if (moveBuff):
+            if (moveBuff[-1:]):
+                _checkBuff();
+        found = False;
         if (int(_updateInventory()[0]) < 10):
             print ("[*] Food level critically low [" + str(food) + "] !");
             _scavengeFood();
@@ -310,39 +362,9 @@ def     _ia():
         else:
             _layInventory();
             _incant();
-        if (found == False):
-            if (moveBuff):
-                if (moveBuff[-1:]):
-                    char = str(moveBuff[-1:])
-                    print "char : >" + str(char) + "<";
-                    if (char[2] == "F"):
-                        print ("[*] Moving forward");
-                        _forward();
-                    elif (char[2] == "R"):
-                        print ("[*] Moving right");
-                        _right();
-                    elif (char[2] == "L"):
-                        print ("[*] Moving left");
-                        _left();
-                    # sys.exit(0);
-                    # print ("[!!] Buffered : + " + str(moveBuff[-1:]));
-                    # print ("BUFF : " + str(moveBuff[-1:]))
-                    # if (str(moveBuff[-1:]) == "F"):
-                    #     print ("[*] Moving forward");
-                    #     _forward();
-                    # elif (str(moveBuff[-1:]) == "R"):
-                    #     print ("[*] Moving Right");
-                    #     _right();
-                    # elif (str(moveBuff[-1:]) == "L"):
-                    #     print ("[*] Moving Left");
-                    #     _left();
-                    moveBuff.pop();
-            else:
-                print ("[>] Turning forward");
-                _forward();
-        else:
-            print ("[<] Turning forward");
-            _forward();
+#        else:
+#            print ("[<] Going forward");
+#            _forward();
         #Synchro ?
         #sleep(1);
         
