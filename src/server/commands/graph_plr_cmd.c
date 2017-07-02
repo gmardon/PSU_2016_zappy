@@ -9,3 +9,30 @@
 */
 #include "server.h"
 
+int msz_cmd(t_server *serv, t_client *cl)
+{
+    if (cl)
+        msz_evnt(serv);
+    return (0);
+}
+
+int mct_cmd(t_server *serv, t_client *cl)
+{
+    if (cl)
+        mct_evnt(serv);
+    return (0);
+}
+
+int tna_cmd(t_server *serv, t_client *cl)
+{
+    if (cl)
+        all_tna_evnt(serv);
+    return (0);
+}
+
+int sgt_cmd(t_server *serv, t_client *cl)
+{
+    if (cl)
+        sgt_evnt(serv);
+    return (0);
+}

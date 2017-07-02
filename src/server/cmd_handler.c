@@ -16,7 +16,6 @@ static t_cmd g_cmd_tab[] =
     {"Left", &left_cmd, 0, 7},
     {"Look", &look_cmd, 0, 7},
     {"Inventory", &inventory_cmd, 0, 1},
-     // {"Broadcast", &broadcast_cmd, 0, 1}, exception, take 1 arg (text)
     {"Connect_nbr", &connect_nbr_cmd, 0, 1},
     {"Fork", &fork_cmd, fork_cmd_chk, 42},
     {"Eject", &eject_cmd, eject_cmd_chk, 7},
@@ -24,7 +23,10 @@ static t_cmd g_cmd_tab[] =
     {"Take", &take_cmd, &take_cmd_chk, 7},
     {"Set", &set_cmd, &set_cmd_chk, 7},
     {"Incantation", &incant_cmd, &incant_cmd_chk, 300},
-    //{"ppo", &ppo_cmd, 0}, // take 1 arg
+    {"sgt", &sgt_cmd, 0, 0},
+    {"tna", &tna_cmd, 0, 0},
+    {"mct", &mct_cmd, 0, 0},
+    {"msz", &msz_cmd, 0, 0},
     {"", 0, 0, 0}
 };
 

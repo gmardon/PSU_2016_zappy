@@ -274,6 +274,13 @@ int pfk_evnt(t_server *serv, t_player *plr);
 int eht_evnt(t_server *serv, t_egg_list *egg);
 int pdi_evnt(t_server *serv, t_player *plr);
 
+int sgt_cmd(t_server *serv, t_client *cl);
+int tna_cmd(t_server *serv, t_client *cl);
+int mct_cmd(t_server *serv, t_client *cl);
+int msz_cmd(t_server *serv, t_client *cl);
+
+
+
 
 char *get_one_line(t_server *serv, t_client *cl, int lvl);
 char *get_one_tile(t_server *serv, t_position pos, int first);
