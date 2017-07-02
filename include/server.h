@@ -6,7 +6,7 @@
 # define CLIENT_STATE_CONNECTED 1
 # define CLIENT_STATE_TEAM_SELECTED 2
 # define MAX_CLI 1023
-# define MAX_RESS_TILE 6
+# define MAX_RESS_TILE 5
 
 typedef struct s_position
 {
@@ -103,6 +103,15 @@ typedef struct s_clist
   struct s_clist *next;
 } t_clist;
 
+typedef struct s_egg_list
+{
+    int id;
+    int team_id;
+    t_position pos;
+    int hatch_time;
+    struct s_egg_list *next;
+} t_egg_list;
+
 typedef struct s_game
 {
     t_tile **map; // map[x][y] to get the tile
@@ -111,6 +120,7 @@ typedef struct s_game
     int height; // y
     int freq;
     t_rlist *resp; // response : to be checked after do_cmd/handle_cmd/do_one_cycle
+    t_egg_list *egg;
 } t_game;
 
 typedef struct s_server
@@ -133,12 +143,17 @@ int add_resp(t_game *game, char *resp, int player_id); // add at the back
 int del_resp(t_game *game, t_rlist *node);
 int send_all_resp(t_server* serv);
 
+int add_egg(t_server *serv, t_position pos, int team_id);
+int del_egg(t_server *serv, t_egg_list *egg);
+t_egg_list *get_egg_by_team(t_server *serv, int team_id);;
+
 int add_action(t_player *plr, char *cmd);
 char *pop_action(t_player *plr);
 
 int set_next_action(t_server *serv, t_client *cl);
 int do_one_cycle(t_server *serv);
 int calc_elapsed(double unit);
+int do_one_cycle_egg(t_server *serv);
 
 //t_player *get_player(t_game *game, int id); // ret player by id srch
 //t_plist *get_player_node(t_game *game, int id);
@@ -176,6 +191,8 @@ t_direction give_rand_dir();
 t_game *init_game(t_configuration *configuration);
 int add_client(t_server *server, t_client *client);
 int del_client(t_server *server, int fd);
+int free_client(t_client *client);
+int check_del_cl(t_server *serv);
 int clients_length(t_clist *client_list);
 void init_tile_tab(t_game *game, int i);
 t_ressources init_ress(int gen);
@@ -194,24 +211,28 @@ t_client *accept_client(t_server *server);
 t_client *create_client(int socket, struct sockaddr_in in);
 t_configuration *parse_args(int argc, char *argv[]);
 void send_message(t_client *client, char *msg, ...);
-void check_pos(t_game *game, t_player *plr);
+void check_pos(t_game *game, t_position *pos);
 t_client *get_cl_by_id(t_server *serv, int id);
 
 int forward_cmd(t_server *serv, t_client *cl);
 int right_cmd(t_server *serv, t_client *cl);
 int left_cmd(t_server *serv, t_client *cl);
-//int look_cmd(t_server *serv, t_client *cl);
+int look_cmd(t_server *serv, t_client *cl);
 int inventory_cmd(t_server *serv, t_client *cl);
-//int connect_nbr_cmd(t_server *serv, t_client *cl); // ??
-//int fork_cmd(t_server *serv, t_client *cl);
-//int eject_cmd(t_server *serv, t_client *cl);
+//int broadcast_cmd(t_server *serv, t_client *cl);
+int connect_nbr_cmd(t_server *serv, t_client *cl);
+int fork_cmd(t_server *serv, t_client *cl);
+int eject_cmd(t_server *serv, t_client *cl);
 int take_cmd(t_server *serv, t_client *cl);
 int set_cmd(t_server *serv, t_client *cl);
 int incant_cmd(t_server *serv, t_client *cl);
+int death_cmd(t_server *serv, t_client *cl);
 
 int set_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 int take_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 int incant_cmd_chk(t_server *serv, t_player *plr, char *cmd);
+int death_cmd_chk(t_server *serv, t_player *plr, char *cmd);
+int eject_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 
 /*
 ** Graphic protocol
@@ -226,10 +247,23 @@ int msz_evnt(t_server *serv);
 int sgt_evnt(t_server *serv);
 int sst_evnt(t_server *serv, int freq);
 
+char *get_one_line(t_server *serv, t_client *cl, int lvl);
+char *get_one_tile(t_server *serv, t_position pos, int first);
+char *get_tile_plr(t_server *serv, t_position pos, int first);
+char *get_tile_ress(t_server *serv, t_position pos);
+char *get_next_ress(t_ressources *ress);
+void get_init_pos(t_server *serv, t_position *pos,
+                    t_direction *dir, int lvl);
 int incant_chk(t_server *serv, t_player *plr);
 char *get_all_ress(t_ressources *ress);
 int comp_ress(t_ressources need_ress, t_ressources map_ress);
 int count_plr_pos_lvl(t_server *serv, t_player *plr);
+int eject_dir_test(t_player *plr, t_player *tgt);
+int do_eject(t_player *plr, t_player *tgt);
 
+/*
+** do strcat but count & realloc a if not large enough
+*/
+char *my_strcat(char *a, char *b, int *len);
 
 #endif

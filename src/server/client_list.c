@@ -44,14 +44,22 @@ int del_client(t_server *server, int fd)
         tmp = tmp->next;
     }
     if (tmp == NULL)
-        return (1);
+        return (0);
     if (old == NULL)
         server->client_list = tmp->next;
     else
         old->next = tmp->next;
-    free(tmp->client);
+    free_client(tmp->client);
     free(tmp);
     server->max_clients--;
+    return (1);
+}
+
+int free_client(t_client *client)
+{
+    if (client->player != NULL)
+        del_player(client->player);
+    free(client);
     return (0);
 }
 

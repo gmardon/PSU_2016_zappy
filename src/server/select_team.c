@@ -8,8 +8,10 @@ void handle_select_team(char *team_name, t_client *client, t_server *server)
   client->team_id = -1;
   while (server->configuration->teams[index])
   {
+    printf("in while : %s\n", server->configuration->teams[index]);
     if (strcmp(team_name, server->configuration->teams[index]) == 0)
     {
+      printf("matched : %s\n", server->configuration->teams[index]);
       client->team_id = index;
       break;
     }
@@ -19,7 +21,7 @@ void handle_select_team(char *team_name, t_client *client, t_server *server)
     {
       send_message(client, "ko\n");
       close_client(client, server);
-      return;
+      return ;
     }
   client->player = new_player(server, server->max_id++, client->team_id);
   send_message(client, "%i\n", client->player->id);

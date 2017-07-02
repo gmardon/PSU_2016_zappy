@@ -48,3 +48,16 @@ int take_cmd_chk(t_server *serv, t_player *plr, char *cmd)
     }
     return (0);
 }
+
+int death_cmd(t_server *serv, t_client *cl)
+{
+    close_client(cl, serv);
+    return (0);
+}
+
+int death_cmd_chk(t_server *serv, t_player *plr, char *cmd)
+{
+    if (cmd)
+        add_resp(serv->game, "dead\n", plr->id);
+    return (0);    
+}

@@ -31,7 +31,7 @@ t_game *init_game(t_configuration *configuration)
         init_tile_tab(game, i);
         i++;
     }
-    //game->player_list = NULL;
+    game->egg = NULL;
     srand(time(NULL));
     game->resp = NULL;
     game->freq = configuration->frequency;
