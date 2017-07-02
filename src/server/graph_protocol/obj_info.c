@@ -64,6 +64,6 @@ int get_ress_num(char *str)
   else if (strstr(str, "thystame") != NULL)
     return (6);
   else if (strstr(str, "food") != NULL)
-    return (7);
-  return (0);
+    return (0);
+  return (7);
 }
