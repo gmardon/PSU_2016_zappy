@@ -54,3 +54,22 @@ void del_game(t_server *serv)
     free(serv->game);
     serv->game = NULL;
 }
+
+int fork_cmd_chk(t_server *serv, t_player *plr, char *cmd)
+{
+    if (cmd)
+        pfk_evnt(serv, plr);
+    return (0);
+}
+
+int pdi_evnt(t_server *serv, t_player *plr)
+{
+    char *ret;
+
+    if ((ret = malloc(sizeof(char) * 111)) == NULL)
+        return (1);
+    sprintf(ret, "pdi #%d\n", plr->id);
+    add_resp(serv->game, ret, GRAPHIC);
+    free(ret);
+    return (0);
+}

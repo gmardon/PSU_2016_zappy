@@ -24,7 +24,7 @@ int set_cmd_chk(t_server *serv, t_player *plr, char *cmd)
     if ((obj = get_ress_by_name(re, str)) == NULL || *obj <= 0)
     {
         add_resp(serv->game, "ko\n", plr->id);
-        return (404); // obj not found
+        return (404);
     }
     return (0);
 }
@@ -44,7 +44,7 @@ int take_cmd_chk(t_server *serv, t_player *plr, char *cmd)
     if ((obj = get_ress_by_name(re, str)) == NULL || *obj <= 0)
     {
         add_resp(serv->game, "ko\n", plr->id);
-        return (404); // obj not found
+        return (404);
     }
     return (0);
 }
@@ -58,6 +58,9 @@ int death_cmd(t_server *serv, t_client *cl)
 int death_cmd_chk(t_server *serv, t_player *plr, char *cmd)
 {
     if (cmd)
+    {
         add_resp(serv->game, "dead\n", plr->id);
+        pdi_evnt(serv, plr);
+    }
     return (0);    
 }

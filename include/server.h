@@ -188,6 +188,7 @@ int handle_cmd(t_server *server, t_client *client, char *cmd);
 */
 int do_cmd(t_server *serv, t_client *cl);
 
+int get_ress_num(char *str);
 t_client *get_cl_graph(t_server *serv);
 void del_server(t_server *serv);
 void del_game(t_server *serv);
@@ -244,6 +245,7 @@ int take_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 int incant_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 int death_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 int eject_cmd_chk(t_server *serv, t_player *plr, char *cmd);
+int fork_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 
 /*
 ** Graphic protocol
@@ -262,6 +264,16 @@ int pnw_evnt(t_server *serv, t_player *plr);
 int all_pnw_evnt(t_server *serv);
 int enw_evnt(t_server *serv, t_egg_list *egg);
 int all_enw_evnt(t_server *serv);
+int ebo_evnt(t_server *serv, t_egg_list *egg);
+int take_evnt(t_server *serv, t_player *plr, char *str);
+int set_evnt(t_server *serv, t_player *plr, char *str);
+int pdr_evnt(t_server *serv, t_player *plr, char *str);
+int pgt_evnt(t_server *serv, t_player *plr, char *str);
+int pie_evnt(t_server *serv, t_player *plr, int r);
+int pfk_evnt(t_server *serv, t_player *plr);
+int eht_evnt(t_server *serv, t_egg_list *egg);
+int pdi_evnt(t_server *serv, t_player *plr);
+
 
 char *get_one_line(t_server *serv, t_client *cl, int lvl);
 char *get_one_tile(t_server *serv, t_position pos, int first);
@@ -275,7 +287,7 @@ char *get_all_ress(t_ressources *ress);
 int comp_ress(t_ressources need_ress, t_ressources map_ress);
 int count_plr_pos_lvl(t_server *serv, t_player *plr);
 int eject_dir_test(t_player *plr, t_player *tgt);
-int do_eject(t_player *plr, t_player *tgt);
+int do_eject(t_server *serv, t_player *plr, t_player *tgt);
 char *get_team_by_id(t_server *serv, int id);
 
 /*

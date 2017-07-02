@@ -57,3 +57,16 @@ int msz_evnt(t_server *serv)
     free(ret);
     return (0);
 }
+
+int pie_evnt(t_server *serv, t_player *plr, int r)
+{
+       char *ret;
+
+    if ((ret = malloc(sizeof(char) * 111)) == NULL)
+        return (1);
+    sprintf(ret, "pie %d %d %d\n", plr->pos.x,
+    plr->pos.y, r);
+    add_resp(serv->game, ret, GRAPHIC);
+    free(ret);
+    return (0);
+}

@@ -66,6 +66,7 @@ int add_egg(t_server *serv, t_position pos, t_client *cl)
         tmp->next = new;
     egg_id++;
     serv->max_clients += 1;
+    enw_evnt(serv, new);
     return (0);
 }
 

@@ -31,6 +31,7 @@ t_player *new_player(t_server *serv, int id, int team_id)
     if ((egg = get_egg_by_team(serv, team_id)))
     {
         new->pos = egg->pos;
+        ebo_evnt(serv, egg);
         del_egg(serv, egg);
     }
     return (new);

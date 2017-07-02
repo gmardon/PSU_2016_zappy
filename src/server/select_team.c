@@ -19,6 +19,7 @@ t_client *client, t_server *server)
   client->player = new_player(server, server->max_id++, client->team_id);
   send_message(client, "%i\n%i %i\n", get_conn_nbr(server, client->team_id),
   server->configuration->world_width, server->configuration->world_height);
+  pnw_evnt(server, client->player);
   client->state = CLIENT_STATE_TEAM_SELECTED;
 }
 

@@ -18,12 +18,12 @@ static t_cmd g_cmd_tab[] =
     {"Inventory", &inventory_cmd, 0, 1},
      // {"Broadcast", &broadcast_cmd, 0, 1}, exception, take 1 arg (text)
     {"Connect_nbr", &connect_nbr_cmd, 0, 1},
-    {"Fork", &fork_cmd, 0, 42},
+    {"Fork", &fork_cmd, fork_cmd_chk, 42},
     {"Eject", &eject_cmd, eject_cmd_chk, 7},
     {"Death", &death_cmd, &death_cmd_chk, 0},
-    {"Take", &take_cmd, &take_cmd_chk, 7}, // take 1 arg
-    {"Set", &set_cmd, &set_cmd_chk, 7}, // take 1 arg
-    {"Incantation", &incant_cmd, &incant_cmd_chk, 300}, // not regular...
+    {"Take", &take_cmd, &take_cmd_chk, 7},
+    {"Set", &set_cmd, &set_cmd_chk, 7},
+    {"Incantation", &incant_cmd, &incant_cmd_chk, 300},
     //{"ppo", &ppo_cmd, 0}, // take 1 arg
     {"", 0, 0, 0}
 };
@@ -52,8 +52,7 @@ int handle_cmd(t_server *server, t_client *client, char *cmd)
         }
         i++;
     }
-    // to replace to "ko"
-    add_resp(server->game, "404 command not found\n", client->player->id);
+    add_resp(server->game, "ko\n", client->player->id);
     return (404);
 }
 

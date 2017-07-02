@@ -35,6 +35,7 @@ SRC_SERVER			=		src/server/server.c		\
 							src/server/graph_protocol/game_info.c \
 							src/server/graph_protocol/map_info.c \
 							src/server/graph_protocol/player_info.c \
+							src/server/graph_protocol/obj_info.c \
 							src/server/graph_protocol/egg_info.c \
 							src/server/game.c \
 							$(SRC_COMMON)

@@ -96,7 +96,12 @@ int do_one_cycle_egg(t_server *serv)
     while (tmp != NULL)
     {
         if (tmp->hatch_time > 0)
+        {
             tmp->hatch_time -= 1;
+            if (tmp->hatch_time == 0)
+                eht_evnt(serv, tmp);
+        }
+            
         tmp = tmp->next;
     }
     return (0);

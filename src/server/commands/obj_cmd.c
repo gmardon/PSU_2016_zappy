@@ -43,13 +43,14 @@ int set_cmd(t_server *serv, t_client *cl)
     if ((obj = get_ress_by_name(re, str)) == NULL || *obj <= 0)
     {
         add_resp(serv->game, "ko\n", cl->player->id);
-        return (404); // obj not found
+        return (404);
     }
     *obj -= 1;
     re = &(serv->game->map[cl->player->pos.x][cl->player->pos.y].ress);
-    obj = get_ress_by_name(re, str); // can't return NULL (i hope)
+    obj = get_ress_by_name(re, str);
     *obj += 1;
     add_resp(serv->game, "ok\n", cl->player->id);
+    set_evnt(serv, cl->player, str);
     return (0);
 }
 
@@ -68,13 +69,14 @@ int take_cmd(t_server *serv, t_client *cl)
     if ((obj = get_ress_by_name(re, str)) == NULL || *obj <= 0)
     {
         add_resp(serv->game, "ko\n", cl->player->id);
-        return (404); // obj not found
+        return (404);
     }
     *obj -= 1;
     re = &(cl->player->ress);
-    obj = get_ress_by_name(re, str); // can't return NULL (i hope)
+    obj = get_ress_by_name(re, str);
     *obj += 1;
     add_resp(serv->game, "ok\n", cl->player->id);
+    take_evnt(serv, cl->player, str);    
     return (0);
 }
 

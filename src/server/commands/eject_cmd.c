@@ -17,13 +17,14 @@ int eject_cmd(t_server *serv, t_client *cl)
 
     tmp = serv->client_list;
     direction = 0;
+    pex_evnt(serv, cl->player);
     while (tmp != NULL)
     {
         if (tmp->client->player->pos.x == cl->player->pos.x
         && tmp->client->player->pos.y == cl->player->pos.y
         && tmp->client != cl)
         {
-            direction = do_eject(cl->player, tmp->client->player);
+            direction = do_eject(serv, cl->player, tmp->client->player);
             resp = my_malloc(sizeof(char) * 33);
             sprintf(resp, "eject: %d\n", direction);
             add_resp(serv->game, resp, tmp->client->player->id);
@@ -37,12 +38,13 @@ int eject_cmd(t_server *serv, t_client *cl)
         return (add_resp(serv->game, "ko\n", cl->player->id));
 }
 
-int do_eject(t_player *plr, t_player *tgt)
+int do_eject(t_server *serv, t_player *plr, t_player *tgt)
 {
     int direction;
 
     tgt->pos.x += plr->dir.x;
     tgt->pos.y += plr->dir.y;
+    ppo_evnt(serv, plr);
     direction = 0;
     if ((direction = eject_dir_test(plr, tgt)))
         return (direction);

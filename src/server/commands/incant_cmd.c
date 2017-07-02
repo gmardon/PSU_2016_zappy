@@ -28,22 +28,25 @@ int incant_cmd(t_server *serv, t_client *cl)
     t_clist *tmp;
     char *resp;
 
-    if ((resp = my_malloc(sizeof(char) * 56)) == NULL)
-        return (2);
+    resp = my_malloc(sizeof(char) * 56);
     if (incant_chk(serv, cl->player))
     {
+        pie_evnt(serv, cl->player, 1);
         sprintf(resp, "Current level: %d\n", (cl->player->lvl + 1));
         tmp = serv->client_list;
         while (tmp != NULL)
         {
             if (tmp->client->player->pos.x == cl->player->pos.x
             && tmp->client->player->pos.y == cl->player->pos.y
-            && (tmp->client->player->lvl += 1))
+            && (tmp->client->player->lvl += 1)
+            && plv_evnt(serv, tmp->client->player) == 0)
                 add_resp(serv->game, resp, tmp->client->player->id);
             tmp = tmp->next;
         }
+        bct_evnt(serv, cl->player->pos.x, cl->player->pos.y);
         return (0);
     }
+    pie_evnt(serv, cl->player, 0);
     add_resp(serv->game, "ko\n", cl->player->id);
     return (1);
 }
