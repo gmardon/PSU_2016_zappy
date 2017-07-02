@@ -84,3 +84,25 @@ int eject_dir_test(t_player *plr, t_player *tgt)
     }
     return (direction);
 }
+
+int eject_cmd_chk(t_server *serv, t_player *plr, char *cmd)
+{
+    t_clist *tmp;
+
+    tmp = serv->client_list;
+    if (cmd == NULL)
+        return (666);
+    while (tmp != NULL)
+    {
+        if (tmp->client->player->pos.x == plr->pos.x
+        && tmp->client->player->pos.y == plr->pos.y)
+            break;
+        tmp = tmp->next;
+    }
+    if (tmp == NULL)
+    {
+        add_resp(serv->game, "ko\n", plr->id);
+        return (1);
+    }
+    return (0);
+}

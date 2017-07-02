@@ -204,6 +204,7 @@ int right_cmd(t_server *serv, t_client *cl);
 int left_cmd(t_server *serv, t_client *cl);
 int look_cmd(t_server *serv, t_client *cl);
 int inventory_cmd(t_server *serv, t_client *cl);
+//int broadcast_cmd(t_server *serv, t_client *cl);
 //int connect_nbr_cmd(t_server *serv, t_client *cl); // ??
 //int fork_cmd(t_server *serv, t_client *cl);
 int eject_cmd(t_server *serv, t_client *cl);
@@ -216,6 +217,7 @@ int set_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 int take_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 int incant_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 int death_cmd_chk(t_server *serv, t_player *plr, char *cmd);
+int eject_cmd_chk(t_server *serv, t_player *plr, char *cmd);
 
 /*
 ** Graphic protocol
