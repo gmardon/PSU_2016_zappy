@@ -5,6 +5,7 @@ import socket
 import re
 import getopt, sys
 import random
+import time
 
 host = -1
 port = -1
@@ -65,7 +66,7 @@ def     _connect_routine():
     r = s.recv_into(buff, buff_size);
     print ("[" + str(buff) + "]");
     msg = str(buff);
-    if (msg.find("ok") != -1):
+    if (msg.find("ko") != -1):
         _cmd_failed("connection routine");
     # else:
     #     print ("buff =" + msg + " & find = " + msg.find("ok") + ".")
@@ -164,7 +165,7 @@ def     _take(obj):
         return (str(buff));
     else:
         print ("[!] Couldn't pick up object ...\n");
-        return (NULL);
+        return ("NULL");
 
 def     _set(obj):
     s.send("Set " + obj + "\n");
@@ -200,12 +201,15 @@ def     _updateVision():
 
 def     _scavengeFood():
     i = 0;
-    if any ("food" in s for s in board[0]):
-        print ("[*] Found food on current tile !\n");
-        _take("food");
-        found = True;
-        return (1);
-
+    while (i < 4):
+        print(i);
+        if any ("food" in s for s in board[i]):
+            print ("[*] Found food on current tile !\n");
+            _take("food");
+            found = True;
+            return (1);
+        i += 1;
+    print ("[*] Didn't found any food");
         
 def     _checkInventory():
     i = 1;
