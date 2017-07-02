@@ -12,6 +12,7 @@
 t_player *new_player(t_server *serv, int id, int team_id)
 {
     t_player *new;
+    t_egg_list *egg;
 
     if ((new = malloc(sizeof(t_player))) == NULL)
         return (NULL);
@@ -27,6 +28,11 @@ t_player *new_player(t_server *serv, int id, int team_id)
     new->act_time_left = 0;
     new->action = NULL;
     new->action_list = NULL;
+    if ((egg = get_egg_by_team(serv, team_id)))
+    {
+        new->pos = egg->pos;
+        del_egg(serv, egg);
+    }
     return (new);
 }
 

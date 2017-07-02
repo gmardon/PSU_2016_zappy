@@ -103,6 +103,15 @@ typedef struct s_clist
   struct s_clist *next;
 } t_clist;
 
+typedef struct s_egg_list
+{
+    int id;
+    int team_id;
+    t_position pos;
+    int hatch_time;
+    struct s_egg_list *next;
+} t_egg_list;
+
 typedef struct s_game
 {
     t_tile **map; // map[x][y] to get the tile
@@ -111,6 +120,7 @@ typedef struct s_game
     int height; // y
     int freq;
     t_rlist *resp; // response : to be checked after do_cmd/handle_cmd/do_one_cycle
+    t_egg_list *egg;
 } t_game;
 
 typedef struct s_server
@@ -133,12 +143,17 @@ int add_resp(t_game *game, char *resp, int player_id); // add at the back
 int del_resp(t_game *game, t_rlist *node);
 int send_all_resp(t_server* serv);
 
+int add_egg(t_server *serv, t_position pos, int team_id);
+int del_egg(t_server *serv, t_egg_list *egg);
+t_egg_list *get_egg_by_team(t_server *serv, int team_id);;
+
 int add_action(t_player *plr, char *cmd);
 char *pop_action(t_player *plr);
 
 int set_next_action(t_server *serv, t_client *cl);
 int do_one_cycle(t_server *serv);
 int calc_elapsed(double unit);
+int do_one_cycle_egg(t_server *serv);
 
 //t_player *get_player(t_game *game, int id); // ret player by id srch
 //t_plist *get_player_node(t_game *game, int id);
@@ -205,8 +220,8 @@ int left_cmd(t_server *serv, t_client *cl);
 int look_cmd(t_server *serv, t_client *cl);
 int inventory_cmd(t_server *serv, t_client *cl);
 //int broadcast_cmd(t_server *serv, t_client *cl);
-//int connect_nbr_cmd(t_server *serv, t_client *cl); // ??
-//int fork_cmd(t_server *serv, t_client *cl);
+int connect_nbr_cmd(t_server *serv, t_client *cl);
+int fork_cmd(t_server *serv, t_client *cl);
 int eject_cmd(t_server *serv, t_client *cl);
 int take_cmd(t_server *serv, t_client *cl);
 int set_cmd(t_server *serv, t_client *cl);

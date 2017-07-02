@@ -29,11 +29,7 @@ int do_one_cycle(t_server *serv)
         if (player->act_time_left > 0)
             player->act_time_left -= 1;
         if (player->act_time_left <= 0)
-        {
             do_cmd(serv, tmp->client);
-            // fin action -> add_evnt
-            // resp
-        }
         if (tmp->client->player->time_left <= 0)
         {
             if (tmp->client->player->ress.food > 0)
@@ -43,8 +39,22 @@ int do_one_cycle(t_server *serv)
             }
             else
                 handle_cmd(serv, tmp->client, "Death");
-            // else    player is dead // TO DO
         }
+        tmp = tmp->next;
+    }
+    do_one_cycle_egg(serv);
+    return (0);
+}
+
+int do_one_cycle_egg(t_server *serv)
+{
+    t_egg_list *tmp;
+
+    tmp = serv->game->egg;
+    while (tmp != NULL)
+    {
+        if (tmp->hatch_time > 0)
+            tmp->hatch_time -= 1;
         tmp = tmp->next;
     }
     return (0);

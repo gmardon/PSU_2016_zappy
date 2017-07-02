@@ -17,8 +17,8 @@ static t_cmd g_cmd_tab[] =
     {"Look", &look_cmd, 0, 7},
     {"Inventory", &inventory_cmd, 0, 1},
      // {"Broadcast", &broadcast_cmd, 0, 1}, exception, take 1 arg (text)
-    //{"Connect_nbr", &connect_nbr_cmd, 0},
-    //{"Fork", &fork_cmd, 0, 42},
+    {"Connect_nbr", &connect_nbr_cmd, 0, 1},
+    {"Fork", &fork_cmd, 0, 42},
     {"Eject", &eject_cmd, eject_cmd_chk, 7},
     {"Death", &death_cmd, &death_cmd_chk, 0},
     {"Take", &take_cmd, &take_cmd_chk, 7}, // take 1 arg
