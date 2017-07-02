@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     clientsocket.cpp \
     mapcell.cpp \
     zappy.cpp \
-    error.cpp
+    error.cpp \
+    utils.cpp
 
 HEADERS  += \
     gamemap.h \
@@ -26,7 +27,8 @@ HEADERS  += \
     clientsocket.h \
     mapcell.h \
     zappy.h \
-    error.h
+    error.h \
+    utils.h
 
 RESOURCES += \
     ressources.qrc

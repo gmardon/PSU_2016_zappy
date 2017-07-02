@@ -3,6 +3,7 @@
 #include <iostream>
 #include "clientsocket.h"
 #include "gamemap.h"
+#include "utils.h"
 
 class Zappy : public QObject
 {
