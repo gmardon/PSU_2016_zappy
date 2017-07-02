@@ -6,7 +6,7 @@
 # define CLIENT_STATE_CONNECTED 1
 # define CLIENT_STATE_TEAM_SELECTED 2
 # define MAX_CLI 1023
-# define MAX_RESS_TILE 6
+# define MAX_RESS_TILE 5
 
 typedef struct s_position
 {
@@ -206,7 +206,7 @@ int look_cmd(t_server *serv, t_client *cl);
 int inventory_cmd(t_server *serv, t_client *cl);
 //int connect_nbr_cmd(t_server *serv, t_client *cl); // ??
 //int fork_cmd(t_server *serv, t_client *cl);
-//int eject_cmd(t_server *serv, t_client *cl);
+int eject_cmd(t_server *serv, t_client *cl);
 int take_cmd(t_server *serv, t_client *cl);
 int set_cmd(t_server *serv, t_client *cl);
 int incant_cmd(t_server *serv, t_client *cl);
@@ -241,6 +241,8 @@ int incant_chk(t_server *serv, t_player *plr);
 char *get_all_ress(t_ressources *ress);
 int comp_ress(t_ressources need_ress, t_ressources map_ress);
 int count_plr_pos_lvl(t_server *serv, t_player *plr);
+int eject_dir_test(t_player *plr, t_player *tgt);
+int do_eject(t_player *plr, t_player *tgt);
 
 /*
 ** do strcat but count & realloc a if not large enough

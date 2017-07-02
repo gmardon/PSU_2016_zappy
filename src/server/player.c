@@ -20,8 +20,6 @@ t_player *new_player(t_server *serv, int id, int team_id)
     new->team_id = team_id;
     new->pos.x = rand() % serv->configuration->world_width;
     new->pos.y = rand() % serv->configuration->world_height;
-    /*new->dir.x = 0;
-    new->dir.y = -1;*/
     new->dir = give_rand_dir();
     new->ress = init_ress(0);
     new->ress.food = 9;

@@ -53,8 +53,8 @@ char *get_one_line(t_server *serv, t_client *cl, int lvl)
             free(tmp);
         else
             resp = tmp;
-        pos.x -= dir.x * lvl;
-        pos.y -= dir.y * lvl;
+        pos.x -= dir.x;
+        pos.y -= dir.y;
         check_pos(serv->game, &pos);
     }
     return (resp);

@@ -25,9 +25,9 @@ void get_init_pos(t_server *serv, t_position *pos,
         dir->x = (dir->y * -1);
         dir->y = 0;
     }
-    pos->x -= dir->x * lvl;
-    pos->y -= dir->y * lvl;
-    check_pos(serv->game, pos);    
+    pos->x += dir->x * lvl;
+    pos->y += dir->y * lvl;
+    check_pos(serv->game, pos);
 }
 
 char *get_next_ress(t_ressources *ress)

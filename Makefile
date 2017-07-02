@@ -30,6 +30,7 @@ SRC_SERVER			=		src/server/server.c		\
 							src/server/commands/incant_cmd.c \
 							src/server/commands/check_cmd.c \
 							src/server/commands/look_cmd.c \
+							src/server/commands/eject_cmd.c \
 							src/server/graph_protocol/game_info.c \
 							src/server/graph_protocol/map_info.c \
 							src/server/graph_protocol/player_info.c \
