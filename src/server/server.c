@@ -88,7 +88,7 @@ void start_server(t_server *server)
 
 	max = server->fd;
 	printf("start on port %d, waiting for connections...\n", server->configuration->port);
-	while (TRUE)
+	while (check_game_finish(server))
 	{
 		read_fds = server->master;
 		if (select(max + 1, &read_fds, NULL, NULL, &tv) == -1)
