@@ -12,6 +12,48 @@
 #include <sys/time.h>
 #include "server.h"
 
+int check_game_finish(t_server *serv)
+{
+    t_clist *tmp;
+    int nb;
+
+    tmp = serv->client_list;
+    while (tmp != NULL)
+    {
+        if (tmp->client->player != NULL
+        && tmp->client->player->lvl >= MAX_LVL)
+        {
+            nb = look_for_same_lvl(serv,
+            tmp->client->team_id, tmp->client->player->lvl);
+            if (nb >= 6)
+            {
+                printf("The Team %s have WIN !!!\n", 
+                serv->configuration->teams[tmp->client->team_id]);
+                return (0);
+            }
+        }
+        tmp = tmp->next;
+    }
+    return (1);
+}
+
+int look_for_same_lvl(t_server *serv, int team_id, int lvl)
+{
+    t_clist *tmp;
+    int nb;
+
+    tmp = serv->client_list;
+    nb = 0;
+    while (tmp != NULL)
+    {
+        if (tmp->client->team_id == team_id
+        && tmp->client->player->lvl == lvl)
+            nb++;
+        tmp = tmp->next;
+    }
+    return (nb);
+}
+
 int do_one_cycle(t_server *serv)
 {
     t_clist *tmp;

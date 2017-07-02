@@ -52,5 +52,7 @@ int get_conn_nbr(t_server *serv, int team_id)
       nb--;
     tmpp = tmpp->next;
   }
+  if (nb < 0)
+    return (0);
   return (nb);
 }

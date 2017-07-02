@@ -7,6 +7,7 @@
 # define CLIENT_STATE_TEAM_SELECTED 2
 # define MAX_CLI 1023
 # define MAX_RESS_TILE 5
+# define MAX_LVL 8
 
 typedef struct s_position
 {
@@ -186,6 +187,10 @@ int handle_cmd(t_server *server, t_client *client, char *cmd);
 */
 int do_cmd(t_server *serv, t_client *cl);
 
+void del_server(t_server *serv);
+void del_game(t_server *serv);
+int check_game_finish(t_server *serv);
+int look_for_same_lvl(t_server *serv, int team_id, int lvl);
 int get_conn_nbr(t_server *serv, int team_id);
 void close_client(t_client *client, t_server *server);
 t_direction give_rand_dir();

@@ -67,17 +67,6 @@ t_ressources init_ress(int gen)
             val = rand() % MAX_RESS_TILE;
         tmp[i] = val;
         i++;
-        //i += sizeof(int);
     }
-
-    /*
-    ress.linemate = 0;
-    ress.deraumere = 0;
-    ress.sibur = 0;
-    ress.mendiane = 0;
-    ress.phiras = 0;
-    ress.thystame = 0;
-    ress.food = 0;
-    */
     return (ress);
 }
