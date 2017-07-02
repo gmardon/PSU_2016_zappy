@@ -70,25 +70,31 @@ lock = Lock();
 condition = Condition();
 
 class   threadIO(threading.Thread):
+    
+    
     def __init__(self):
         threading.Thread.__init__(self);
+        self.lock = threading.Lock();
+        self.term = sys.stdout;
         
     def     run(self):
         global queue;
         global alive;
         alive = True;
-                
-        print "[+] IOThread running";
-        # while (alive == True):
-        #     ret = s.recv_into(IOBuff, buff_size);
+
+#        self.term.write("[+]IOThread now running\n");
+ #       print "ok\n"
+        while (alive == True):
+
+            ret = s.recv_into(IOBuff, buff_size);
+#            print (str(IOBuff));
         #     if (ret < 0):
         #         print "Error";
         #         break;
-        #     IOStr = str(IOBuff);
-        #     IOStr[ret] = '\0';
+            IOStr = str(IOBuff);
         #     if (IOStr == "DEADBEEF"):
         #         alive = False;
-        #     print "[+] Rcvd : [" + IOStr + "]"
+ #           self.term.write("[+] Rcvd : [" + IOStr + "]\n");
             
 def     _cmd_failed(cmd):
     print("[!] Error while processing [" + cmd + "]!\n");
@@ -187,7 +193,7 @@ def     _eject():
         print ("[*} Player Ejected\n");
         return (1);
 
-def      _dead():
+    def      _dead():
     s.send("-\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) != "dead\n"):
         return(_cmd_failed("Dead"));
@@ -414,8 +420,8 @@ def     _ia():
     global inventory
     global lvlUp;
 
-    IO = threadIO();
-    IO.start();
+#    IO = threadIO();
+#    IO.start();
     while (True):
         move = random.randint(1, 5);
         if (moveBuff):
