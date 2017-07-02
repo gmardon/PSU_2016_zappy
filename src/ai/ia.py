@@ -1,4 +1,4 @@
-#!/usr/bin
+ #!/usr/bin
 #coding: utf-8
 
 import socket
@@ -6,12 +6,14 @@ import re
 import getopt, sys
 import random
 import time
+sys.stderr = open("zappy.log", "w")
+
 
 host = -1
 port = -1
 teamname = "NONE";
 
-buff_size = 2048
+buff_size = 9999
 buff = bytearray(buff_size)
 yMax = -1
 xMax = -1
@@ -30,7 +32,7 @@ inventory = [0, 0, 0, 0, 0, 0, 0]
 
 LINEMATE = 1
 DERAUMERE = 2
-SIBUR = 3
+SIBURE = 3
 MENDIANE = 4
 PHIRAS = 5
 THYSTAME = 6
@@ -52,41 +54,41 @@ lvlUpPatterns = [
 
 
 def     _cmd_failed(cmd):
-    print("[!] Error while processing [" + cmd + "]!\n");
+    #print("[!] Error while processing [" + cmd + "]!\n");
     sys.exit(0);
     
 def     _connect_routine():
     r = s.connect(("127.0.0.1", 4242))
-    print ("connect : " + str(r));
-    print ("[-] ZappySanchezStyle - Les maçons du code\n[*] Connection on {}".format(port) + " @ " + host);
+    #print ("connect : " + str(r));
+    #print ("[-] ZappySanchezStyle - Les maçons du code\n[*] Connection on {}".format(port) + " @ " + host);
     
     r = s.recv_into(buff, buff_size);
-    print ("[" + str(buff) + "]");
+    #print ("[" + str(buff) + "]");
     s.send("nj\n");
     r = s.recv_into(buff, buff_size);
-    print ("[" + str(buff) + "]");
+    #print ("[" + str(buff) + "]");
     msg = str(buff);
     if (msg.find("ko") != -1):
         _cmd_failed("connection routine");
     # else:
-    #     print ("buff =" + msg + " & find = " + msg.find("ok") + ".")
+    #     #print ("buff =" + msg + " & find = " + msg.find("ok") + ".")
     # if (msg.split(" ", 1)[0] == "ko"):
     #     _cmd_failed("connection routine2");
-    #     print("Buff -> : [" + strmsg.split(" ")[0] + "]")
+    #     #print("Buff -> : [" + strmsg.split(" ")[0] + "]")
     buff[r] = 0;
     regEx = re.findall(r"\b\d+\b", str(msg));
     rem = regEx[0];
     yMax = regEx[1];
     xMax = regEx[2];
 
-    print ("[*]Info:\n\tRemaining conn :" + rem + "\n\tYmax : " + yMax + "\n\txMax : " + xMax);
+    #print ("[*]Info:\n\tRemaining conn :" + rem + "\n\tYmax : " + yMax + "\n\txMax : " + xMax);
     
 
 def     _forward():
     s.send("Forward\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Forward"));
-    print("[*] Moved forward\n");
+    #print("[*] Moved forward\n");
     backtrack.append("F");
     return (1);
 
@@ -94,7 +96,7 @@ def     _right():
     s.send("Right\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Right"));
-    print("[*] Move right\n");
+    #print("[*] Move right\n");
     backtrack.append("R");
     return (1);
 
@@ -102,7 +104,7 @@ def     _left():
     s.send("Left\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Left"));
-    print("[*] Moved left\n");
+    #print("[*] Moved left\n");
     backtrack.append("L");
     return (1);
 
@@ -122,21 +124,21 @@ def     _broadcast(text):
     s.send("Broadcast" + text + "\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Broadcast"));
-    print("[*] [" + text + "] broadcasted\n");
+    #print("[*] [" + text + "] broadcasted\n");
     return (1);
 
 def     _connect_nbr():
     s.send("Connect_nbr\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Connect_nbr"));
-    print("[*] Number of team unused slots: " + str(buff));
+    #print("[*] Number of team unused slots: " + str(buff));
     return (1);               
 
 def     _fork():
     s.send("Fork\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Fork"));
-    print("[*] Drone forked\n");
+    #print("[*] Drone forked\n");
     return (1);
 
 def     _eject():
@@ -153,98 +155,110 @@ def      _dead():
     s.send("-\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) != "dead\n"):
         return(_cmd_failed("Dead"));
-    print ("[*] X_X\n");
+    #print ("[*] X_X\n");
     return (1);
 
 def     _take(obj):
-    s.send("Take " + obj + "\n");
+    s.send("Take "+ str(obj) + "\n");
     if (s.recv_into(buff, buff_size) == 0  or str(buff) == "ko\n"):
         return(_cmd_failed("Take"));
     if (str(buff).split(" ")[0].split("\n")[0] == "ok"):
-        print ("[*] Object taken successfully !\n");
+        #print ("[*] Object taken successfully !\n");
         return (str(buff));
     else:
-        print ("[!] Couldn't pick up object ...\n");
+        #print ("[!] Couldn't pick up object ...\n");
         return ("NULL");
 
 def     _set(obj):
     s.send("Set " + obj + "\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Set"));
-    print ("[*] Object " + obj + " has been put down !\n");
+    #print ("[*] Object " + obj + " has been put down !\n");
     return (-1);
 
 def     _incant():
     s.send("Incantation\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Incantation"));
-    print ("[*] " + str(buff));
+    #print ("[*] " + str(buff));
     return (1);
 
 
 def     _display_help():
 
-    print ("USAGE: ./zappy_ai -p port -n name -h machine \n\tport is the port number")
-    print ("\tname\t is the name of the team\n\tmachine\t is the name of the machine; localhost by default\n");
+    #print ("USAGE: ./zappy_ai -p port -n name -h machine \n\tport is the port number")
+    #print ("\tname\t is the name of the team\n\tmachine\t is the name of the machine; localhost by default\n");
     sys.exit(-1);
 
 
 def     _updateVision():
     i = 0;
     ret = _look().split(",");
-    if (ret[0][0] == '['):
-        while (i < 4):
-            board[i] = ret[i].split(" ");
-#            print board[i];
-            i += 1;
+    ret[0] = ret[0][1:];
+    # #print("...");
+    # #print ret[0];
+    # #print("...");
+    # #print ret[1].split(" ");
+    # #print("...");
+    # #print ret[2].split(" ");
+
+    
+    # #print (">>";
+    # #print ret;
+    # if (ret[0][0] == '['):
+    while (i < 3):
+        board[i] = ret[i].split(" ");
+        if (i == 3):
+            board[i] = board[i][0];
+        i += 1;
     return (1);    
 
 #if (food in board[i])
 def     _scavengeFood():
     i = 0;
-    while (i < 4):
+    while (i < 3):
         if any ("food" in s for s in board[i]):
-            print ("[*] Found food on current tile !\n");
+            #print ("[*] Found food on current tile !\n");
             if (_take("food") != "NULL"):
                 found = True;
                 return (1);
         i += 1;
-    print ("[*] Didn't found any food");
+    #print ("[*] Didn't found any food");
         
 def     _checkInventory():
     i = 1;
     global stone;
     global inventory;
-    _printInventory();
+    # _printInventory();
     while (i < 7):
-        print ("Inv: " + str(inventory[i]) + " & patterns : " + str(lvlUpPatterns[lvl -1][i]) + " !");
+        #print ("Inv: " + str(inventory[i]) + " & patterns : " + str(lvlUpPatterns[lvl -1][i]) + " !");
         if (int(inventory[i]) < int(lvlUpPatterns[lvl -1][i])):
             if (i == LINEMATE):
-                print ("Looking for linemate\n");
+                #print ("Looking for linemate\n");
                 stone = "linemate";
                 return (1);
             if (i == DERAUMERE):
-                print ("Looking for deraumere\n");
+                #print ("Looking for deraumere\n");
                 stone = "deraumere";
                 return (1);
             if (i == SIBURE):
-                print ("Looking for sibur\n");
+                #print ("Looking for sibur\n");
                 stone = "sibur";
                 return (1);
             if (i == MENDIANE):
-                print ("Looking for mendiane\n");
+                #print ("Looking for mendiane\n");
                 stone = "mendiane";
                 return (1);
             if (i == PHIRAS):
-                print ("Looking for phiras\n");
+                #print ("Looking for phiras\n");
                 stone = "phiras";
                 return (1);
             if (i == THYSTAME):
-                print ("Looking for thystame\n");
+                #print ("Looking for thystame\n");
                 stone = "thystame";
                 return (1);
         i += 1;
-    print ("[*] No stone to look for !\n");
+    print ("[*] All stones gathered, go lvl up  !\n");
     return (0);
 
 def     _scavengeStones():
@@ -252,19 +266,21 @@ def     _scavengeStones():
     global stone;
     global found;
     global inventory;
-    print ("stone : [" + stone + "] !");
+    #print ("stone : [" + stone + "] !");
     while (i < 4):
-#        print (str(board[i]));
+#        #print (str(board[i]));
         if any (str(stone) in s for s in board[i]):
-            print ("[*] Found " + stone + " on tile " + str(i) + " .");
+            #print ("[*] Found " + stone + " on tile " + str(i) + " .");
             if (i == 0):
                 found = True;
-                print ("[*] Taking " + stone + " ! ");
-                _take(stone);
+                #print ("[*] Taking " + stone + " ! ");
+                j = 0;
+                while (_take(stone) == "NULL" and j < 9):
+                    j += 1;
                 # if (stone == "linemate"):
                 #     #inventory[LINEMATE] = int(inventory[LINEMATE] + 1);
                 #     inventory[1] = "99";
-                #     _printInventory();
+                #     _#printInventory();
                 # elif (stone == "deraumere"):
                 #     inventory[DERAUMERE] += 1;
                 # elif (stone == "sibure"):
@@ -278,23 +294,35 @@ def     _scavengeStones():
                 moveBuff.append("F");
                 return (0);
             if (i == 1):
-                print ("[?] Should move up and left next turn\n");
+                #print ("[?] Should move up and left next turn\n");
                 moveBuff.append("L");
                 moveBuff.append("F");
                 return (0);
             if (i == 2):
-                print ("[?] Should move forward next turn\n");
+                #print ("[?] Should move forward next turn\n");
                 moveBuff.append("F");
                 return (0);
             if (i == 3):
-                print ("[?] Should move up and right next turn\n");
+                #print ("[?] Should move up and right next turn\n");
                 moveBuff.append("R");
                 moveBuff.append("F");
+                _#printMap();
                 return (0);
         i += 1;
     else:
-        print ("MOVING RIGHT");
-        _right();
+        rand = random.randint(1, 3);
+        if (rand == 1):
+            #print ("MOVING LEFT");
+            _left();
+        elif (rand == 2):
+            #print ("MOVING FORWARD");
+            _forward();
+        elif (rand == 3):
+            #print ("MOVING LEFT");
+            _left();
+        else:
+            #print ("ERROR !\n")
+            sys.exit(1);
     return (-1);
 
 def     _checkLvlUp():
@@ -312,37 +340,57 @@ def     _incant():
 def     _printInventory():
     i = 0;
     while (i < 7):
-        print int(inventory[i]);
+        #print int(inventory[i]);
         i +=1;
 
 def     _printMap():
     i = 0;
     while (i < 4):
-        print ("[*] Tile " + str(i) + " :\n");
-        print board[i];
+        #print ("[*] Tile " + str(i) + " :\n");
+        if (i == 3):
+            print(board[i][0]);
+        else:
+            print board[i];
         i +=1;
     return (0);
 def     _updateInventory():
     global inventory;
-    l = _inventory().split(',');
+
+    invent = _inventory().split(']')[0];
+    l = invent.split(',');
+    l[0] = l[0][1:]
     i = 0;
+    #print l
     while (i < 7):
         inventory[i] = l[i].split(' ')[2];
         i += 1;
+#    l =  l.split(']')[0];
+#    r = l.split(',');
+    # #print l;
+    # while (i < 7):
+    #     buff = str(r[i]);
+    #     i +=1;
+    # # #print l.split(' ')[2][0];
+    # # #print l.split(' ', 2)[2];
+    # sys.exit(0);
+    # while (i < 7):
+    #     inventory[i] = l.split(' ', i)[2][0];
+    #     #print l.split(' |,')[2];
+    #     i += 1;
+    # _#printInventory();
     return (inventory);
 
 def     _checkBuff():
     while (moveBuff[-1:]):
         char = str(moveBuff[-1:])
-        print "char : >" + str(char) + "<";
         if (char[2] == "F"):
-            print ("[*] Moving forward");
+            #print ("[*] Moving forward");
             _forward();
         elif (char[2] == "R"):
-            print ("[*] Moving right");
+            #print ("[*] Moving right");
             _right();
         elif (char[2] == "L"):
-            print ("[*] Moving left");
+            #print ("[*] Moving left");
             _left();
         moveBuff.pop();
     else:
@@ -352,6 +400,7 @@ def     _checkBuff():
 def     _ia():
     global found;
     global inventory
+    #print ("Changer la taille du buffer pour les msg");
     while (3945):
         move = random.randint(1, 5);
         _updateVision();
@@ -360,18 +409,19 @@ def     _ia():
                 _checkBuff();
         found = False;
         if (int(_updateInventory()[0]) < 10):
-            print ("[*] Food level critically low [" + str(food) + "] !");
+            #print ("[*] Food level critically low [" + str(food) + "] !");
             _scavengeFood();
         elif ( _checkInventory() != 0):
-            print ("[*] Looking for " + stone + " !");
+            #print ("[*] Looking for " + stone + " !");
             _scavengeStones();
         elif (_checkLvlUp()):
-            print ("[*] Gathering other drones !");
+            #print ("[*] Gathering other drones !");
+            sys.exit(0);
             _gatherDrones();
         else:
             _layInventory();
             _incant();
-    sleep(1); #sync
+        
         
     
 if (len(sys.argv) != 7):
