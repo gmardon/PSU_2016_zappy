@@ -82,19 +82,19 @@ class   threadIO(threading.Thread):
         global alive;
         alive = True;
 
-#        self.term.write("[+]IOThread now running\n");
- #       print "ok\n"
+        self.term.write("[+]IOThread now running\n");
+        print "ok\n"
         while (alive == True):
-
-            ret = s.recv_into(IOBuff, buff_size);
-#            print (str(IOBuff));
-        #     if (ret < 0):
-        #         print "Error";
-        #         break;
-            IOStr = str(IOBuff);
-        #     if (IOStr == "DEADBEEF"):
-        #         alive = False;
- #           self.term.write("[+] Rcvd : [" + IOStr + "]\n");
+        
+        ret = s.recv_into(IOBuff, buff_size);
+            print (str(IOBuff));
+            if (ret < 0):
+                print "Error";
+            break;
+        IOStr = str(IOBuff);
+        if (IOStr == "DEADBEEF"):
+                alive = False;
+           self.term.write("[+] Rcvd : [" + IOStr + "]\n");
             
 def     _cmd_failed(cmd):
     print("[!] Error while processing [" + cmd + "]!\n");
@@ -108,7 +108,7 @@ def     _connect_routine():
     #print ("[" + str(buff) + "]");
     s.send("nj\n");
     r = s.recv_into(buff, buff_size);
-    #print ("[" + str(buff) + "]");
+    print ("[" + str(buff) + "]");
     msg = str(buff);
     if (msg.find("ko") != -1):
         _cmd_failed("connection routine");
@@ -128,6 +128,7 @@ def     _connect_routine():
 
 def     _forward():
     s.send("Forward\n");
+
     if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Forward"));
     #print("[*] Moved forward\n");
@@ -193,7 +194,7 @@ def     _eject():
         print ("[*} Player Ejected\n");
         return (1);
 
-    def      _dead():
+def      _dead():
     s.send("-\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) != "dead\n"):
         return(_cmd_failed("Dead"));
@@ -420,8 +421,8 @@ def     _ia():
     global inventory
     global lvlUp;
 
-#    IO = threadIO();
-#    IO.start();
+    # IO = threadIO();
+    # IO.start();
     while (True):
         move = random.randint(1, 5);
         if (moveBuff):
