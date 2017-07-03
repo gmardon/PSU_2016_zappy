@@ -78,6 +78,15 @@ void Zappy::handleMessage(std::string message)
 
         player->setPosition(x, y, direction);
     }
+    else if (query.at(0) == "plv")
+    {
+        int id = atoi(query.at(1).c_str());
+        int level = atoi(query.at(2).c_str());
+
+        Player *player = map->getPlayer(id);
+
+        player->setLevel(level);
+    }
     this->map->update();
 }
 

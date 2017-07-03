@@ -25,6 +25,7 @@ public:
     int getDirection() { return this->direction; }
     int getLevel() { return this->level; }
     std::string getTeam() { return this->team; }
+    void setLevel(int level) { this->level = level; }
 
 };
 
