@@ -19,16 +19,18 @@ public:
                 QWidget *widget);
 
     std::vector<MapCell*> *getCells();
+    std::vector<std::string> *getTeams();
     MapCell *getCell(int x, int y);
     Player *getPlayer(int id);
     void removePlayer(int id);
     void addPlayer(Player *player);
-
+    void addTeam(std::string);
 private:
     int height;
     int width;
     std::vector<MapCell*> cells;
     std::vector<Player*> players;
+    std::vector<std::string> teams;
 };
 
 

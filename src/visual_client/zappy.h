@@ -7,18 +7,21 @@
 #include "player.h"
 #include <QGraphicsItem>
 #include "gamemenu.h"
+#include <QMediaPlayer>
 
 class Zappy : public QGraphicsScene
 {
 Q_OBJECT
 public:
-    Zappy(std::string address, int port);
+    Zappy();
+    void connect(std::string address, int port);
     GameMap *getMap();
 
 private:
     ClientSocket *socket;
     GameMap *map;
     GameMenu *menu;
+    QMediaPlayer *sound;
 
 private slots :
     void handleDisconnected();

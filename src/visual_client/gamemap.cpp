@@ -6,8 +6,9 @@
 
 GameMap::GameMap()
 {
-    this->width = 10;
-    this->height = 20;
+    this->width = 0;
+    this->height = 0;
+    this->hide();
 }
 
 GameMap::~GameMap()
@@ -27,7 +28,7 @@ void GameMap::init(int width, int height)
             this->cells.back()->_grass = (qrand() % 4) + 1;
         }
     }
-
+    this->show();
 }
 
 MapCell *GameMap::getCell(int x, int y)
@@ -53,12 +54,10 @@ void GameMap::paint( QPainter* painter,
     QPixmap grass2(":/images/grass_2.png");
     QPixmap grass3(":/images/grass_3.png");
     QPixmap grass4(":/images/grass_4.png");
-    QPixmap monkey_wait(":/images/monkey_wait.png");
     QPixmap monkey_N(":/images/monkey_N.png");
     QPixmap monkey_E(":/images/monkey_E.png");
     QPixmap monkey_S(":/images/monkey_S.png");
     QPixmap monkey_O(":/images/monkey_O.png");
-    QPixmap banana_alert(":/images/banana_alert.png");
     QPixmap perl(":/images/perl.png");
     QPixmap berry(":/images/berry.png");
     QPixmap crystal(":/images/crystal.png");
@@ -173,10 +172,15 @@ std::vector<MapCell*> *GameMap::getCells()
 }
 
 
+std::vector<std::string> *GameMap::getTeams()
+{
+    return &(this->teams);
+}
+
 Player *GameMap::getPlayer(int id)
 {
     int index = 0;
-    for (auto player = players.begin(); player != players.end();)
+    for (auto player = players.begin(); player != players.end();player++)
     {
         if ((*player)->getId() == id)
         {
@@ -188,7 +192,7 @@ Player *GameMap::getPlayer(int id)
 
 void GameMap::removePlayer(int id)
 {
-    for (auto player = players.begin(); player != players.end();)
+    for (auto player = players.begin(); player != players.end();player++)
     {
         if ((*player)->getId() == id)
         {
@@ -200,4 +204,9 @@ void GameMap::removePlayer(int id)
 void GameMap::addPlayer(Player *player)
 {
     this->players.push_back(player);
+}
+
+void GameMap::addTeam(std::string team)
+{
+    this->teams.push_back(team);
 }

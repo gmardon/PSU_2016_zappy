@@ -1,15 +1,18 @@
 #include "zappy.h"
 
-Zappy::Zappy(std::string address, int port)
+Zappy::Zappy()
 {
     this->map = new GameMap();
-    this->addItem(map);
     this->menu = new GameMenu();
-    this->addItem(menu);
     this->socket = new ClientSocket();
     QObject::connect(this->socket, SIGNAL(onConnected()),this, SLOT(handleConnected()));
     QObject::connect(this->socket, SIGNAL(onMessage(std::string)), this, SLOT(handleMessage(std::string)));
     QObject::connect(this->socket, SIGNAL(onDisconnected()), this, SLOT(handleDisconnected()));
+    this->sound = new QMediaPlayer();
+}
+
+void Zappy::connect(std::string address, int port)
+{
     this->socket->connect(address, port);
 }
 
@@ -36,6 +39,9 @@ void Zappy::handleMessage(std::string message)
         int width = atoi(query.at(1).c_str());
         int height = atoi(query.at(2).c_str());
         this->map->init(width, height);
+        this->addItem(map);
+        this->menu->init(this->map);
+        this->addItem(menu);
     }
     else if (query.at(0) == "bct")
     {
@@ -87,7 +93,13 @@ void Zappy::handleMessage(std::string message)
 
         player->setLevel(level);
     }
+    else if (query.at(0) == "tna")
+    {
+        std::string team = query.at(1);
+        this->map->addTeam(team);
+    }
     this->map->update();
+    this->menu->update();
 }
 
 

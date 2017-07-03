@@ -21,5 +21,7 @@
         <file alias="monkey_N.png">ressources/monkey_N.png</file>
         <file alias="monkey_O.png">ressources/monkey_O.png</file>
         <file alias="monkey_S.png">ressources/monkey_S.png</file>
+        <file alias="menu_bottom.png">ressources/menu_bottom.png</file>
+        <file alias="btn_restart.png">ressources/btn_restart.png</file>
     </qresource>
 </RCC>
