@@ -7,7 +7,8 @@
 #include "player.h"
 #include <QGraphicsItem>
 #include "gamemenu.h"
-#include <QMediaPlayer>
+#include <QSound>
+#include "gameend.h"
 
 class Zappy : public QGraphicsScene
 {
@@ -21,7 +22,10 @@ private:
     ClientSocket *socket;
     GameMap *map;
     GameMenu *menu;
-    QMediaPlayer *sound;
+    GameEnd *end;
+    bool gameEnded;
+
+    void endGame(std::string winningTeam);
 
 private slots :
     void handleDisconnected();

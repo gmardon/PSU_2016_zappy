@@ -160,7 +160,6 @@ void GameMap::paint( QPainter* painter,
             player_image = monkey_O;
             break;
         }
-        painter->drawPixmap(cell_x - 160, cell_y - 57, player_image);
         painter->drawText(cell_x - 145, cell_y - 65, QString::fromStdString((*player)->getTeam()));
         painter->drawText(cell_x - 145, cell_y - 85, QString::fromStdString("Level: " + std::to_string((*player)->getLevel())));
     }
@@ -188,6 +187,7 @@ Player *GameMap::getPlayer(int id)
         }
         index++;
     }
+    return (NULL);
 }
 
 void GameMap::removePlayer(int id)

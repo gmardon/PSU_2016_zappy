@@ -8,7 +8,7 @@ Zappy::Zappy()
     QObject::connect(this->socket, SIGNAL(onConnected()),this, SLOT(handleConnected()));
     QObject::connect(this->socket, SIGNAL(onMessage(std::string)), this, SLOT(handleMessage(std::string)));
     QObject::connect(this->socket, SIGNAL(onDisconnected()), this, SLOT(handleDisconnected()));
-    this->sound = new QMediaPlayer();
+    this->gameEnded = false;
 }
 
 void Zappy::connect(std::string address, int port)
@@ -92,16 +92,32 @@ void Zappy::handleMessage(std::string message)
         Player *player = map->getPlayer(id);
 
         player->setLevel(level);
+        QSound::play(":/sounds/level_up.wav");
     }
     else if (query.at(0) == "tna")
     {
         std::string team = query.at(1);
         this->map->addTeam(team);
     }
+    else if (query.at(0) == "seg")
+    {
+        std::string team = query.at(1);
+        this->endGame(team);
+    }
     this->map->update();
     this->menu->update();
 }
 
+void Zappy::endGame(std::string winningTeam)
+{
+    this->removeItem(map);
+    this->removeItem(menu);
+    this->update();
+    this->gameEnded = true;
+    this->end = new GameEnd();
+    this->addItem(this->end);
+    this->end->run(winningTeam);
+}
 
 void Zappy::handleDisconnected()
 {

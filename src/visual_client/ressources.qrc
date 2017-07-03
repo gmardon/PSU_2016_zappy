@@ -23,5 +23,11 @@
         <file alias="monkey_S.png">ressources/monkey_S.png</file>
         <file alias="menu_bottom.png">ressources/menu_bottom.png</file>
         <file alias="btn_restart.png">ressources/btn_restart.png</file>
+        <file alias="end.png">ressources/end.png</file>
+    </qresource>
+    <qresource prefix="/sounds">
+        <file alias="level_up.wav">ressources/level_up.wav</file>
+        <file alias="trololol.mp3">ressources/trololol.mp3</file>
+        <file alias="trololol.wav">ressources/trololol.wav</file>
     </qresource>
 </RCC>

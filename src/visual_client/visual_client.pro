@@ -21,7 +21,8 @@ SOURCES += main.cpp \
     error.cpp \
     utils.cpp \
     player.cpp \
-    gamemenu.cpp
+    gamemenu.cpp \
+    gameend.cpp
 
 HEADERS  += \
     gamemap.h \
@@ -32,7 +33,8 @@ HEADERS  += \
     error.h \
     utils.h \
     player.h \
-    gamemenu.h
+    gamemenu.h \
+    gameend.h
 
 RESOURCES += \
     ressources.qrc
