@@ -23,6 +23,7 @@ public:
     int getX() { return this->x; }
     int getY() { return this->y; }
     int getDirection() { return this->direction; }
+    int getLevel() { return this->level; }
     std::string getTeam() { return this->team; }
 
 };
