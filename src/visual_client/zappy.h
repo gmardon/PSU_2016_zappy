@@ -4,8 +4,11 @@
 #include "clientsocket.h"
 #include "gamemap.h"
 #include "utils.h"
+#include "player.h"
+#include <QGraphicsItem>
+#include "gamemenu.h"
 
-class Zappy : public QObject
+class Zappy : public QGraphicsScene
 {
 Q_OBJECT
 public:
@@ -15,6 +18,7 @@ public:
 private:
     ClientSocket *socket;
     GameMap *map;
+    GameMenu *menu;
 
 private slots :
     void handleDisconnected();

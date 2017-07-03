@@ -3,6 +3,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include "mapcell.h"
+#include "player.h"
 
 class GameMap : public QGraphicsItem
 {
@@ -19,11 +20,15 @@ public:
 
     std::vector<MapCell*> *getCells();
     MapCell *getCell(int x, int y);
+    Player *getPlayer(int id);
+    void removePlayer(int id);
+    void addPlayer(Player *player);
 
 private:
     int height;
     int width;
     std::vector<MapCell*> cells;
+    std::vector<Player*> players;
 };
 
 

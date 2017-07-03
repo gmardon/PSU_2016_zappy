@@ -3,6 +3,9 @@
 Zappy::Zappy(std::string address, int port)
 {
     this->map = new GameMap();
+    this->addItem(map);
+    this->menu = new GameMenu();
+    this->addItem(menu);
     this->socket = new ClientSocket();
     QObject::connect(this->socket, SIGNAL(onConnected()),this, SLOT(handleConnected()));
     QObject::connect(this->socket, SIGNAL(onMessage(std::string)), this, SLOT(handleMessage(std::string)));
@@ -47,6 +50,33 @@ void Zappy::handleMessage(std::string message)
         int thystame = atoi(query.at(9).c_str());
         MapCell *cell = this->map->getCell(x, y);
         cell->setRessources(food, linemate, deraumere, sibur, mendiane, phiras, thystame);
+    }
+    else if (query.at(0) == "pnw")
+    {
+        int id = atoi(query.at(1).c_str());
+        int x = atoi(query.at(2).c_str());
+        int y = atoi(query.at(3).c_str());
+        int direction = atoi(query.at(4).c_str());
+        int level = atoi(query.at(5).c_str());
+        std::string team = query.at(6);
+        Player *player = new Player(id, x, y, direction, level, team);
+        map->addPlayer(player);
+    }
+    else if (query.at(0) == "pex" || query.at(0) == "pdi")
+    {
+        int id = atoi(query.at(1).c_str());
+
+        map->removePlayer(id);
+    }
+    else if (query.at(0) == "ppo")
+    {
+        int id = atoi(query.at(1).c_str());
+        int x = atoi(query.at(2).c_str());
+        int y = atoi(query.at(3).c_str());
+        int direction = atoi(query.at(4).c_str());
+        Player *player = map->getPlayer(id);
+
+        player->setPosition(x, y, direction);
     }
     this->map->update();
 }

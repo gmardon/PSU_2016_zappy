@@ -19,7 +19,9 @@ SOURCES += main.cpp \
     mapcell.cpp \
     zappy.cpp \
     error.cpp \
-    utils.cpp
+    utils.cpp \
+    player.cpp \
+    gamemenu.cpp
 
 HEADERS  += \
     gamemap.h \
@@ -28,7 +30,9 @@ HEADERS  += \
     mapcell.h \
     zappy.h \
     error.h \
-    utils.h
+    utils.h \
+    player.h \
+    gamemenu.h
 
 RESOURCES += \
     ressources.qrc

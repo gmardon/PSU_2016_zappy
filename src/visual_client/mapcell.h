@@ -29,6 +29,12 @@ public:
     void setDeraumere(int deraumere) { this->deraumere = deraumere; }
     int getSibur() { return this->sibur; }
     void setSibur(int sibur) { this->sibur = sibur; }
+    int getMendiane() { return this->mendiane; }
+    void setMendiane(int mendiane) { this->mendiane = mendiane; }
+    int getPhiras() { return this->phiras; }
+    void setPhiras(int phiras) { this->phiras = phiras; }
+    int getThystame() { return this->thystame; }
+    void setThystame(int thystame) { this->thystame = thystame; }
 };
 
 #endif // MAPCELL_H
