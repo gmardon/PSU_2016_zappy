@@ -99,37 +99,37 @@ void GameMap::paint( QPainter* painter,
             MapCell *cell = getCell(x, y);
             int cell_x = ((y % 2 == 0 ? 0 : 64) + x * 128);
             int cell_y = (y * 37);
-            if (cell->getFood() != 0)
+            if (cell->getFood() != 0 && item_id > 4)
             {
                 item_id++;
                 painter->drawPixmap(cell_x + (item_id * 16) + (item_id % 2 == 0 ? 16 : 0), cell_y  + (item_id * 16) - (item_id % 2 == 0 ? 32 : 0), berry);
             }
-            if (cell->getLinemate() != 0)
+            if (cell->getLinemate() != 0 && item_id > 4)
             {
                 item_id++;
                 painter->drawPixmap(cell_x + (item_id * 16) + (item_id % 2 == 0 ? 16 : 0), cell_y + (item_id * 16) - (item_id % 2 == 0 ? 32 : 0), perl);
             }
-            if (cell->getDeraumere() != 0)
+            if (cell->getDeraumere() != 0 && item_id > 4)
             {
                 item_id++;
                 painter->drawPixmap(cell_x + (item_id * 16) + (item_id % 2 == 0 ? 16 : 0), cell_y + (item_id * 16) - (item_id % 2 == 0 ? 32 : 0), crystal);
             }
-            if (cell->getSibur() != 0)
+            if (cell->getSibur() != 0 && item_id > 4)
             {
                 item_id++;
                 painter->drawPixmap(cell_x + (item_id * 16) + 5 + (item_id % 2 == 0 ? 16 : 0), cell_y + (item_id * 16) + 5 - (item_id % 2 == 0 ? 32 : 0) - (item_id == 3 ? 16 : 0), diamond);
             }
-            if (cell->getMendiane() != 0)
+            if (cell->getMendiane() != 0 && item_id > 4)
             {
                 item_id++;
                 painter->drawPixmap(cell_x + (item_id * 16) + (item_id % 2 == 0 ? 16 : 0), cell_y + (item_id * 16) - (item_id % 2 == 0 ? 32 : 0) - (item_id == 3 ? 16 : 0), blue_potion);
             }
-            if (cell->getPhiras() != 0)
+            if (cell->getPhiras() != 0 && item_id > 4)
             {
                 item_id++;
                 painter->drawPixmap(cell_x + (item_id * 16) +  (item_id % 2 == 0 ? 16 : 0), cell_y + (item_id * 16) - 5 - (item_id % 2 == 0 ? 32 : 0) - (item_id == 3 ? 10 : 0), red_potion);
             }
-            if (cell->getThystame() != 0)
+            if (cell->getThystame() != 0 && item_id > 4)
             {
                 item_id++;
                 painter->drawPixmap(cell_x + (item_id * 16) + 5 + (item_id % 2 == 0 ? 16 : 0) - (item_id == 3 ? 8 : 0), cell_y + (item_id * 14) - (item_id % 2 == 0 ? 32 : 0) - (item_id == 3 ? 8 : 0), feather);
