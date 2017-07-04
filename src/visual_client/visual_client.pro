@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -19,7 +19,10 @@ SOURCES += main.cpp \
     mapcell.cpp \
     zappy.cpp \
     error.cpp \
-    utils.cpp
+    utils.cpp \
+    player.cpp \
+    gamemenu.cpp \
+    gameend.cpp
 
 HEADERS  += \
     gamemap.h \
@@ -28,7 +31,10 @@ HEADERS  += \
     mapcell.h \
     zappy.h \
     error.h \
-    utils.h
+    utils.h \
+    player.h \
+    gamemenu.h \
+    gameend.h
 
 RESOURCES += \
     ressources.qrc

@@ -24,7 +24,7 @@ int	ppo_evnt(t_server *serv, t_player *plr)
     orient = 2;
   else
     orient = 4;
-  sprintf(ret, "ppo #%d %d %d %d\n",
+  sprintf(ret, "ppo %d %d %d %d\n",
 	  plr->id, plr->pos.x, plr->pos.y, orient);
   add_resp(serv->game, ret, GRAPHIC);
   free(ret);
@@ -37,7 +37,7 @@ int	plv_evnt(t_server *serv, t_player *plr)
 
   if ((ret = malloc(sizeof(char) * 111)) == NULL)
     return (1);
-  sprintf(ret, "plv #%d %d\n",
+  sprintf(ret, "plv %d %d\n",
 	  plr->id, plr->lvl);
   add_resp(serv->game, ret, GRAPHIC);
   free(ret);
@@ -53,7 +53,7 @@ int		pin_evnt(t_server *serv, t_player *plr)
     return (1);
   if ((tmp = get_all_ress(&(plr->ress))) == NULL)
     return (1);
-  sprintf(ret, "pin #%d %d %d %s\n",
+  sprintf(ret, "pin %d %d %d %s\n",
 	  plr->id, plr->pos.x, plr->pos.y, tmp);
   add_resp(serv->game, ret, GRAPHIC);
   free(tmp);
@@ -67,7 +67,7 @@ int	pex_evnt(t_server *serv, t_player *plr)
 
   if ((ret = malloc(sizeof(char) * 22)) == NULL)
     return (1);
-  sprintf(ret, "pex #%d\n", plr->id);
+  sprintf(ret, "pex %d\n", plr->id);
   add_resp(serv->game, ret, GRAPHIC);
   return (0);
 }

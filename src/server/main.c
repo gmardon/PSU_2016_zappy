@@ -77,7 +77,7 @@ int	pdi_evnt(t_server *serv, t_player *plr)
 
   if ((ret = malloc(sizeof(char) * 111)) == NULL)
     return (1);
-  sprintf(ret, "pdi #%d\n", plr->id);
+  sprintf(ret, "pdi %d\n", plr->id);
   add_resp(serv->game, ret, GRAPHIC);
   free(ret);
   return (0);

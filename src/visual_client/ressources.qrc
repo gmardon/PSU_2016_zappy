@@ -6,5 +6,28 @@
         <file alias="banana_alert.png">ressources/banana_alert.png</file>
         <file alias="grass_3.png">ressources/grass_3.png</file>
         <file alias="grass_4.png">ressources/grass_4.png</file>
+        <file>ressources/Treasure.png</file>
+        <file>ressources/Scroll.png</file>
+        <file alias="perl.png">ressources/pearl.png</file>
+        <file alias="Herb.png">ressources/Herb.png</file>
+        <file alias="berry.png">ressources/berry.png</file>
+        <file>ressources/coin.png</file>
+        <file alias="crystal.png">ressources/crystal.png</file>
+        <file alias="diamond.png">ressources/diamond.png</file>
+        <file alias="red_potion.png">ressources/red_potion.png</file>
+        <file alias="blue_potion.png">ressources/blue_potion.png</file>
+        <file alias="feather.png">ressources/feather.png</file>
+        <file alias="monkey_E.png">ressources/monkey_E.png</file>
+        <file alias="monkey_N.png">ressources/monkey_N.png</file>
+        <file alias="monkey_O.png">ressources/monkey_O.png</file>
+        <file alias="monkey_S.png">ressources/monkey_S.png</file>
+        <file alias="menu_bottom.png">ressources/menu_bottom.png</file>
+        <file alias="btn_restart.png">ressources/btn_restart.png</file>
+        <file alias="end.png">ressources/end.png</file>
+    </qresource>
+    <qresource prefix="/sounds">
+        <file alias="level_up.wav">ressources/level_up.wav</file>
+        <file alias="trololol.mp3">ressources/trololol.mp3</file>
+        <file alias="trololol.wav">ressources/trololol.wav</file>
     </qresource>
 </RCC>

@@ -12,19 +12,14 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setApplicationName("Zappy - Visual client");
     QGraphicsView *view = new QGraphicsView();
-    QGraphicsScene *scene = new QGraphicsScene();
-    //AuthenticationDialog *dialog = new AuthenticationDialog();
-    //dialog->show();
-    Zappy *zappy = new Zappy("localhost", 4242);
+    view->showMaximized();
 
-    //QPixmap image(":/images/grass.png");
+    Zappy *zappy = new Zappy();
+    //zappy->connect("127.0.0.1", 4242);
+    AuthenticationDialog *dialog = new AuthenticationDialog(zappy);
+    dialog->show();
 
-   // QGraphicsPixmapItem *enemyItem = scene->addPixmap(image);
-   // enemyItem->setPos(50, 50);
-
-    scene->addItem(zappy->getMap());
-
-    view->setScene(scene);
+    view->setScene(zappy);
     view->show();
 
 

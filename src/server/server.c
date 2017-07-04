@@ -5,7 +5,7 @@
 ** Login   <aurelien.olibe@epitech.eu@epitech.net>
 **
 ** Started on  Sun Jul  2 22:51:50 2017 Aurelien
-** Last update Sun Jul  2 22:54:16 2017 Aurelien
+** Last update Sun Jul  2 23:36:00 2017 Aurelien
 */
 #include "server.h"
 
@@ -113,9 +113,6 @@ void			start_server(t_server *server)
 	    handle_io(tmp->client, server);
 	  tmp = tmp->next;
 	}
-      if (calc_elapsed((1000000 / server->game->freq)))
-	do_one_cycle(server);
-      send_all_resp(server);
-      check_del_cl(server);
+      game_funct(server);
     }
 }

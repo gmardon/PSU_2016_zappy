@@ -1,27 +1,36 @@
+/*
+** server.h for zappy in /home/aurelien/home/aurelien.olibe/delivery/PSU_2016_zappy/include
+**
+** Made by Aurelien
+** Login   <aurelien.olibe@epitech.eu@epitech.net>
+**
+** Started on  Sun Jul  2 23:37:46 2017 Aurelien
+** Last update Sun Jul  2 23:43:34 2017 Aurelien
+*/
 #ifndef _SERVER_H_
-#define _SERVER_H_ 
-#include "zappy.h"
+# define _SERVER_H_
+# include "zappy.h"
 # define ALL_CLIENT -1
 # define GRAPHIC -2
 # define CLIENT_STATE_CONNECTED 1
 # define CLIENT_STATE_TEAM_SELECTED 2
 # define MAX_CLI 1023
-# define MAX_RESS_TILE 5
+# define MAX_RESS_TILE 2
 # define MAX_LVL 8
 
-typedef struct s_position
+typedef struct		s_position
 {
   int			x;
   int			y;
 }			t_position;
 
-typedef struct s_direction
+typedef struct		s_direction
 {
   int			x;
   int			y;
 }			t_direction;
 
-typedef struct s_configuration
+typedef struct			s_configuration
 {
     int				port;
     int				world_height;
@@ -29,119 +38,111 @@ typedef struct s_configuration
     int				client_per_team;
     double			frequency;
     int				seed;
-    char**          teams;
+    char**			teams;
 }				t_configuration;
 
-typedef struct s_ressources
+typedef struct	s_ressources
 {
-    int linemate;
-    int deraumere;
-    int sibur;
-    int mendiane;
-    int phiras;
-    int thystame;
-    int food;
-} t_ressources;
+  int		linemate;
+  int		deraumere;
+  int		sibur;
+  int		mendiane;
+  int		phiras;
+  int		thystame;
+  int		food;
+}		t_ressources;
 
-typedef struct s_tile
+typedef struct	s_tile
 {
-    t_ressources ress;
-    // player ref?
-} t_tile;
+  t_ressources	ress;
+}		t_tile;
 
 /*
 ** liste chainée pr les actions du player
 */
-typedef struct s_alist
+typedef struct		s_alist
 {
-    char *str;
-    struct s_alist *next;
-} t_alist;
+  char			*str;
+  struct s_alist	*next;
+}			t_alist;
 
-typedef struct s_player
+typedef struct	s_player
 {
-    // info
-    // name or id ??
-    int id;
-    int team_id;
-    int lvl;
-    t_position pos;
-    t_direction dir;
-    t_ressources ress;
-    int time_left;
-    int act_time_left; // temp restant de l'action
-    char *action;
-    t_alist *action_list;
-} t_player;
+  int			id;
+  int			team_id;
+  int			lvl;
+  t_position		pos;
+  t_direction		dir;
+  t_ressources		ress;
+  int			time_left;
+  int			act_time_left;
+  char			*action;
+  t_alist		*action_list;
+}			t_player;
 
 /*
 ** liste chainée pr les reponse client
 */
-typedef struct s_rlist
+typedef struct		s_rlist
 {
-    int id;
-    char *msg;
-    struct s_rlist *next;
-} t_rlist;
+  int			id;
+  char			*msg;
+  struct s_rlist	*next;
+}			t_rlist;
 
 /*
 ** chained list for client
 */
-
-typedef struct s_client
+typedef struct		s_client
 {
-	int fd;
-	struct sockaddr_in in;
-    int team_id;
-    int state;
-    t_player *player;
-}						t_client;
+  int			fd;
+  struct sockaddr_in	in;
+  int			team_id;
+  int			state;
+  t_player		*player;
+}			t_client;
 
-typedef struct s_clist
+typedef struct		s_clist
 {
-    t_client *client;
-    /* struct s_plist *next; */
-  struct s_clist *next;
-} t_clist;
+  t_client		*client;
+  struct s_clist	*next;
+}			t_clist;
 
-typedef struct s_egg_list
+typedef struct		s_egg_list
 {
-    int id;
-    int team_id;
-    int plr_id;
-    t_position pos;
-    int hatch_time;
-    struct s_egg_list *next;
-} t_egg_list;
+  int			id;
+  int			team_id;
+  int			plr_id;
+  t_position		pos;
+  int			hatch_time;
+  struct s_egg_list	*next;
+}			t_egg_list;
 
-typedef struct s_game
+typedef struct		s_game
 {
-    t_tile **map; // map[x][y] to get the tile
-    //t_clist *c_list;
-    int width; // x
-    int height; // y
-    int freq;
-    t_rlist *resp; // response : to be checked after do_cmd/handle_cmd/do_one_cycle
-    t_egg_list *egg;
-} t_game;
+  t_tile		**map;
+  int			width;
+  int			height;
+  int			freq;
+  t_rlist		*resp;
+  t_egg_list		*egg;
+}			t_game;
 
-typedef struct s_server
+typedef struct		s_server
 {
-	int fd;
-	struct sockaddr_in in;
-    // int sock;
-    int max_id;
-    fd_set master;
-    int max_clients;
-  //  t_client *clients;
-    t_clist *client_list;
-    t_configuration *configuration;
-    t_game *game;
-}						t_server;
+  int			fd;
+  struct sockaddr_in	in;
+  int			max_id;
+  fd_set		master;
+  int			max_clients;
+  t_clist		*client_list;
+  t_configuration	*configuration;
+  t_game		*game;
+}			t_server;
 t_player *new_player(t_server *serv, int id, int team_id);
 void del_player(t_player *player);
 
-int add_resp(t_game *game, char *resp, int player_id); // add at the back
+int add_resp(t_game *game, char *resp, int player_id);
 int del_resp(t_game *game, t_rlist *node);
 int send_all_resp(t_server* serv);
 
@@ -156,27 +157,25 @@ int set_next_action(t_server *serv, t_client *cl);
 int do_one_cycle(t_server *serv);
 int calc_elapsed(double unit);
 int do_one_cycle_egg(t_server *serv);
-
-//t_player *get_player(t_game *game, int id); // ret player by id srch
-//t_plist *get_player_node(t_game *game, int id);
+void cycle_gest(t_server *serv, t_player *player, t_clist *tmp);
 
 typedef int (*cmd_fct)(t_server *serv, t_client *cl);
 typedef int (*cmd_chk_fct)(t_server *serv, t_player *plr, char *cmd);
 
-typedef struct s_cmd
+typedef struct	s_cmd
 {
-    char *str;
-    cmd_fct fct;
-    cmd_chk_fct check;
-    int cycle;
-} t_cmd;
+  char		*str;
+  cmd_fct	fct;
+  cmd_chk_fct	check;
+  int		cycle;
+}		t_cmd;
 
-typedef struct s_incant_req
+typedef struct	s_incant_req
 {
-    int lvl;
-    int nb_plr;
-    t_ressources ress;
-} t_incant_req;
+  int		lvl;
+  int		nb_plr;
+  t_ressources	ress;
+}		t_incant_req;
 
 /*
 ** set cycle for the next action, ret > 0 if not found/error
@@ -188,7 +187,9 @@ int handle_cmd(t_server *server, t_client *client, char *cmd);
 */
 int do_cmd(t_server *serv, t_client *cl);
 
+void game_funct(t_server *serv);
 int get_ress_num(char *str);
+void cycle_gest(t_server *serv, t_player *player, t_clist	*tmp);
 t_client *get_cl_graph(t_server *serv);
 void del_server(t_server *serv);
 void del_game(t_server *serv);
@@ -231,7 +232,6 @@ int right_cmd(t_server *serv, t_client *cl);
 int left_cmd(t_server *serv, t_client *cl);
 int look_cmd(t_server *serv, t_client *cl);
 int inventory_cmd(t_server *serv, t_client *cl);
-//int broadcast_cmd(t_server *serv, t_client *cl);
 int connect_nbr_cmd(t_server *serv, t_client *cl);
 int fork_cmd(t_server *serv, t_client *cl);
 int eject_cmd(t_server *serv, t_client *cl);
@@ -278,9 +278,6 @@ int sgt_cmd(t_server *serv, t_client *cl);
 int tna_cmd(t_server *serv, t_client *cl);
 int mct_cmd(t_server *serv, t_client *cl);
 int msz_cmd(t_server *serv, t_client *cl);
-
-
-
 
 char *get_one_line(t_server *serv, t_client *cl, int lvl);
 char *get_one_tile(t_server *serv, t_position pos, int first);

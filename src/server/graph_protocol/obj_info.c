@@ -14,7 +14,7 @@ int	 pgt_evnt(t_server *serv, t_player *plr, char *str)
   char	*ret;
 
   ret = my_malloc(sizeof(char) * 69);
-  sprintf(ret, "pgt #%d %d\n", plr->id,
+  sprintf(ret, "pgt %d %d\n", plr->id,
 	  get_ress_num(str));
   add_resp(serv->game, ret, GRAPHIC);
   free(ret);
@@ -26,7 +26,7 @@ int	pdr_evnt(t_server *serv, t_player *plr, char *str)
   char	*ret;
 
   ret = my_malloc(sizeof(char) * 69);
-  sprintf(ret, "pdr #%d %d\n", plr->id,
+  sprintf(ret, "pdr %d %d\n", plr->id,
 	  get_ress_num(str));
   add_resp(serv->game, ret, GRAPHIC);
   free(ret);
@@ -64,6 +64,6 @@ int get_ress_num(char *str)
   else if (strstr(str, "thystame") != NULL)
     return (6);
   else if (strstr(str, "food") != NULL)
-    return (7);
-  return (0);
+    return (0);
+  return (7);
 }

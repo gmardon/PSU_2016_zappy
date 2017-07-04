@@ -5,7 +5,7 @@
 ** Login   <aurelien.olibe@epitech.eu@epitech.net>
 **
 ** Started on  Tue Jun 27 20:11:21 2017 Aurelien
-** Last update Sun Jul  2 23:10:01 2017 Aurelien
+** Last update Sun Jul  2 23:50:13 2017 Aurelien
 */
 #include "server.h"
 
@@ -39,9 +39,11 @@ int	pnw_evnt(t_server *serv, t_player *plr)
     orient = 2;
   else
     orient = 4;
-  sprintf(ret, "pnw #%d %d %d %d %d %s\n",
+  sprintf(ret, "pnw %d %d %d %d %d %s\n",
 	  plr->id, plr->pos.x, plr->pos.y, orient, plr->lvl,
 	  team);
+  add_resp(serv->game, ret, GRAPHIC);
+  free(ret);
   return (0);
 }
 

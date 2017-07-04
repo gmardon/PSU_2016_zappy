@@ -5,7 +5,7 @@
 ** Login   <aurelien.olibe@epitech.eu@epitech.net>
 **
 ** Started on  Wed Jun 21 23:08:35 2017 Aurelien
-** Last update Sun Jul  2 22:46:30 2017 Aurelien
+** Last update Sun Jul  2 23:32:31 2017 Aurelien
 */
 #include <unistd.h>
 #include <stdlib.h>
@@ -24,7 +24,8 @@ int		check_game_finish(t_server *serv)
 	  && tmp->client->player->lvl >= MAX_LVL)
         {
 	  nb = look_for_same_lvl(serv,
-	     tmp->client->team_id, tmp->client->player->lvl);
+				 tmp->client->team_id,
+				 tmp->client->player->lvl);
 	  if (nb >= 6)
             {
 	      printf("The Team %s have WIN !!!\n",
@@ -67,21 +68,7 @@ int		do_one_cycle(t_server *serv)
 	  tmp = tmp->next;
 	  continue;
         }
-      player->time_left -= 1;
-      if (player->act_time_left > 0)
-	player->act_time_left -= 1;
-      if (player->act_time_left <= 0)
-	do_cmd(serv, tmp->client);
-      if (tmp->client->player->time_left <= 0)
-        {
-	  if (tmp->client->player->ress.food > 0)
-            {
-	      tmp->client->player->ress.food -= 1;
-	      tmp->client->player->time_left = 126;
-            }
-	  else
-	    handle_cmd(serv, tmp->client, "Death");
-        }
+      cycle_gest(serv, player, tmp);
       tmp = tmp->next;
     }
   do_one_cycle_egg(serv);
@@ -101,7 +88,6 @@ int		do_one_cycle_egg(t_server *serv)
 	  if (tmp->hatch_time == 0)
 	    eht_evnt(serv, tmp);
         }
-
       tmp = tmp->next;
     }
   return (0);

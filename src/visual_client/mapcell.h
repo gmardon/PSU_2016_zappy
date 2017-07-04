@@ -23,6 +23,18 @@ private:
 public:
     int getFood() { return this->food; }
     void setFood(int food) { this->food = food; }
+    int getLinemate() { return this->linemate; }
+    void setLinemate(int linemane) { this->linemate = linemane; }
+    int getDeraumere() { return this->deraumere; }
+    void setDeraumere(int deraumere) { this->deraumere = deraumere; }
+    int getSibur() { return this->sibur; }
+    void setSibur(int sibur) { this->sibur = sibur; }
+    int getMendiane() { return this->mendiane; }
+    void setMendiane(int mendiane) { this->mendiane = mendiane; }
+    int getPhiras() { return this->phiras; }
+    void setPhiras(int phiras) { this->phiras = phiras; }
+    int getThystame() { return this->thystame; }
+    void setThystame(int thystame) { this->thystame = thystame; }
 };
 
 #endif // MAPCELL_H
