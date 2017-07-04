@@ -1,11 +1,11 @@
-/*
+z/*
 ** socket_utils.c for zappy in /home/aurelien/home/aurelien.olibe/delivery/PSU_2016_zappy/src
 **
 ** Made by Aurelien
 ** Login   <aurelien.olibe@epitech.eu@epitech.net>
 **
 ** Started on  Sun Jul  2 23:16:30 2017 Aurelien
-** Last update Sun Jul  2 23:16:49 2017 Aurelien
+** Last update Tue Jul  4 09:46:07 2017 Julien Nabti
 */
 #include "zappy.h"
 

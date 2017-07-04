@@ -1,4 +1,4 @@
- #!/usr/bin
+#!/usr/bin/python2.7
 #coding: utf-8
 
 import socket
@@ -26,7 +26,7 @@ IOStr = []
 
 yMax = -1
 xMax = -1
-lvl = 2
+lvl = 1
 food = 3
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -39,6 +39,7 @@ stone = "";
 found = False;
 inventory = [0, 0, 0, 0, 0, 0, 0]
 
+FOOD = 0
 LINEMATE = 1
 DERAUMERE = 2
 SIBURE = 3
@@ -69,31 +70,33 @@ alive = True
 lock = Lock();
 condition = Condition();
 
-class   threadIO(threading.Thread):
-    
-    
-    def __init__(self):
-        threading.Thread.__init__(self);
-        self.lock = threading.Lock();
-        self.term = sys.stdout;
-        
-    def     run(self):
-        global queue;
-        global alive;
-        alive = True;
 
-        self.term.write("[+]IOThread now running\n");
-        print "ok\n"
-        while (alive == True):
-            ret = s.recv_into(IOBuff, buff_size);
-            print (str(IOBuff));
-            if (ret < 0):
-                print "Error";
-                break;
-            IOStr = str(IOBuff);
-            if (IOStr == "DEADBEEF"):
-                alive = False;
-           self.term.write("[+] Rcvd : [" + IOStr + "]\n");
+# class   threadIO(threading.Thread):
+    
+    
+#     def __init__(self):
+#         threading.Thread.__init__(self);
+#         self.lock = threading.Lock();
+#         self.term = sys.stdout;
+        
+#     def     run(self):
+#         global queue;
+#         global alive;
+#         alive = True;
+
+#         self.term.write("[+]IOThread now running\n");
+#         print "ok\n"
+#         while (alive == True):
+        
+#             ret = s.recv_into(IOBuff, buff_size);
+#             print (str(IOBuff));
+#             if (ret < 0):
+#                 print "Error";
+#             break;
+#         IOStr = str(IOBuff);
+#         if (IOStr == "DEADBEEF"):
+#             alive = False;
+#         self.term.write("[+] Rcvd : [" + IOStr + "]\n");
             
 def     _cmd_failed(cmd):
     print("[!] Error while processing [" + cmd + "]!\n");
@@ -127,7 +130,7 @@ def     _connect_routine():
 
 def     _forward():
     s.send("Forward\n");
-
+    
     if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Forward"));
     #print("[*] Moved forward\n");
@@ -192,7 +195,7 @@ def     _eject():
     else:
         print ("[*} Player Ejected\n");
         return (1);
-
+    
 def      _dead():
     s.send("-\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) != "dead\n"):
@@ -223,9 +226,12 @@ def     _incant():
     s.send("Incantation\n");
     if (s.recv_into(buff, buff_size) == 0 or str(buff) == "ko\n"):
         return(_cmd_failed("Incantation"));
-    #print ("[*] " + str(buff));
+    
     return (1);
 
+def     _flushMovBuff():
+    global moveBuff;
+    moveBuff[:] = [];
 
 def     _display_help():
 
@@ -235,6 +241,7 @@ def     _display_help():
 
 
 def     _updateVision():
+    global board;
     i = 0;
     ret = _look().split(",");
     ret[0] = ret[0][1:];
@@ -251,14 +258,22 @@ def     _updateVision():
 
 #if (food in board[i])
 def     _scavengeFood():
+    global moveBuff;
     i = 0;
-    while (i < 3):
-        if any ("food" in s for s in board[i]):
+    _harvested = 9;
+    _flushMovBuff();
+    
+    while (_harvested < 10):
+        i = 0;
+        while (i < 3):
+            if any ("food" in s for s in board[i]):
             #print ("[*] Found food on current tile !\n");
-            if (_take("food") != "NULL"):
-                found = True;
-        i += 1;
-    #print ("[*] Didn't found any food");
+                if (_take("food") != "NULL"):
+                    _harvested += 1;
+                    #                   found = True;
+                i += 1;
+                _forward();
+                    #print ("[*] Didn't found any food");
     return (1);
         
 def     _checkInventory():
@@ -296,6 +311,9 @@ def     _checkInventory():
                 return (1);
         i += 1;
     print ("[*] All stones gathered, go lvl up  !\n");
+    _incant();
+    print ("[*] Incant sent.");
+    sys.exit();
     lvlUp = True;
     return (0);
 
@@ -312,7 +330,6 @@ def     _scavengeStones():
             if (i == 0):
                 found = True;
  #               print ("[*] Taking " + stone + " ! ");
-                j = 0;
                 if (_take(stone) != "NULL"):
                     print "[*] " + stone + " taken !";
                     moveBuff.append("F");
@@ -419,7 +436,8 @@ def     _ia():
     global found;
     global inventory
     global lvlUp;
-
+    global moveBuff;
+    
     # IO = threadIO();
     # IO.start();
     while (True):
@@ -429,9 +447,10 @@ def     _ia():
                 _checkBuff();
         _updateVision();
         found = False;
-        if (int(_updateInventory()[0]) < 3):
-            print ("[*] Food level critically low [" + str(food) + "] !");
+        if (int(_updateInventory()[0]) < 10):
+            print ("[*] Food level critically low [" + inventory[0] + "] !");
             _scavengeFood();
+            _flushMovBuff();
         if (lvlUp == True):
             print ("[*] Gathering other drones !");
             _gatherDrones();
