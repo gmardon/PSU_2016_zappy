@@ -99,37 +99,37 @@ void GameMap::paint( QPainter* painter,
             MapCell *cell = getCell(x, y);
             int cell_x = ((y % 2 == 0 ? 0 : 64) + x * 128);
             int cell_y = (y * 37);
-            if (cell->getFood() != 0 && item_id > 4)
+            if (cell->getFood() != 0 && item_id < 3)
             {
                 item_id++;
                 painter->drawPixmap(cell_x + (item_id * 16) + (item_id % 2 == 0 ? 16 : 0), cell_y  + (item_id * 16) - (item_id % 2 == 0 ? 32 : 0), berry);
             }
-            if (cell->getLinemate() != 0 && item_id > 4)
+            if (cell->getLinemate() != 0 && item_id < 3)
             {
                 item_id++;
                 painter->drawPixmap(cell_x + (item_id * 16) + (item_id % 2 == 0 ? 16 : 0), cell_y + (item_id * 16) - (item_id % 2 == 0 ? 32 : 0), perl);
             }
-            if (cell->getDeraumere() != 0 && item_id > 4)
+            if (cell->getDeraumere() != 0 && item_id < 3)
             {
                 item_id++;
                 painter->drawPixmap(cell_x + (item_id * 16) + (item_id % 2 == 0 ? 16 : 0), cell_y + (item_id * 16) - (item_id % 2 == 0 ? 32 : 0), crystal);
             }
-            if (cell->getSibur() != 0 && item_id > 4)
+            if (cell->getSibur() != 0 && item_id < 3)
             {
                 item_id++;
                 painter->drawPixmap(cell_x + (item_id * 16) + 5 + (item_id % 2 == 0 ? 16 : 0), cell_y + (item_id * 16) + 5 - (item_id % 2 == 0 ? 32 : 0) - (item_id == 3 ? 16 : 0), diamond);
             }
-            if (cell->getMendiane() != 0 && item_id > 4)
+            if (cell->getMendiane() != 0 && item_id < 3)
             {
                 item_id++;
                 painter->drawPixmap(cell_x + (item_id * 16) + (item_id % 2 == 0 ? 16 : 0), cell_y + (item_id * 16) - (item_id % 2 == 0 ? 32 : 0) - (item_id == 3 ? 16 : 0), blue_potion);
             }
-            if (cell->getPhiras() != 0 && item_id > 4)
+            if (cell->getPhiras() != 0 && item_id < 3)
             {
                 item_id++;
                 painter->drawPixmap(cell_x + (item_id * 16) +  (item_id % 2 == 0 ? 16 : 0), cell_y + (item_id * 16) - 5 - (item_id % 2 == 0 ? 32 : 0) - (item_id == 3 ? 10 : 0), red_potion);
             }
-            if (cell->getThystame() != 0 && item_id > 4)
+            if (cell->getThystame() != 0 && item_id < 3)
             {
                 item_id++;
                 painter->drawPixmap(cell_x + (item_id * 16) + 5 + (item_id % 2 == 0 ? 16 : 0) - (item_id == 3 ? 8 : 0), cell_y + (item_id * 14) - (item_id % 2 == 0 ? 32 : 0) - (item_id == 3 ? 8 : 0), feather);
@@ -160,6 +160,7 @@ void GameMap::paint( QPainter* painter,
             player_image = monkey_O;
             break;
         }
+        painter->drawPixmap(cell_x - 160, cell_y - 57, player_image);
         painter->drawText(cell_x - 145, cell_y - 65, QString::fromStdString((*player)->getTeam()));
         painter->drawText(cell_x - 145, cell_y - 85, QString::fromStdString("Level: " + std::to_string((*player)->getLevel())));
     }
@@ -197,6 +198,7 @@ void GameMap::removePlayer(int id)
         if ((*player)->getId() == id)
         {
             players.erase(player);
+            return;
         }
     }
 }
